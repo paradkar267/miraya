@@ -1,0 +1,188 @@
+.hero {
+  position: relative;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+  background-color: var(--bg-cream);
+}
+
+.hero-video-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.hero-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: right top; /* Aligns top of video to top of container, pushing it down */
+  transform: scale(1.2) translate(5%, 8%); /* Scales a bit more and pushes it further down manually */
+}
+
+.video-overlay-gradient {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  /* Fades from top to transparent for navbar contrast, and solid burgundy on the left to transparent on the right */
+  background: 
+    linear-gradient(to bottom, rgba(15, 0, 2, 0.7) 0%, transparent 20%),
+    linear-gradient(
+      90deg,
+      rgba(15, 0, 2, 0.95) 0%,
+      rgba(60, 5, 5, 0.85) 25%,
+      rgba(94, 10, 11, 0.5) 55%,
+      transparent 100%
+    );
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  padding: 0 10%;
+}
+
+.hero-text-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+  max-width: 600px;
+}
+
+.subtitle {
+  color: var(--gold-accent);
+  margin-bottom: 1rem;
+}
+
+.hero-title-wrapper {
+  margin: 1.5rem 0;
+}
+
+.hero-title {
+  line-height: 1.1;
+  color: var(--bg-cream); /* Changed to cream for contrast on burgundy */
+  display: flex;
+  flex-direction: column;
+}
+
+.hero-title i {
+  font-family: var(--font-script);
+  font-style: normal;
+  font-weight: 400;
+  color: var(--gold-accent-light);
+  display: block;
+  font-size: 0.9em;
+  margin-bottom: -0.2em;
+}
+
+.hero-title-italic {
+  font-family: var(--font-script);
+  font-style: normal;
+  font-weight: 400;
+  font-size: clamp(2.5rem, 6vw, 5.5rem);
+  color: var(--gold-accent-light);
+  line-height: 0.8;
+}
+
+.hero-title-bold {
+  font-family: var(--font-heading);
+  font-weight: 500;
+  font-size: clamp(2.8rem, 8vw, 6.5rem);
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  margin-top: -0.5rem;
+}
+
+.hero-description {
+  font-family: var(--font-body);
+  font-size: 1.1rem;
+  line-height: 1.7;
+  color: rgba(248, 245, 240, 0.9); /* Changed to soft cream */
+  margin-bottom: 2.5rem;
+  font-weight: 300;
+}
+
+.btn-hollow-gold {
+  background-color: transparent;
+  color: var(--gold-accent);
+  border: 1px solid var(--gold-accent);
+  padding: 1.2rem 3rem;
+  font-size: 0.85rem;
+  letter-spacing: 0.2em;
+  border-radius: 0; /* Sharp, high-fashion edges */
+  cursor: pointer;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  transition: all 0.5s ease;
+  position: relative;
+  overflow: hidden;
+  font-family: var(--font-body);
+}
+
+.btn-hollow-gold::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 100%;
+  background-color: var(--gold-accent);
+  transition: width 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: -1;
+}
+
+.btn-hollow-gold:hover::before {
+  width: 100%;
+}
+
+.btn-hollow-gold:hover {
+  color: var(--primary-burgundy);
+}
+
+.btn-hollow-gold span {
+  font-size: 1.2rem;
+  transition: transform 0.3s ease;
+}
+
+.btn-hollow-gold:hover span {
+  transform: translateX(8px);
+}
+
+@media (max-width: 992px) {
+  .hero-video {
+    object-position: center;
+    transform: scale(1.05); /* Reduced scale so mobile looks natural */
+  }
+
+  .hero-content {
+    padding: 0 2rem;
+    align-items: flex-end; /* Push content down over the gradient */
+    padding-bottom: 12vh;
+  }
+  
+  .video-overlay-gradient {
+    /* On mobile, gradient from bottom up */
+    background: linear-gradient(
+      to top,
+      rgba(15, 0, 2, 0.95) 0%,
+      rgba(60, 5, 5, 0.85) 30%,
+      transparent 100%
+    );
+  }
+  
+  .hero-text-container {
+    margin-top: 0;
+    padding-bottom: 0;
+  }
+}
