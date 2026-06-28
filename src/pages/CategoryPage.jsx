@@ -99,7 +99,7 @@ const CategoryPage = () => {
               <h3 className="filter-heading">CATEGORY</h3>
               <div className="checkbox-list">
                 {availableCategories.map(cat => (
-                  <label key={cat} className="custom-checkbox">
+                  <label key={cat} className={`custom-checkbox ${selectedCategories.includes(cat) ? 'active' : ''}`}>
                     <input 
                       type="checkbox" 
                       checked={selectedCategories.includes(cat)}
@@ -118,7 +118,7 @@ const CategoryPage = () => {
               <h3 className="filter-heading">FABRIC</h3>
               <div className="checkbox-list">
                 {availableFabrics.map(fabric => (
-                  <label key={fabric} className="custom-checkbox">
+                  <label key={fabric} className={`custom-checkbox ${selectedFabrics.includes(fabric) ? 'active' : ''}`}>
                     <input 
                       type="checkbox" 
                       checked={selectedFabrics.includes(fabric)}

@@ -427,6 +427,56 @@
     padding-bottom: 2rem;
     max-height: none;
   }
+
+  /* Premium horizontal pills for filters on mobile */
+  .checkbox-list {
+    flex-direction: row;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding-bottom: 1rem;
+    gap: 0.8rem;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .checkbox-list::-webkit-scrollbar {
+    display: none;
+  }
+
+  .custom-checkbox {
+    padding-left: 0;
+    padding: 0.6rem 1.5rem;
+    border: 1px solid rgba(94, 10, 11, 0.2);
+    border-radius: 50px;
+    white-space: nowrap;
+    background: transparent;
+    font-size: 0.85rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    transition: all var(--transition-normal);
+  }
+
+  .custom-checkbox .checkmark {
+    display: none;
+  }
+
+  .custom-checkbox.active {
+    background-color: var(--primary-burgundy);
+    color: var(--bg-cream);
+    border-color: var(--primary-burgundy);
+  }
+  
+  .custom-checkbox:hover {
+    background-color: rgba(94, 10, 11, 0.05);
+  }
+
+  .custom-checkbox.active:hover {
+    background-color: var(--primary-burgundy);
+  }
+
+  .filter-section {
+    margin-bottom: 1.5rem;
+  }
 }
 
 @media (max-width: 768px) {

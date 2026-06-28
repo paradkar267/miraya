@@ -94,16 +94,25 @@ const Navbar = () => {
 
       <AnimatePresence>
         {mobileMenuOpen && (
-          <motion.div
-            className="mobile-menu-overlay"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0, transition: { delay: 0.2 } }}
-            transition={{ duration: 0.4 }}
-          >
+          <>
+            <motion.div
+              className="mobile-menu-backdrop"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3 }}
+              onClick={() => setMobileMenuOpen(false)}
+            />
+            <motion.div
+              className="mobile-menu-drawer"
+              initial={{ x: '100%' }}
+              animate={{ x: 0 }}
+              exit={{ x: '100%' }}
+              transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+            >
             <div className="mobile-menu-header">
               <Link to="/" onClick={() => setMobileMenuOpen(false)}>
-                <img src="/R.png" alt="Miraya" className="logo-img-small" />
+                <img src="/logoR.png" alt="Miraya" className="logo-img-small" />
               </Link>
               <button
                 className="icon-btn close-btn"
@@ -116,10 +125,10 @@ const Navbar = () => {
 
             <div className="mobile-menu-content">
               <div className="mobile-menu-links">
-                <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 20 }} transition={{ delay: 0.1, duration: 0.5, ease: "easeOut" }}>
+                <motion.div initial={{ opacity: 0, x: 40 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 20 }} transition={{ delay: 0.1, duration: 0.5, ease: "easeOut" }}>
                   <a href="#" onClick={() => setMobileMenuOpen(false)}>Home</a>
                 </motion.div>
-                <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 20 }} transition={{ delay: 0.2, duration: 0.5, ease: "easeOut" }} className="mobile-menu-item-with-sub">
+                <motion.div initial={{ opacity: 0, x: 40 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 20 }} transition={{ delay: 0.15, duration: 0.5, ease: "easeOut" }} className="mobile-menu-item-with-sub">
                   <div className="mobile-menu-link-wrapper" onClick={() => setMobileCollectionOpen(!mobileCollectionOpen)}>
                     <span>Collection</span>
                     <ChevronDown size={24} className={`mobile-dropdown-icon ${mobileCollectionOpen ? 'open' : ''}`} />
@@ -143,10 +152,10 @@ const Navbar = () => {
                     )}
                   </AnimatePresence>
                 </motion.div>
-                <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 20 }} transition={{ delay: 0.3, duration: 0.5, ease: "easeOut" }}>
+                <motion.div initial={{ opacity: 0, x: 40 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 20 }} transition={{ delay: 0.2, duration: 0.5, ease: "easeOut" }}>
                   <Link to="/about" onClick={() => setMobileMenuOpen(false)}>About Us</Link>
                 </motion.div>
-                <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 20 }} transition={{ delay: 0.4, duration: 0.5, ease: "easeOut" }}>
+                <motion.div initial={{ opacity: 0, x: 40 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 20 }} transition={{ delay: 0.25, duration: 0.5, ease: "easeOut" }}>
                   <Link to="/contact" onClick={() => setMobileMenuOpen(false)}>Contact Us</Link>
                 </motion.div>
               </div>
@@ -157,7 +166,7 @@ const Navbar = () => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              transition={{ delay: 0.5, duration: 0.5 }}
+              transition={{ delay: 0.3, duration: 0.5 }}
             >
               <p>Miraya by Garima</p>
               <div className="social-links">
@@ -166,7 +175,8 @@ const Navbar = () => {
                 <span>PIN</span>
               </div>
             </motion.div>
-          </motion.div>
+            </motion.div>
+          </>
         )}
       </AnimatePresence>
     </>
