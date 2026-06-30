@@ -149,8 +149,8 @@ const CategoryPage = () => {
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0, scale: 0.9 }}
                   transition={{ duration: 0.3 }}
-                  key={item.id} 
-                  id={`item-${item.id}`} 
+                  key={uniqueId} 
+                  id={`item-${uniqueId}`} 
                   className="premium-card"
                 >
                   <div className="card-image-wrapper">

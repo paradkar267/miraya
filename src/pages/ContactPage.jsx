@@ -139,8 +139,8 @@ const ContactPage = () => {
             <div className="info-block">
               <h3 className="info-title"><MapPin size={18} className="info-icon" /> Flagship Store</h3>
               <address className="info-text">
-                123 Luxury Avenue, Designer Boulevard<br />
-                Amravati, Maharashtra 444601
+                Mouze Pandharabodi, Law College Square, Shop no. UG/5,<br />
+                Jagat Plaza, Amravati Rd, Nagpur, Maharashtra 440033
               </address>
             </div>
             
@@ -172,7 +172,7 @@ const ContactPage = () => {
           transition={{ duration: 1, delay: 0.6 }}
         >
           <iframe 
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d119253.25042898436!2d77.67491772120035!3d20.932829286460144!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bd6a4a67774cb6b%3A0x892e863dc366b579!2sAmravati%2C%20Maharashtra!5e0!3m2!1sen!2sin!4v1717200000000!5m2!1sen!2sin" 
+            src="https://maps.google.com/maps?q=Jagat%20Plaza,%20Amravati%20Rd,%20Nagpur+(Miraya)&t=&z=16&ie=UTF8&iwloc=B&output=embed" 
             width="100%" 
             height="100%" 
             style={{ border: 0 }} 

@@ -50,8 +50,8 @@ const Footer = () => {
             >
               <Link to="/contact"><h4 className="footer-heading">Contact</h4></Link>
               <address className="footer-address">
-                Miraya Flagship Store<br/>
-                New Delhi, India
+                Shop no. UG/5, Jagat Plaza<br/>
+                Amravati Rd, Nagpur, Maharashtra 440033
               </address>
               <a href="mailto:hello@miraya.com" className="footer-email">hello@miraya.com</a>
               <p className="footer-phone">+91 98765 43210</p>
