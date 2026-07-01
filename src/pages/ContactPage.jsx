@@ -139,9 +139,9 @@ const ContactPage = () => {
             <div className="info-block">
               <h3 className="info-title"><MapPin size={18} className="info-icon" /> Flagship Store</h3>
               <address className="info-text">
-                Shop no. UG/5, Jagat Plaza, Mouze Pandharabodi, Law College Square,<br />
-                Amravati Rd, Master Colony, Tilak Nagar, Gokulpeth,<br />
-                Nagpur, Maharashtra 440033, India
+                Shop no. UG/5, Jagat Plaza,<br />
+                Mouze Pandharabodi, Law College Square,<br />
+                Amravati Rd, Nagpur, Maharashtra 440033
               </address>
             </div>
             
