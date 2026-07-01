@@ -139,8 +139,9 @@ const ContactPage = () => {
             <div className="info-block">
               <h3 className="info-title"><MapPin size={18} className="info-icon" /> Flagship Store</h3>
               <address className="info-text">
-                Mouze Pandharabodi, Law College Square, Shop no. UG/5,<br />
-                Jagat Plaza, Amravati Rd, Nagpur, Maharashtra 440033
+                Shop no. UG/5, Jagat Plaza, Mouze Pandharabodi, Law College Square,<br />
+                Amravati Rd, Master Colony, Tilak Nagar, Gokulpeth,<br />
+                Nagpur, Maharashtra 440033, India
               </address>
             </div>
             
@@ -172,7 +173,7 @@ const ContactPage = () => {
           transition={{ duration: 1, delay: 0.6 }}
         >
           <iframe 
-            src="https://maps.google.com/maps?q=Jagat%20Plaza,%20Amravati%20Rd,%20Nagpur+(Miraya)&t=&z=16&ie=UTF8&iwloc=B&output=embed" 
+            src="https://maps.google.com/maps?q=Shop%20no.%20UG/5,%20Jagat%20Plaza,%20Mouze%20Pandharabodi,%20Law%20College%20Square,%20Amravati%20Rd,%20Master%20Colony,%20Tilak%20Nagar,%20Gokulpeth,%20Nagpur,%20Maharashtra%20440033,%20India+(Miraya%20By%20Garima)&t=&z=16&ie=UTF8&iwloc=B&output=embed" 
             width="100%" 
             height="100%" 
             style={{ border: 0 }} 

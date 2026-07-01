@@ -50,8 +50,9 @@ const Footer = () => {
             >
               <Link to="/contact"><h4 className="footer-heading">Contact</h4></Link>
               <address className="footer-address">
-                Shop no. UG/5, Jagat Plaza<br/>
-                Amravati Rd, Nagpur, Maharashtra 440033
+                Shop no. UG/5, Jagat Plaza, Mouze Pandharabodi, Law College Square,<br/>
+                Amravati Rd, Master Colony, Tilak Nagar, Gokulpeth,<br/>
+                Nagpur, Maharashtra 440033, India
               </address>
               <a href="mailto:hello@miraya.com" className="footer-email">hello@miraya.com</a>
               <p className="footer-phone">+91 98765 43210</p>
