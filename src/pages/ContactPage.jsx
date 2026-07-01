@@ -173,7 +173,7 @@ const ContactPage = () => {
           transition={{ duration: 1, delay: 0.6 }}
         >
           <iframe 
-            src="https://maps.google.com/maps?q=Shop%20no.%20UG/5,%20Jagat%20Plaza,%20Mouze%20Pandharabodi,%20Law%20College%20Square,%20Amravati%20Rd,%20Master%20Colony,%20Tilak%20Nagar,%20Gokulpeth,%20Nagpur,%20Maharashtra%20440033,%20India+(Miraya%20By%20Garima)&t=&z=16&ie=UTF8&iwloc=B&output=embed" 
+            src="https://maps.google.com/maps?q=Mouze%20Pandharabodi,%20Law%20College%20Square,%20Shop%20no.%20UG/5,%20Jagat%20Plaza,%20Amravati%20Rd,%20Nagpur,%20Maharashtra%20440033+(Miraya%20By%20Garima)&t=&z=16&ie=UTF8&iwloc=B&output=embed" 
             width="100%" 
             height="100%" 
             style={{ border: 0 }} 
