@@ -1,7 +1,18 @@
 import { useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { MapPin, Phone, Clock } from 'lucide-react';
+import { MapPin, Phone, Clock, User, Mail, PenLine, MessageSquare, Calendar } from 'lucide-react';
 import './ContactPage.css';
+
+// Reusable ornament component to match the design exactly
+const Ornament = () => (
+  <div className="contact-ornament">
+    <div className="contact-line"></div>
+    <div className="contact-diamond">
+       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2L15 12L12 22L9 12Z"/></svg>
+    </div>
+    <div className="contact-line"></div>
+  </div>
+);
 
 const ContactPage = () => {
   useEffect(() => {
@@ -16,174 +27,149 @@ const ContactPage = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, ease: "easeOut" }}
         >
-          <div className="subtitle text-center">Get in Touch</div>
-          <h1 className="contact-title text-center">
-            <i>Visit our</i>
-            ATELIER
-          </h1>
-        </motion.div>
-      </div>
-
-      <div className="container contact-container">
-        <div className="contact-grid">
-          
-          {/* Left Column: Form */}
-          <motion.div 
-            className="contact-form-wrapper"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-100px" }}
-            variants={{
-              hidden: { opacity: 0, x: -30 },
-              visible: { 
-                opacity: 1, 
-                x: 0, 
-                transition: { duration: 1, staggerChildren: 0.15 } 
-              }
-            }}
-          >
-            <motion.h2 
-              className="form-title"
-              variants={{
-                hidden: { opacity: 0, y: 20 },
-                visible: { opacity: 1, y: 0, transition: { duration: 0.8 } }
-              }}
-            >
-              <span className="script-text">Connect with</span>
-              <br />
-              Miraya
-            </motion.h2>
-            <motion.p 
-              className="form-desc"
-              variants={{
-                hidden: { opacity: 0, y: 20 },
-                visible: { opacity: 1, y: 0, transition: { duration: 0.8 } }
-              }}
-            >
-              For bespoke appointments or general inquiries, please leave us a message below.
-            </motion.p>
-            
-            <form className="contact-form" onSubmit={(e) => e.preventDefault()}>
-              <motion.div 
-                className="form-group"
-                variants={{
-                  hidden: { opacity: 0, y: 20 },
-                  visible: { opacity: 1, y: 0, transition: { duration: 0.8 } }
-                }}
-              >
-                <label htmlFor="name">Full Name</label>
-                <input type="text" id="name" required />
-              </motion.div>
-              <motion.div 
-                className="form-group"
-                variants={{
-                  hidden: { opacity: 0, y: 20 },
-                  visible: { opacity: 1, y: 0, transition: { duration: 0.8 } }
-                }}
-              >
-                <label htmlFor="email">Email Address</label>
-                <input type="email" id="email" required />
-              </motion.div>
-              <motion.div 
-                className="form-group"
-                variants={{
-                  hidden: { opacity: 0, y: 20 },
-                  visible: { opacity: 1, y: 0, transition: { duration: 0.8 } }
-                }}
-              >
-                <label htmlFor="subject">Subject</label>
-                <input type="text" id="subject" required />
-              </motion.div>
-              <motion.div 
-                className="form-group"
-                variants={{
-                  hidden: { opacity: 0, y: 20 },
-                  visible: { opacity: 1, y: 0, transition: { duration: 0.8 } }
-                }}
-              >
-                <label htmlFor="message">Message</label>
-                <textarea id="message" rows="5" required></textarea>
-              </motion.div>
-              <motion.button 
-                type="submit" 
-                className="submit-btn"
-                variants={{
-                  hidden: { opacity: 0, y: 20 },
-                  visible: { opacity: 1, y: 0, transition: { duration: 0.8 } }
-                }}
-              >
-                Send Message <span>⟶</span>
-              </motion.button>
-            </form>
+            <div className="subtitle text-center">GET IN TOUCH</div>
+            <Ornament />
+            <h1 className="contact-title text-center">
+              <i>Visit our</i>
+              ATELIER
+            </h1>
+            <Ornament />
+            <p className="contact-header-desc text-center">
+              We would love to hear from you. Reach out to us for<br/>
+              personalized assistance or visit our atelier.
+            </p>
           </motion.div>
-
-          {/* Right Column: Info & Map */}
-          <motion.div 
-            className="contact-info-wrapper"
-            initial={{ opacity: 0, x: 30 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 1, delay: 0.5 }}
-          >
-            <div className="contact-info-header">
-              <h2 className="form-title" style={{ fontSize: '2.2rem' }}>
-                <span className="script-text" style={{ fontSize: '1.4em' }}>Our</span>
-                <br />
-                Atelier
-              </h2>
-              <p className="form-desc" style={{ marginBottom: '3rem', opacity: 0.85 }}>
-                We invite you to experience our collections in person. 
-                Our doors are open for those who appreciate the finer details.
-              </p>
-            </div>
-
-            <div className="info-block">
-              <h3 className="info-title"><MapPin size={18} className="info-icon" /> Flagship Store</h3>
-              <address className="info-text">
-                Shop no. UG/5, Jagat Plaza,<br />
-                Mouze Pandharabodi, Law College Square,<br />
-                Amravati Rd, Nagpur, Maharashtra 440033
-              </address>
-            </div>
-            
-            <div className="info-block">
-              <h3 className="info-title"><Phone size={18} className="info-icon" /> Contact Details</h3>
-              <p className="info-text">
-                <a href="mailto:hello@miraya.com">hello@miraya.com</a><br />
-                +91 98765 43210
-              </p>
-            </div>
-            
-            <div className="info-block" style={{ marginBottom: 0 }}>
-              <h3 className="info-title"><Clock size={18} className="info-icon" /> Store Hours</h3>
-              <p className="info-text">
-                Monday - Saturday: 11:00 AM - 8:00 PM<br />
-                Sunday: By Appointment Only
-              </p>
-            </div>
-
-          </motion.div>
-
         </div>
 
-        {/* Full Width Map Below Grid */}
-        <motion.div 
-          className="map-container full-width"
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 0.6 }}
-        >
-          <iframe 
-            src="https://maps.google.com/maps?q=Mouze%20Pandharabodi,%20Law%20College%20Square,%20Shop%20no.%20UG/5,%20Jagat%20Plaza,%20Amravati%20Rd,%20Nagpur,%20Maharashtra%20440033+(Miraya%20By%20Garima)&t=&z=16&ie=UTF8&iwloc=B&output=embed" 
-            width="100%" 
-            height="100%" 
-            style={{ border: 0 }} 
-            allowFullScreen="" 
-            loading="lazy" 
-            referrerPolicy="no-referrer-when-downgrade"
-            title="Store Location"
-          ></iframe>
-        </motion.div>
-      </div>
+        <div className="container contact-container">
+          <div className="contact-grid">
+            
+            {/* Left Column: Form */}
+            <motion.div 
+              className="contact-panel form-panel"
+              initial={{ opacity: 0, x: -30 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 1, delay: 0.2 }}
+            >
+              <div className="panel-header text-center">
+                <h2 className="panel-title">
+                  <span className="script-text">Connect with</span>
+                  Miraya
+                </h2>
+                <Ornament />
+                <p className="panel-desc">
+                  For bespoke appointments or general inquiries,<br/>
+                  please leave us a message below.
+                </p>
+              </div>
+              
+              <form className="contact-form" onSubmit={(e) => e.preventDefault()}>
+                <div className="form-group-outline">
+                  <User size={18} className="form-icon" />
+                  <input type="text" placeholder="FULL NAME" required />
+                </div>
+                <div className="form-group-outline">
+                  <Mail size={18} className="form-icon" />
+                  <input type="email" placeholder="EMAIL ADDRESS" required />
+                </div>
+                <div className="form-group-outline">
+                  <PenLine size={18} className="form-icon" />
+                  <input type="text" placeholder="SUBJECT" required />
+                </div>
+                <div className="form-group-outline">
+                  <MessageSquare size={18} className="form-icon message-icon" />
+                  <textarea rows="4" placeholder="MESSAGE" required></textarea>
+                </div>
+                <button type="submit" className="submit-btn-solid">
+                  SEND MESSAGE &nbsp; <span>⟶</span>
+                </button>
+              </form>
+            </motion.div>
+
+            {/* Right Column: Info */}
+            <motion.div 
+              className="contact-panel info-panel"
+              initial={{ opacity: 0, x: 30 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 1, delay: 0.4 }}
+            >
+              <div className="panel-header text-center">
+                <h2 className="panel-title">
+                  <span className="script-text">Our</span>
+                  Atelier
+                </h2>
+                <Ornament />
+                <p className="panel-desc">
+                  We invite you to experience our collections in person.<br/>
+                  Our doors are open for those who appreciate the finer details.
+                </p>
+              </div>
+
+              <div className="info-list">
+                <div className="info-block">
+                  <div className="info-icon-wrapper">
+                    <MapPin size={20} />
+                  </div>
+                  <div>
+                    <h3 className="info-title">FLAGSHIP STORE</h3>
+                    <address className="info-text">
+                      Shop no. UG/5, Jagat Plaza,<br />
+                      Mouze Pandharabodi, Law College Square,<br />
+                      Amravati Rd, Nagpur, Maharashtra 440033
+                    </address>
+                  </div>
+                </div>
+                
+                <div className="info-block">
+                  <div className="info-icon-wrapper">
+                    <Phone size={20} />
+                  </div>
+                  <div>
+                    <h3 className="info-title">CONTACT DETAILS</h3>
+                    <p className="info-text">
+                      <a href="mailto:hello@miraya.com">hello@miraya.com</a><br />
+                      +91 98765 43210
+                    </p>
+                  </div>
+                </div>
+                
+                <div className="info-block" style={{ marginBottom: 0 }}>
+                  <div className="info-icon-wrapper">
+                    <Clock size={20} />
+                  </div>
+                  <div>
+                    <h3 className="info-title">ATELIER HOURS</h3>
+                    <p className="info-text">
+                      Monday – Saturday: 10:00 AM – 7:00 PM<br />
+                      Sunday: By Appointment
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+
+          {/* Bottom Banner */}
+          <motion.div 
+            className="appointment-banner"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, delay: 0.6 }}
+          >
+            <div className="banner-left">
+              <div className="calendar-icon-wrapper">
+                <Calendar size={24} />
+              </div>
+              <div className="banner-text">
+                <h3>Looking for a personalized styling session?</h3>
+                <p>Schedule an appointment with our expert stylist.</p>
+              </div>
+            </div>
+            <button className="book-btn-outline">
+              BOOK AN APPOINTMENT &nbsp; <span>⟶</span>
+            </button>
+          </motion.div>
+        </div>
     </div>
   );
 };

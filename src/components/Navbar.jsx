@@ -53,19 +53,73 @@ const Navbar = () => {
               <AnimatePresence>
                 {dropdownOpen && (
                   <motion.div
-                    className="dropdown-menu"
-                    initial={{ opacity: 0, y: 15, scale: 0.95 }}
-                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                    exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                    transition={{ duration: 0.2, ease: "easeOut" }}
+                    className="mega-menu"
+                    initial={{ opacity: 0, y: 15, x: "-50%" }}
+                    animate={{ opacity: 1, y: 0, x: "-50%" }}
+                    exit={{ opacity: 0, y: 10, x: "-50%" }}
+                    transition={{ duration: 0.3, ease: "easeOut" }}
                   >
-                    <div className="dropdown-inner">
-                      <Link to="/collection/all" className="dropdown-item">View All</Link>
-                      <Link to="/collection/lehengas" className="dropdown-item">Lehengas</Link>
-                      <Link to="/collection/sarees" className="dropdown-item">Sarees</Link>
-                      <Link to="/collection/wedding" className="dropdown-item">Wedding</Link>
-                      <Link to="/collection/kurtis" className="dropdown-item">Kurtis</Link>
-                      <Link to="/collection/coord-sets" className="dropdown-item">Co-ord Sets</Link>
+                    <div className="mega-menu-inner">
+                      <div className="mega-menu-header">
+                        <div className="mega-ornament-line"></div>
+                        <div className="mega-ornament-diamond">◈</div>
+                        <h3 className="mega-title">EXPLORE OUR COLLECTIONS</h3>
+                        <div className="mega-ornament-diamond">◈</div>
+                        <div className="mega-ornament-line"></div>
+                      </div>
+
+                      <div className="mega-grid">
+                        <Link to="/collection/lehengas" className="mega-item">
+                          <div className="mega-img-wrap"><img src="/lehenga_mega.png" alt="Lehenga" /></div>
+                          <span className="mega-item-title">LEHENGA</span>
+                        </Link>
+                        <Link to="/collection/sarees" className="mega-item">
+                          <div className="mega-img-wrap"><img src="/saree_mega.png" alt="Saree" /></div>
+                          <span className="mega-item-title">SAREE</span>
+                        </Link>
+                        <Link to="/collection/wedding" className="mega-item">
+                          <div className="mega-img-wrap"><img src="/anarkali_mega.png" alt="Anarkali" /></div>
+                          <span className="mega-item-title">ANARKALI</span>
+                        </Link>
+                        <Link to="/collection/indo-western" className="mega-item">
+                          <div className="mega-img-wrap"><img src="/indo_western_mega.png" alt="Indo-Western" /></div>
+                          <span className="mega-item-title">INDO-WESTERN</span>
+                        </Link>
+                        <Link to="/collection/coord-sets" className="mega-item">
+                          <div className="mega-img-wrap"><img src="/craftman.jpg" alt="Co-ord Set" /></div>
+                          <span className="mega-item-title">CO-ORD SET</span>
+                        </Link>
+                        <Link to="/collection/sharara" className="mega-item">
+                          <div className="mega-img-wrap"><img src="/sharara_mega.png" alt="Sharara" /></div>
+                          <span className="mega-item-title">SHARARA</span>
+                        </Link>
+                        <Link to="/collection/kurtis" className="mega-item">
+                          <div className="mega-img-wrap"><img src="/kurti_mega.png" alt="Kurti" /></div>
+                          <span className="mega-item-title">KURTI</span>
+                        </Link>
+                        <Link to="/collection/salwar-suit" className="mega-item">
+                          <div className="mega-img-wrap"><img src="/salwar_mega.png" alt="Salwar Suit" /></div>
+                          <span className="mega-item-title">SALWAR SUIT</span>
+                        </Link>
+                        <Link to="/collection/all" className="mega-view-all">
+                          <div className="view-all-corner-tr"></div>
+                          <div className="view-all-corner-bl"></div>
+                          <div className="view-all-content">
+                            <span className="flower-icon">
+                              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2C12 2 15 8 15 12C15 16 12 22 12 22C12 22 9 16 9 12C9 8 12 2 12 2Z"/><path d="M2 12C2 12 8 9 12 9C16 9 22 12 22 12C22 12 16 15 12 15C8 15 2 12 2 12Z"/></svg>
+                            </span>
+                            <span className="view-all-text">VIEW ALL<br/>MASTERPIECES</span>
+                            <span className="arrow">⟶</span>
+                          </div>
+                        </Link>
+                      </div>
+                      
+                      <div className="mega-bottom-ornament">
+                        <svg width="40" height="20" viewBox="0 0 40 20" fill="none">
+                           <path d="M20 15L10 0H30L20 15Z" fill="#dfc28d" opacity="0.6"/>
+                           <circle cx="20" cy="18" r="2" fill="#dfc28d" />
+                        </svg>
+                      </div>
                     </div>
                   </motion.div>
                 )}
