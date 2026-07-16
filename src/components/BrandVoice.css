@@ -84,9 +84,11 @@
 
 .brand-voice-desc {
   font-family: var(--font-body);
-  font-size: 1.1rem;
+  font-size: 1.15rem;
+  font-weight: 500;
   line-height: 1.8;
-  color: #555;
+  color: var(--primary-burgundy);
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.8); /* Helps pop against pattern */
   margin-bottom: 3rem;
   max-width: 500px;
 }
