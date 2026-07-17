@@ -64,7 +64,7 @@ const CategoryPage = () => {
       setLoading(true);
       try {
         const url = category === 'all' 
-          ? '${API_URL}/api/products' 
+          ? ${API_URL} 
           : `${API_URL}/api/products?category=${category}`;
         const res = await fetch(url);
         if (res.ok) {
