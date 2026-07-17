@@ -64,8 +64,8 @@ const CategoryPage = () => {
       setLoading(true);
       try {
         const url = category === 'all' 
-          ? 'http://localhost:5000/api/products' 
-          : `http://localhost:5000/api/products?category=${category}`;
+          ? '${API_URL}/api/products' 
+          : `${API_URL}/api/products?category=${category}`;
         const res = await fetch(url);
         if (res.ok) {
           const data = await res.json();

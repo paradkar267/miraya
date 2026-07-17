@@ -16,7 +16,7 @@ const ProductDetailPage = () => {
     window.scrollTo(0, 0);
     const fetchProduct = async () => {
       try {
-        const res = await fetch(`http://localhost:5000/api/products/${id}`);
+        const res = await fetch(`${API_URL}/api/products/${id}`);
         if (res.ok) {
           const data = await res.json();
           setProduct(data);

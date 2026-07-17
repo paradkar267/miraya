@@ -15,7 +15,7 @@ const SearchPage = () => {
       if (query) {
         setLoading(true);
         try {
-          const res = await fetch(`http://localhost:5000/api/products?search=${encodeURIComponent(query)}`);
+          const res = await fetch(`${API_URL}/api/products?search=${encodeURIComponent(query)}`);
           if (res.ok) {
             const data = await res.json();
             setResults(data);

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ArrowLeft, Eye, EyeOff, Mail, Lock, CheckSquare, Square, ChevronRight, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import API_URL from '../config';
 import './AuthPage.css';
 
 const AuthPage = () => {
@@ -45,8 +46,8 @@ const AuthPage = () => {
     setError('');
 
     const url = isLogin 
-      ? 'http://localhost:5000/api/auth/login' 
-      : 'http://localhost:5000/api/auth/register';
+      ? '${API_URL}/api/auth/login' 
+      : '${API_URL}/api/auth/register';
 
     const payload = isLogin 
       ? { email, password } 
@@ -250,7 +251,7 @@ const AuthPage = () => {
                     <button 
                       type="button" 
                       className="social-btn"
-                      onClick={() => window.location.href = 'http://localhost:5000/api/auth/google'}
+                      onClick={() => window.location.href = `${API_URL}/api/auth/google`}
                     >
                       <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" alt="Google" />
                       Continue with Google

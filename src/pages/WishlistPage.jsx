@@ -16,7 +16,7 @@ const WishlistPage = () => {
     const fetchWishlistProducts = async () => {
       setLoading(true);
       try {
-        const res = await fetch('http://localhost:5000/api/products');
+        const res = await fetch('${API_URL}/api/products');
         if (res.ok) {
           const allProducts = await res.json();
           const filtered = allProducts.filter(p => wishlist.includes(`${p.category}-${p.id}`));
