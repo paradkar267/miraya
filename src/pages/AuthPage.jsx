@@ -46,8 +46,8 @@ const AuthPage = () => {
     setError('');
 
     const url = isLogin 
-      ? ${API_URL} 
-      : ${API_URL};
+      ? '${API_URL}/api/auth/login' 
+      : '${API_URL}/api/auth/register';
 
     const payload = isLogin 
       ? { email, password } 
