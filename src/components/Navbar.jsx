@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link, NavLink, useNavigate, useLocation } from 'react-router-dom';
-import { Menu, X, ChevronDown, User } from 'lucide-react';
+import { Menu, X, ChevronDown, User, ShoppingCart, Heart } from 'lucide-react';
 import './Navbar.css';
 
 const Navbar = () => {
@@ -152,6 +152,12 @@ const Navbar = () => {
           {/* Right Actions */}
           <div className="navbar-right">
             <div className="navbar-actions">
+              <Link to="/account" state={{ tab: 'wishlist' }} className="icon-btn desktop-only" aria-label="Wishlist" title="Wishlist">
+                <Heart size={20} strokeWidth={1.5} />
+              </Link>
+              <Link to="/account" state={{ tab: 'cart' }} className="icon-btn desktop-only" aria-label="Cart" title="Cart">
+                <ShoppingCart size={20} strokeWidth={1.5} />
+              </Link>
               <Link to={isLoggedIn ? "/account" : "/auth"} className={isLoggedIn ? "icon-btn" : "nav-link signup-link"} aria-label="Account">
                 {isLoggedIn ? <User size={20} strokeWidth={1.5} /> : <span>SIGN UP</span>}
               </Link>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { Home, ShoppingBag, Ruler, Heart, LogOut, Headphones, ChevronRight, Plus, Trash2, User, Trash, PenTool, ShoppingCart, Settings } from 'lucide-react';
 import './AccountPage.css';
 
@@ -74,9 +74,17 @@ const wishlistData = [
 const AccountPage = () => {
   const [activeTab, setActiveTab] = useState('overview');
   const navigate = useNavigate();
+  const location = useLocation();
   const [user, setUser] = useState({});
   const [globalError, setGlobalError] = useState(null);
   const [globalSuccess, setGlobalSuccess] = useState(null);
+
+  // Set tab from navbar link state
+  useEffect(() => {
+    if (location.state?.tab) {
+      setActiveTab(location.state.tab);
+    }
+  }, [location.state]);
 
   const showError = (msg) => {
     setGlobalError(msg);
