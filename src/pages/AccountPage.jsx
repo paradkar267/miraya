@@ -117,7 +117,7 @@ const AccountPage = () => {
       const token = localStorage.getItem('token');
       if (!token) return;
       setLoadingOrders(true);
-      const res = await fetch('${API_URL}/api/orders', {
+      const res = await fetch(`${API_URL}/api/orders`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       if (res.ok) {
@@ -139,7 +139,7 @@ const AccountPage = () => {
       const token = localStorage.getItem('token');
       if (!token) return;
       setLoadingMeasurements(true);
-      const res = await fetch('${API_URL}/api/measurements', {
+      const res = await fetch(`${API_URL}/api/measurements`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       if (res.ok) {
@@ -220,7 +220,7 @@ const AccountPage = () => {
       const token = localStorage.getItem('token');
       if (!token) return;
       setLoadingWishlist(true);
-      const res = await fetch('${API_URL}/api/wishlist', {
+      const res = await fetch(`${API_URL}/api/wishlist`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       if (res.ok) {
@@ -253,7 +253,7 @@ const AccountPage = () => {
     try {
       const token = localStorage.getItem('token');
       if (!token) return;
-      const res = await fetch('${API_URL}/api/orders/demo', {
+      const res = await fetch(`${API_URL}/api/orders/demo`, {
         method: 'POST',
         headers: { Authorization: `Bearer ${token}` }
       });
@@ -795,7 +795,7 @@ const AccountPage = () => {
     try {
       const token = localStorage.getItem('token');
       if (!token) return;
-      const res = await fetch('${API_URL}/api/auth/profile', {
+      const res = await fetch(`${API_URL}/api/auth/profile`, {
         method: 'PUT',
         headers: { 
           'Content-Type': 'application/json',
@@ -827,7 +827,7 @@ const AccountPage = () => {
     try {
       const token = localStorage.getItem('token');
       if (!token) return;
-      const res = await fetch('${API_URL}/api/auth/account', {
+      const res = await fetch(`${API_URL}/api/auth/account`, {
         method: 'DELETE',
         headers: { Authorization: `Bearer ${token}` }
       });
