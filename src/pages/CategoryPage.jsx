@@ -3,7 +3,7 @@ import { useEffect, useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Heart, ChevronDown, LayoutGrid, RefreshCw, Scissors, Layers, Flower, ShieldCheck, Sparkles, Gem, Shirt, Scissors as ScissorsIcon } from 'lucide-react';
 import { useWishlist } from '../context/WishlistContext';
-import { productsData, getAllProducts } from '../data/products';
+// Removed static products import
 import './CategoryPage.css';
 
 const Ornament = () => (
@@ -36,7 +36,8 @@ const CategoryPage = () => {
       ? 'Co-ord Sets' 
       : category.charAt(0).toUpperCase() + category.slice(1);
 
-  const samples = category === 'all' ? getAllProducts() : (productsData[category] || []);
+  const [samples, setSamples] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const availableCategories = ['lehengas', 'sarees', 'wedding', 'kurtis', 'coord-sets'];
   const availableFabrics = useMemo(() => Array.from(new Set(samples.map(item => item.fabric).filter(Boolean))), [samples]);
@@ -59,12 +60,31 @@ const CategoryPage = () => {
   }, [samples, category, selectedCategories, selectedFabrics]);
 
   useEffect(() => {
+    const fetchProducts = async () => {
+      setLoading(true);
+      try {
+        const url = category === 'all' 
+          ? 'http://localhost:5000/api/products' 
+          : `http://localhost:5000/api/products?category=${category}`;
+        const res = await fetch(url);
+        if (res.ok) {
+          const data = await res.json();
+          setSamples(data);
+        }
+      } catch (err) {
+        console.error("Failed to fetch category products", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchProducts();
+
     if (!location.hash) {
       window.scrollTo(0, 0);
     }
     setSelectedCategories([]);
     setSelectedFabrics([]);
-  }, [category]);
+  }, [category, location.hash]);
 
   const handleWishlistToggle = (itemId, cat, e) => {
     e.preventDefault();
@@ -201,7 +221,12 @@ const CategoryPage = () => {
             </div>
           </div>
 
-          {filteredAndSortedProducts.length > 0 ? (
+          {loading ? (
+            <div style={{padding: '4rem', textAlign: 'center', gridColumn: '1/-1', width: '100%'}}>
+              <RefreshCw className="spin" size={32} color="var(--primary-burgundy)" style={{margin: '0 auto 1rem'}} />
+              <p>Loading collection...</p>
+            </div>
+          ) : filteredAndSortedProducts.length > 0 ? (
             <motion.div layout className="premium-grid">
               <AnimatePresence>
               {filteredAndSortedProducts.map((item, index) => {

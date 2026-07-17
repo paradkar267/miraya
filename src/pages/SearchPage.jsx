@@ -1,24 +1,35 @@
 import { useEffect, useState } from 'react';
 import { useSearchParams, Link } from 'react-router-dom';
-import { getAllProducts } from '../data/products';
+// removed static products import
 import './SearchPage.css';
 
 const SearchPage = () => {
   const [searchParams] = useSearchParams();
   const query = searchParams.get('q') || '';
   const [results, setResults] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    if (query) {
-      const allProducts = getAllProducts();
-      const filtered = allProducts.filter(item => 
-        item.title.toLowerCase().includes(query.toLowerCase())
-      );
-      setResults(filtered);
-    } else {
-      setResults([]);
-    }
+    const fetchResults = async () => {
+      if (query) {
+        setLoading(true);
+        try {
+          const res = await fetch(`http://localhost:5000/api/products?search=${encodeURIComponent(query)}`);
+          if (res.ok) {
+            const data = await res.json();
+            setResults(data);
+          }
+        } catch (error) {
+          console.error("Search fetch failed:", error);
+        } finally {
+          setLoading(false);
+        }
+      } else {
+        setResults([]);
+      }
+    };
+    fetchResults();
   }, [query]);
 
 
@@ -35,7 +46,11 @@ const SearchPage = () => {
       </div>
 
       <div className="container">
-        {results.length > 0 ? (
+        {loading ? (
+          <div style={{padding: '4rem', textAlign: 'center'}}>
+            <h2>Searching...</h2>
+          </div>
+        ) : results.length > 0 ? (
           <div className="premium-grid">
             {results.map((item) => {
               const uniqueId = `${item.category}-${item.id}`;

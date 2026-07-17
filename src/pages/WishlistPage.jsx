@@ -1,17 +1,35 @@
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Heart } from 'lucide-react';
 import { useWishlist } from '../context/WishlistContext';
-import { getProductById } from '../data/products';
+// removed static getProductById
 import './WishlistPage.css';
 import '../pages/CategoryPage.css'; // Reuse premium-grid styles
 
 const WishlistPage = () => {
   const { wishlist, toggleWishlist } = useWishlist();
 
-  // Convert the array of uniqueIds into actual product objects
-  const savedProducts = wishlist
-    .map(id => getProductById(id))
-    .filter(Boolean); // Remove any nulls in case data changed
+  const [savedProducts, setSavedProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchWishlistProducts = async () => {
+      setLoading(true);
+      try {
+        const res = await fetch('http://localhost:5000/api/products');
+        if (res.ok) {
+          const allProducts = await res.json();
+          const filtered = allProducts.filter(p => wishlist.includes(`${p.category}-${p.id}`));
+          setSavedProducts(filtered);
+        }
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchWishlistProducts();
+  }, [wishlist]);
 
   return (
     <div className="wishlist-page">
@@ -21,7 +39,11 @@ const WishlistPage = () => {
       </div>
 
       <div className="container">
-        {savedProducts.length > 0 ? (
+        {loading ? (
+          <div style={{padding: '4rem', textAlign: 'center'}}>
+            <h2>Loading your wishlist...</h2>
+          </div>
+        ) : savedProducts.length > 0 ? (
           <div className="premium-grid">
             {savedProducts.map((item) => (
               <div key={`${item.category}-${item.id}`} className="premium-card">

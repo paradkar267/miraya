@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link, NavLink, useNavigate, useLocation } from 'react-router-dom';
-import { Menu, X, ChevronDown } from 'lucide-react';
+import { Menu, X, ChevronDown, User } from 'lucide-react';
 import './Navbar.css';
 
 const Navbar = () => {
@@ -9,8 +9,17 @@ const Navbar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [mobileCollectionOpen, setMobileCollectionOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem('isLoggedIn') === 'true');
   const navigate = useNavigate();
   const location = useLocation();
+
+  useEffect(() => {
+    const handleLoginChange = () => {
+      setIsLoggedIn(localStorage.getItem('isLoggedIn') === 'true');
+    };
+    window.addEventListener('loginStateChange', handleLoginChange);
+    return () => window.removeEventListener('loginStateChange', handleLoginChange);
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -21,10 +30,20 @@ const Navbar = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  const isHomePage = location.pathname === '/';
+  const isCollectionPage = location.pathname.startsWith('/collection');
+  const isAboutPage = location.pathname === '/about';
+  
+  // Pages with dark hero sections at the top where white text is visible
+  const hasDarkHero = isHomePage || isCollectionPage || isAboutPage;
+  
+  // Force scrolled state (burgundy text, cream bg) on pages without a dark hero
+  const isNavbarScrolled = scrolled || !hasDarkHero;
+
   return (
     <>
       <motion.nav
-        className={`navbar ${scrolled ? 'scrolled' : ''}`}
+        className={`navbar ${isNavbarScrolled ? 'scrolled' : ''}`}
         initial={{ y: -100 }}
         animate={{ y: 0 }}
         transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
@@ -133,6 +152,9 @@ const Navbar = () => {
           {/* Right Actions */}
           <div className="navbar-right">
             <div className="navbar-actions">
+              <Link to={isLoggedIn ? "/account" : "/auth"} className={isLoggedIn ? "icon-btn" : "nav-link signup-link"} aria-label="Account">
+                {isLoggedIn ? <User size={20} strokeWidth={1.5} /> : <span>SIGN UP</span>}
+              </Link>
               <button
                 className="icon-btn mobile-only"
                 onClick={() => setMobileMenuOpen(true)}
