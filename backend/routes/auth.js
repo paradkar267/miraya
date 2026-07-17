@@ -21,7 +21,8 @@ router.get('/google/callback', passport.authenticate('google', { session: false,
     email: req.user.email,
     profilePhoto: req.user.profilePhoto
   }));
-  res.redirect(`http://localhost:5173/auth?token=${token}&user=${userParam}`);
+  const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5173';
+  res.redirect(`${frontendUrl}/auth?token=${token}&user=${userParam}`);
 });
 // Register
 router.post('/register', async (req, res) => {
