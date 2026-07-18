@@ -104,8 +104,14 @@ const AccountPage = () => {
   const [orders, setOrders] = useState([]);
   const [loadingOrders, setLoadingOrders] = useState(false);
   const [cartItems, setCartItems] = useState(() => {
-    const saved = localStorage.getItem('miraya_cart');
-    return saved ? JSON.parse(saved) : [];
+    try {
+      const saved = localStorage.getItem('miraya_cart');
+      const parsed = saved ? JSON.parse(saved) : [];
+      return Array.isArray(parsed) ? parsed : [];
+    } catch (e) {
+      console.error("Failed to parse cart from local storage", e);
+      return [];
+    }
   });
 
   useEffect(() => {
@@ -390,7 +396,7 @@ const AccountPage = () => {
       <div className="orders-list-detailed">
         {loadingOrders ? <p style={{textAlign: 'center', padding: '2rem'}}>Loading orders...</p> : 
          orders.length === 0 ? <p style={{textAlign: 'center', padding: '2rem'}}>No orders found.</p> :
-         orders.filter(o => orderFilter === 'ALL ORDERS' || o.status === orderFilter).map((order, idx) => (
+         orders.filter(o => orderFilter === 'ALL ORDERS' || o?.status === orderFilter).map((order, idx) => (
           <div className="order-row" key={idx} style={{ opacity: order.status === 'CANCELLED' ? 0.6 : 1 }}>
             <div className="order-item-img" style={{background: '#f9f6f0', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
               <span style={{fontSize: '2rem'}}>🛍️</span>
@@ -630,13 +636,13 @@ const AccountPage = () => {
           wishlist.map(item => (
             <div className="wishlist-card" key={item.id}>
               <div className="w-img-wrapper">
-                <img src={item.product.image} alt={item.product.name} />
+                <img src={item.product?.image} alt={item.product?.name} />
                 <button className="w-heart-btn">
                   <Heart size={16} fill="#5e0a0b" color="#5e0a0b" />
                 </button>
               </div>
               <div className="w-card-body">
-                <h4 className="w-title">{item.product.name}</h4>
+                <h4 className="w-title">{item.product?.name}</h4>
                 <p className="w-price">₹{item.product?.price ? item.product.price.toLocaleString('en-IN') : 'N/A'}</p>
                 <div className="w-meta">
                   <span>Size: Custom</span>
@@ -784,7 +790,7 @@ const AccountPage = () => {
         <div className="dash-widget order-tracker-widget">
           <div className="widget-header">
             <h3>Recent Order Status</h3>
-            {orders.length > 0 && <span className="order-id">#MRY-{orders[0].id}</span>}
+            {orders.length > 0 && <span className="order-id">#MRY-{orders[0]?.id}</span>}
           </div>
           {orders.length > 0 ? (
           <>
@@ -793,20 +799,20 @@ const AccountPage = () => {
               <div className="track-dot"></div>
               <p>Confirmed</p>
             </div>
-            <div className={`track-step ${orders[0].status === 'PROCESSING' || orders[0].status === 'SHIPPED' || orders[0].status === 'DELIVERED' ? 'completed' : orders[0].status === 'PENDING' ? 'active' : ''}`}>
+            <div className={`track-step ${orders[0]?.status === 'PROCESSING' || orders[0]?.status === 'SHIPPED' || orders[0]?.status === 'DELIVERED' ? 'completed' : orders[0]?.status === 'PENDING' ? 'active' : ''}`}>
               <div className="track-dot"></div>
               <p>Tailoring</p>
             </div>
-            <div className={`track-step ${orders[0].status === 'SHIPPED' || orders[0].status === 'DELIVERED' ? 'completed' : orders[0].status === 'PROCESSING' ? 'active' : ''}`}>
+            <div className={`track-step ${orders[0]?.status === 'SHIPPED' || orders[0]?.status === 'DELIVERED' ? 'completed' : orders[0]?.status === 'PROCESSING' ? 'active' : ''}`}>
               <div className="track-dot"></div>
               <p>Shipped</p>
             </div>
-            <div className={`track-step ${orders[0].status === 'DELIVERED' ? 'completed' : orders[0].status === 'SHIPPED' ? 'active' : ''}`}>
+            <div className={`track-step ${orders[0]?.status === 'DELIVERED' ? 'completed' : orders[0]?.status === 'SHIPPED' ? 'active' : ''}`}>
               <div className="track-dot"></div>
               <p>Delivered</p>
             </div>
           </div>
-          <p className="tracker-note">Your custom order is {orders[0].status ? orders[0].status.toLowerCase() : 'pending'}.</p>
+          <p className="tracker-note">Your custom order is {orders[0]?.status ? orders[0]?.status.toLowerCase() : 'pending'}.</p>
           </>
           ) : (
             <p style={{textAlign: 'center', color: '#888'}}>No recent orders. <button onClick={placeDemoOrder} style={{background: 'none', border: 'none', color: '#cda372', cursor: 'pointer', textDecoration: 'underline'}}>Place a demo order</button></p>
