@@ -3,12 +3,19 @@ const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
-passport.use(new GoogleStrategy({
+const googleConfig = {
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     callbackURL: process.env.GOOGLE_CALLBACK_URL || "http://localhost:5000/api/auth/google/callback",
     proxy: true
-  },
+};
+console.log("=== PASSPORT CONFIG ===");
+console.log("Client ID:", googleConfig.clientID);
+console.log("Callback URL:", googleConfig.callbackURL);
+console.log("Secret Length:", googleConfig.clientSecret ? googleConfig.clientSecret.length : 0);
+console.log("=======================");
+
+passport.use(new GoogleStrategy(googleConfig,
   async (accessToken, refreshToken, profile, done) => {
     try {
       // 1. Check if user already exists with this googleId

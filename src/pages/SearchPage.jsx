@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useSearchParams, Link } from 'react-router-dom';
-// removed static products import
+import API_URL from '../config';
 import './SearchPage.css';
 
 const SearchPage = () => {

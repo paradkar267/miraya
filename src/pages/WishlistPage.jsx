@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Heart } from 'lucide-react';
 import { useWishlist } from '../context/WishlistContext';
-// removed static getProductById
+import API_URL from '../config';
 import './WishlistPage.css';
 import '../pages/CategoryPage.css'; // Reuse premium-grid styles
 

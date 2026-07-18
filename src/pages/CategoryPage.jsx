@@ -3,7 +3,7 @@ import { useEffect, useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Heart, ChevronDown, LayoutGrid, RefreshCw, Scissors, Layers, Flower, ShieldCheck, Sparkles, Gem, Shirt, Scissors as ScissorsIcon } from 'lucide-react';
 import { useWishlist } from '../context/WishlistContext';
-// Removed static products import
+import API_URL from '../config';
 import './CategoryPage.css';
 
 const Ornament = () => (

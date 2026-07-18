@@ -10,8 +10,14 @@ const passport = require('passport');
 // Google OAuth login route
 router.get('/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
 
-// Google OAuth callback route
-router.get('/google/callback', passport.authenticate('google', { session: false, failureRedirect: 'http://localhost:5173/auth?error=failed' }), (req, res) => {
+router.get('/google/callback', (req, res, next) => {
+  console.log("=========================================");
+  console.log("Google callback hit! URL:", req.originalUrl);
+  console.log("User-Agent:", req.headers['user-agent']);
+  console.log("Query Code:", req.query.code);
+  console.log("=========================================");
+  next();
+}, passport.authenticate('google', { session: false, failureRedirect: 'http://localhost:5173/auth?error=failed' }), (req, res) => {
   // Successful authentication
   const token = jwt.sign({ id: req.user.id }, process.env.JWT_SECRET, { expiresIn: '7d' });
   const userParam = encodeURIComponent(JSON.stringify({

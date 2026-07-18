@@ -1,7 +1,7 @@
 import { useParams, Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { ArrowLeft, Star, Heart, ZoomIn, Search, Minus, Plus, ShieldCheck, Truck, Lock, Flower2 } from 'lucide-react';
-// removed static product import
+import API_URL from '../config';
 import './ProductDetailPage.css';
 
 const ProductDetailPage = () => {
