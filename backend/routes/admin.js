@@ -53,7 +53,7 @@ router.get('/orders', auth, isAdmin, async (req, res) => {
         },
         items: {
           include: {
-            product: { select: { name: true, image: true, size: true } }
+            product: { select: { name: true, image: true } }
           }
         }
       }
