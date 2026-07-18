@@ -198,7 +198,7 @@ router.get('/profile', auth, async (req, res) => {
   try {
     const user = await prisma.user.findUnique({
       where: { id: req.user.id },
-      select: { id: true, firstName: true, lastName: true, email: true, profilePhoto: true, address: true }
+      select: { id: true, firstName: true, lastName: true, email: true, profilePhoto: true, address: true, eventDate: true }
     });
     if (!user) return res.status(404).json({ message: 'User not found' });
     res.json(user);
@@ -210,16 +210,21 @@ router.get('/profile', auth, async (req, res) => {
 // Update Profile
 router.put('/profile', auth, async (req, res) => {
   try {
-    const { firstName, lastName, profilePhoto, address } = req.body;
+    const { firstName, lastName, profilePhoto, address, eventDate } = req.body;
     
+    let updateData = {
+      firstName,
+      lastName,
+      profilePhoto,
+      address,
+    };
+    if (eventDate !== undefined) {
+      updateData.eventDate = eventDate ? new Date(eventDate) : null;
+    }
+
     const updatedUser = await prisma.user.update({
       where: { id: req.user.id },
-      data: {
-        firstName,
-        lastName,
-        profilePhoto,
-        address
-      }
+      data: updateData
     });
 
     res.json({
@@ -228,7 +233,8 @@ router.put('/profile', auth, async (req, res) => {
       lastName: updatedUser.lastName,
       email: updatedUser.email,
       profilePhoto: updatedUser.profilePhoto,
-      address: updatedUser.address
+      address: updatedUser.address,
+      eventDate: updatedUser.eventDate
     });
   } catch (err) {
     console.error(err);

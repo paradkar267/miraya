@@ -699,17 +699,66 @@ const AccountPage = () => {
   };
 
   // Render Overview (Already Implemented)
-  const renderOverview = () => (
-    <div className="main-content animate-fade">
-      <div className="welcome-banner">
-        <div className="welcome-text">
-          <h1>Welcome back, <span>{user?.firstName || 'User'} <span className="stars">✦✧</span></span></h1>
-          <p>Manage your luxury ethnic wear experience, track your custom pieces, and update your measurements.</p>
+  const renderOverview = () => {
+    let daysRemaining = null;
+    if (user?.eventDate) {
+      const eventD = new Date(user.eventDate);
+      const now = new Date();
+      now.setHours(0,0,0,0);
+      eventD.setHours(0,0,0,0);
+      daysRemaining = Math.ceil((eventD - now) / (1000 * 60 * 60 * 24));
+    }
+
+    return (
+      <div className="main-content animate-fade">
+        <div className="welcome-banner">
+          <div className="welcome-text">
+            <h1>Welcome back, <span>{user?.firstName || 'User'} <span className="stars">✦✧</span></span></h1>
+            <p>Manage your luxury ethnic wear experience, track your custom pieces, and update your measurements.</p>
+          </div>
+          <div className="welcome-img-wrapper">
+            <img src="/mannequin_gold.png" alt="Luxury Mannequin" className="welcome-img" />
+          </div>
         </div>
-        <div className="welcome-img-wrapper">
-          <img src="/mannequin_gold.png" alt="Luxury Mannequin" className="welcome-img" />
-        </div>
-      </div>
+
+        {daysRemaining !== null && daysRemaining >= 0 && (
+          <div style={{
+            background: 'linear-gradient(135deg, var(--primary-burgundy) 0%, #4a1515 100%)',
+            color: 'var(--beige-light)',
+            padding: '1.5rem 2rem',
+            borderRadius: '12px',
+            marginBottom: '2rem',
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            boxShadow: '0 10px 30px rgba(89, 28, 28, 0.15)'
+          }}>
+            <div>
+              <h3 style={{ margin: 0, fontSize: '1.4rem', fontWeight: '500', color: '#e8d5c4' }}>
+                Your Big Day is in <span style={{ fontSize: '1.8rem', fontWeight: '700', color: '#fff' }}>{daysRemaining}</span> days! 💍
+              </h3>
+              <p style={{ margin: '0.5rem 0 0', opacity: 0.9 }}>
+                {daysRemaining > 30 ? "Time to finalize your custom outfit measurements." : "Priority tailoring is active for your upcoming event."}
+              </p>
+            </div>
+            <button 
+              onClick={() => setActiveTab('measurements')}
+              style={{
+                padding: '0.8rem 1.5rem',
+                background: '#e8d5c4',
+                color: 'var(--primary-burgundy)',
+                border: 'none',
+                borderRadius: '30px',
+                fontWeight: '600',
+                cursor: 'pointer',
+                flexShrink: 0
+              }}
+            >
+              Review Measurements
+            </button>
+          </div>
+        )}
+
 
       <div className="dashboard-overview">
         {/* Recent Order Status */}
@@ -795,6 +844,7 @@ const AccountPage = () => {
       </div>
     </div>
   );
+};
 
   const handleUpdateProfile = async (e) => {
     e.preventDefault();
@@ -811,7 +861,8 @@ const AccountPage = () => {
           firstName: user.firstName,
           lastName: user.lastName,
           profilePhoto: user.profilePhoto,
-          address: user.address
+          address: user.address,
+          eventDate: user.eventDate
         })
       });
       if (res.ok) {
@@ -935,6 +986,17 @@ const AccountPage = () => {
               onChange={(e) => setUser({...user, address: e.target.value})}
               style={{width: '100%', padding: '0.8rem', border: '1px solid #ddd', borderRadius: '4px', resize: 'vertical'}}
             />
+          </div>
+
+          <div className="form-group">
+            <label style={{display: 'block', marginBottom: '0.5rem', fontWeight: '500', color: 'var(--primary-burgundy)'}}>Special Event / Wedding Date</label>
+            <input 
+              type="date"
+              value={user.eventDate ? new Date(user.eventDate).toISOString().split('T')[0] : ''}
+              onChange={(e) => setUser({...user, eventDate: e.target.value})}
+              style={{width: '100%', padding: '0.8rem', border: '1px solid #ddd', borderRadius: '4px'}}
+            />
+            <p style={{fontSize: '0.8rem', color: '#666', marginTop: '0.4rem'}}>We will help you keep track of your outfit timeline.</p>
           </div>
 
           <button type="submit" className="btn-solid-burgundy" style={{padding: '1rem', width: '200px'}}>
