@@ -12,6 +12,7 @@ import SearchPage from './pages/SearchPage';
 import AboutPage from './pages/AboutPage';
 import AccountPage from './pages/AccountPage';
 import AuthPage from './pages/AuthPage';
+import WhatsAppButton from './components/WhatsAppButton';
 
 function App() {
   const location = useLocation();
@@ -35,6 +36,7 @@ function App() {
           </Routes>
         </main>
         {!isAuthPage && <Footer />}
+        <WhatsAppButton />
       </div>
     </ReactLenis>
   );
