@@ -364,7 +364,7 @@ const AccountPage = () => {
           ))}
         </div>
         <button className="card-btn-small" style={{background: 'var(--primary-burgundy)', color: 'white'}} onClick={() => setActiveTab('cart')}>
-          + VIEW CART
+          VIEW CART
         </button>
       </div>
 
@@ -429,7 +429,7 @@ const AccountPage = () => {
             <button className="btn-solid-burgundy" onClick={() => setEditingProfile({
               title: '', fullName: '', height: '', bust: '', waist: '', hips: '', shoulder: '', armLength: '', neck: '', isDefault: false
             })}>
-              <Plus size={16} /> ADD NEW PROFILE
+              ADD NEW PROFILE
             </button>
           )}
         </div>
