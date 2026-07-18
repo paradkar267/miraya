@@ -44,11 +44,16 @@ router.get('/orders', auth, isAdmin, async (req, res) => {
       orderBy: { createdAt: 'desc' },
       include: {
         user: {
-          select: { firstName: true, lastName: true, email: true }
+          select: { 
+            firstName: true, 
+            lastName: true, 
+            email: true,
+            measurements: true 
+          }
         },
         items: {
           include: {
-            product: { select: { name: true, image: true } }
+            product: { select: { name: true, image: true, size: true } }
           }
         }
       }
@@ -63,27 +68,18 @@ router.get('/orders', auth, isAdmin, async (req, res) => {
 // GET /api/admin/bestsellers - Get top selling products
 router.get('/bestsellers', auth, isAdmin, async (req, res) => {
   try {
-    // Group by productId to find the most sold items
     const bestsellers = await prisma.orderItem.groupBy({
       by: ['productId'],
-      _sum: {
-        quantity: true
-      },
-      orderBy: {
-        _sum: {
-          quantity: 'desc'
-        }
-      },
+      _sum: { quantity: true },
+      orderBy: { _sum: { quantity: 'desc' } },
       take: 5
     });
 
-    // Fetch product details for these top products
     const productIds = bestsellers.map(item => item.productId);
     const products = await prisma.product.findMany({
       where: { id: { in: productIds } }
     });
 
-    // Merge sales count into product objects
     const result = products.map(product => {
       const salesData = bestsellers.find(b => b.productId === product.id);
       return {
@@ -95,6 +91,93 @@ router.get('/bestsellers', auth, isAdmin, async (req, res) => {
     res.json(result);
   } catch (err) {
     console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
+// GET /api/admin/products - Get all products (admin view)
+router.get('/products', auth, isAdmin, async (req, res) => {
+  try {
+    const products = await prisma.product.findMany({
+      orderBy: { id: 'desc' }
+    });
+    res.json(products);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
+// POST /api/admin/products - Add a new product
+router.post('/products', auth, isAdmin, async (req, res) => {
+  try {
+    const { name, category, price, priceValue, color, fabric, image, description } = req.body;
+    
+    if (!name || !category || !price || !priceValue || !image) {
+      return res.status(400).json({ msg: 'Please provide all required fields' });
+    }
+
+    const newProduct = await prisma.product.create({
+      data: {
+        name,
+        category,
+        price,
+        priceValue: parseInt(priceValue),
+        color,
+        fabric,
+        image,
+        description
+      }
+    });
+
+    res.json(newProduct);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
+// PUT /api/admin/products/:id - Edit a product
+router.put('/products/:id', auth, isAdmin, async (req, res) => {
+  try {
+    const { name, category, price, priceValue, color, fabric, image, description } = req.body;
+    
+    const product = await prisma.product.update({
+      where: { id: parseInt(req.params.id) },
+      data: {
+        name,
+        category,
+        price,
+        priceValue: parseInt(priceValue),
+        color,
+        fabric,
+        image,
+        description
+      }
+    });
+
+    res.json(product);
+  } catch (err) {
+    console.error(err.message);
+    if (err.code === 'P2025') {
+      return res.status(404).json({ msg: 'Product not found' });
+    }
+    res.status(500).send('Server Error');
+  }
+});
+
+// DELETE /api/admin/products/:id - Delete a product
+router.delete('/products/:id', auth, isAdmin, async (req, res) => {
+  try {
+    await prisma.product.delete({
+      where: { id: parseInt(req.params.id) }
+    });
+    res.json({ msg: 'Product deleted' });
+  } catch (err) {
+    console.error(err.message);
+    if (err.code === 'P2025') {
+      return res.status(404).json({ msg: 'Product not found' });
+    }
     res.status(500).send('Server Error');
   }
 });
