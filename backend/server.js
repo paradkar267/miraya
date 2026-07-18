@@ -21,7 +21,7 @@ app.use('/api/wishlist', require('./routes/wishlist'));
 app.use('/api/orders', require('./routes/orders'));
 app.use('/api/measurements', require('./routes/measurements'));
 app.use('/api/products', require('./routes/products'));
-// app.use('/api/products', require('./routes/products'));
+app.use('/api/admin', require('./routes/admin'));
 
 app.get('/', (req, res) => {
   res.send('Miraya Backend API is running');

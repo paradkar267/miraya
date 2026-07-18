@@ -255,25 +255,42 @@ const AccountPage = () => {
     }
   }, [navigate]);
 
-  const placeDemoOrder = async () => {
+  const placeCheckoutOrder = async () => {
     try {
       const token = localStorage.getItem('token');
       if (!token) return;
-      const res = await fetch(`${API_URL}/api/orders/demo`, {
+      
+      const payload = {
+        cartItems: cartItems,
+        address: user?.address || 'No address provided'
+      };
+
+      const res = await fetch(`${API_URL}/api/orders/checkout`, {
         method: 'POST',
-        headers: { Authorization: `Bearer ${token}` }
+        headers: { 
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}` 
+        },
+        body: JSON.stringify(payload)
       });
+
       if (res.ok) {
         fetchOrders();
       } else {
-        showError("Failed to place demo order. Please try again.");
+        const errorData = await res.json();
+        showError(errorData.msg || "Failed to place order. Please try again.");
       }
     } catch (err) {
       showError("A network error occurred while placing order.");
     }
   };
 
-
+  const handleCheckout = async () => {
+    if (cartItems.length === 0) return;
+    await placeCheckoutOrder();
+    setCartItems([]);
+    setActiveTab('orders');
+  };
 
   const removeWishlistItem = async (id) => {
     try {
@@ -310,13 +327,6 @@ const AccountPage = () => {
     // Optionally remove from wishlist
     removeWishlistItem(wishlistItem.id);
     alert(`${product.name} added to cart!`);
-  };
-
-  const handleCheckout = async () => {
-    if (cartItems.length === 0) return;
-    await placeDemoOrder();
-    setCartItems([]);
-    setActiveTab('orders');
   };
 
   const cancelOrder = async (orderId) => {

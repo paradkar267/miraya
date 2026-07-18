@@ -10,13 +10,27 @@ const Navbar = () => {
   const [mobileCollectionOpen, setMobileCollectionOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem('isLoggedIn') === 'true');
+  const [isAdmin, setIsAdmin] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
 
   useEffect(() => {
     const handleLoginChange = () => {
       setIsLoggedIn(localStorage.getItem('isLoggedIn') === 'true');
+      const userStr = localStorage.getItem('user');
+      if (userStr) {
+        try {
+          const userObj = JSON.parse(userStr);
+          setIsAdmin(userObj.email === 'bizleap1@gmail.com' || userObj.role === 'ADMIN');
+        } catch(e) {}
+      } else {
+        setIsAdmin(false);
+      }
     };
+    
+    // Initial check
+    handleLoginChange();
+
     window.addEventListener('loginStateChange', handleLoginChange);
     return () => window.removeEventListener('loginStateChange', handleLoginChange);
   }, []);
@@ -152,6 +166,11 @@ const Navbar = () => {
           {/* Right Actions */}
           <div className="navbar-right">
             <div className="navbar-actions">
+              {isAdmin && (
+                <Link to="/admin" className="nav-link desktop-only" style={{ color: 'var(--primary-burgundy)', fontWeight: '600' }}>
+                  Admin Panel
+                </Link>
+              )}
               <Link to="/account" state={{ tab: 'wishlist' }} className="icon-btn desktop-only" aria-label="Wishlist" title="Wishlist">
                 <Heart size={20} strokeWidth={1.5} />
               </Link>

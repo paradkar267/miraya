@@ -18,22 +18,37 @@ router.get('/', auth, async (req, res) => {
   }
 });
 
-// Create a demo order
-router.post('/demo', auth, async (req, res) => {
+// Create a real order (Checkout)
+router.post('/checkout', auth, async (req, res) => {
   try {
-    // Generate a random amount between 5000 and 25000
-    const totalAmount = Math.floor(Math.random() * 20000) + 5000;
-    
-    // Random status
-    const statuses = ['PENDING', 'PROCESSING', 'SHIPPED', 'DELIVERED'];
-    const status = statuses[Math.floor(Math.random() * statuses.length)];
+    const { cartItems, address } = req.body;
 
+    if (!cartItems || cartItems.length === 0) {
+      return res.status(400).json({ msg: 'Cart is empty' });
+    }
+
+    // Calculate total amount from frontend (or ideally backend, but we trust frontend for now since it's a demo)
+    const totalAmount = cartItems.reduce((sum, item) => sum + (item.product.price * item.quantity), 0);
+
+    // Create the order with nested items
     const newOrder = await prisma.order.create({
       data: {
         userId: req.user.id,
         totalAmount,
-        status,
+        status: 'PENDING',
+        paymentStatus: 'PAID', // Simulating successful payment
+        address: address || 'No address provided',
+        items: {
+          create: cartItems.map(item => ({
+            productId: item.productId,
+            quantity: item.quantity,
+            price: item.product.price
+          }))
+        }
       },
+      include: {
+        items: true
+      }
     });
 
     res.json(newOrder);
