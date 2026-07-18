@@ -790,7 +790,7 @@ const AccountPage = () => {
           <p>Need help with styling or custom orders?<br/>Our team is just a message away.</p>
         </div>
         <div className="support-action">
-          <button className="card-btn wide">CHAT WITH STYLIST <span className="bubble-icon">💬</span></button>
+          <button className="card-btn wide" onClick={() => navigate('/contact')}>CHAT WITH STYLIST <span className="bubble-icon">💬</span></button>
         </div>
       </div>
     </div>
@@ -1029,7 +1029,7 @@ const AccountPage = () => {
             <div className="help-content">
               <h3>Need Help?</h3>
               <p>Our stylist team is here<br/>to assist you.</p>
-              <button className="contact-btn">CONTACT US</button>
+              <button className="contact-btn" onClick={() => navigate('/contact')}>CONTACT US</button>
             </div>
             <img src="/mannequin_small.png" alt="Stylist" className="help-img" />
           </div>
