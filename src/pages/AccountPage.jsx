@@ -241,7 +241,16 @@ const AccountPage = () => {
     const savedUser = localStorage.getItem('user');
     const token = localStorage.getItem('token');
     if (savedUser && token) {
-      setUser(JSON.parse(savedUser)); // show immediately from cache
+      try {
+        const parsed = JSON.parse(savedUser);
+        setUser(parsed);
+      } catch (e) {
+        console.error("Failed to parse user from local storage", e);
+        localStorage.removeItem('user');
+        localStorage.removeItem('token');
+        navigate('/auth');
+        return;
+      }
       fetchOrders();
       fetchWishlist();
       fetchMeasurements();
@@ -395,7 +404,7 @@ const AccountPage = () => {
             </div>
 
             <div className="order-item-status">
-              <p className={`status-badge ${order.status.toLowerCase()}`}>{order.status}</p>
+              <p className={`status-badge ${order.status?.toLowerCase()}`}>{order.status}</p>
               <p className="delivery-date-text">
                 {order.status === 'SHIPPED' ? `Expected by ${new Date(Date.now() + 5*24*60*60*1000).toLocaleDateString()}` : 
                  order.status === 'DELIVERED' ? `Delivered on ${new Date(order.createdAt).toLocaleDateString()}` : 
@@ -628,7 +637,7 @@ const AccountPage = () => {
               </div>
               <div className="w-card-body">
                 <h4 className="w-title">{item.product.name}</h4>
-                <p className="w-price">₹{item.product.price.toLocaleString('en-IN')}</p>
+                <p className="w-price">₹{item.product?.price ? item.product.price.toLocaleString('en-IN') : 'N/A'}</p>
                 <div className="w-meta">
                   <span>Size: Custom</span>
                 </div>
@@ -797,7 +806,7 @@ const AccountPage = () => {
               <p>Delivered</p>
             </div>
           </div>
-          <p className="tracker-note">Your custom order is {orders[0].status.toLowerCase()}.</p>
+          <p className="tracker-note">Your custom order is {orders[0].status ? orders[0].status.toLowerCase() : 'pending'}.</p>
           </>
           ) : (
             <p style={{textAlign: 'center', color: '#888'}}>No recent orders. <button onClick={placeDemoOrder} style={{background: 'none', border: 'none', color: '#cda372', cursor: 'pointer', textDecoration: 'underline'}}>Place a demo order</button></p>
