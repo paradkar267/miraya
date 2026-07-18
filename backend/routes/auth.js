@@ -15,8 +15,11 @@ router.get('/google/callback', async (req, res) => {
   console.log("=== GOOGLE CALLBACK ===");
   console.log("Code received:", code ? code.substring(0, 20) + "..." : "MISSING");
   
+  const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5173';
+  const backendUrl = process.env.BACKEND_URL || 'http://localhost:5000';
+
   if (!code) {
-    return res.redirect('http://localhost:5173/auth?error=no_code');
+    return res.redirect(`${frontendUrl}/auth?error=no_code`);
   }
 
   try {
@@ -24,7 +27,7 @@ router.get('/google/callback', async (req, res) => {
     const params = new URLSearchParams({
       grant_type: 'authorization_code',
       code: code,
-      redirect_uri: 'http://localhost:5000/api/auth/google/callback',
+      redirect_uri: `${backendUrl}/api/auth/google/callback`,
       client_id: process.env.GOOGLE_CLIENT_ID,
       client_secret: process.env.GOOGLE_CLIENT_SECRET,
     });
@@ -43,7 +46,7 @@ router.get('/google/callback', async (req, res) => {
     console.log(JSON.stringify(tokenData, null, 2));
 
     if (tokenData.error) {
-      return res.redirect(`http://localhost:5173/auth?error=${tokenData.error_description || tokenData.error}`);
+      return res.redirect(`${frontendUrl}/auth?error=${tokenData.error_description || tokenData.error}`);
     }
 
     // Get user info from Google
@@ -77,13 +80,12 @@ router.get('/google/callback', async (req, res) => {
       id: user.id, firstName: user.firstName, lastName: user.lastName,
       email: user.email, profilePhoto: null
     }));
-    const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5173';
     console.log("=== REDIRECTING TO FRONTEND ===");
     res.redirect(`${frontendUrl}/auth?token=${token}&user=${userParam}`);
 
   } catch (err) {
     console.error("=== OAUTH ERROR ===", err);
-    res.redirect('http://localhost:5173/auth?error=server_error');
+    res.redirect(`${frontendUrl}/auth?error=server_error`);
   }
 });
 
