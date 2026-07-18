@@ -239,13 +239,19 @@ const AccountPage = () => {
 
   useEffect(() => {
     const savedUser = localStorage.getItem('user');
-    if (savedUser) {
-      setUser(JSON.parse(savedUser));
+    const token = localStorage.getItem('token');
+    if (savedUser && token) {
+      setUser(JSON.parse(savedUser)); // show immediately from cache
       fetchOrders();
       fetchWishlist();
       fetchMeasurements();
+      // Fetch fresh data from DB in background
+      fetch(`${API_URL}/api/auth/profile`, { headers: { Authorization: `Bearer ${token}` } })
+        .then(r => r.ok ? r.json() : null)
+        .then(fresh => { if (fresh) { setUser(fresh); localStorage.setItem('user', JSON.stringify(fresh)); } })
+        .catch(() => {});
     } else {
-      navigate('/auth'); // Redirect if not logged in
+      navigate('/auth');
     }
   }, [navigate]);
 
