@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { TrendingUp, ShoppingBag, Users, Crown, Package, Plus, Edit2, Trash2, X, Ruler } from 'lucide-react';
 import API_URL from '../config';
+import ConfirmModal from '../components/ConfirmModal';
 import './AdminDashboard.css';
 
 const AdminDashboard = () => {
@@ -25,6 +26,10 @@ const AdminDashboard = () => {
 
   const [measurementModalOpen, setMeasurementModalOpen] = useState(false);
   const [selectedMeasurements, setSelectedMeasurements] = useState(null);
+  const [confirmConfig, setConfirmConfig] = useState(null);
+
+  const askConfirm = (message, subMessage, confirmText, danger, onConfirm) =>
+    setConfirmConfig({ message, subMessage, confirmText, danger, onConfirm });
 
   const fetchProducts = async (token) => {
     const res = await fetch(`${API_URL}/api/admin/products`, { headers: { Authorization: `Bearer ${token}` }});
@@ -103,8 +108,12 @@ const AdminDashboard = () => {
     }
   };
 
-  const handleDeleteProduct = async (id) => {
-    if (!window.confirm("Are you sure you want to delete this product?")) return;
+  const handleDeleteProduct = (id) => {
+    askConfirm(
+      'Delete This Product?',
+      'This product will be permanently removed from the store.',
+      'Delete Product', true,
+      async () => {
     const token = localStorage.getItem('token');
     try {
       const res = await fetch(`${API_URL}/api/admin/products/${id}`, {
@@ -115,6 +124,8 @@ const AdminDashboard = () => {
     } catch (err) {
       console.error(err);
     }
+      }
+    );
   };
 
   // Measurement Viewer
@@ -134,6 +145,7 @@ const AdminDashboard = () => {
 
   return (
     <div className="admin-dashboard animate-fade">
+      <ConfirmModal config={confirmConfig} onClose={() => setConfirmConfig(null)} />
       <div className="admin-header-flex">
         <div className="admin-header">
           <h1>Admin Dashboard</h1>

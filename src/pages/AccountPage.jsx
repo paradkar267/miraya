@@ -171,15 +171,15 @@ const AccountPage = () => {
       const token = localStorage.getItem('token');
       if (!token) return;
       const method = editingProfile.id ? 'PUT' : 'POST';
-      const url = editingProfile.id 
+      const url = editingProfile.id
         ? `${API_URL}/api/measurements/${editingProfile.id}`
         : `${API_URL}/api/measurements`;
 
       const res = await fetch(url, {
         method,
-        headers: { 
+        headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}` 
+          Authorization: `Bearer ${token}`
         },
         body: JSON.stringify(editingProfile)
       });
@@ -264,7 +264,7 @@ const AccountPage = () => {
       fetch(`${API_URL}/api/auth/profile`, { headers: { Authorization: `Bearer ${token}` } })
         .then(r => r.ok ? r.json() : null)
         .then(fresh => { if (fresh) { setUser(fresh); localStorage.setItem('user', JSON.stringify(fresh)); } })
-        .catch(() => {});
+        .catch(() => { });
     } else {
       navigate('/auth');
     }
@@ -274,7 +274,7 @@ const AccountPage = () => {
     try {
       const token = localStorage.getItem('token');
       if (!token) return;
-      
+
       const payload = {
         cartItems: cartItems,
         address: user?.address || 'No address provided'
@@ -282,9 +282,9 @@ const AccountPage = () => {
 
       const res = await fetch(`${API_URL}/api/orders/checkout`, {
         method: 'POST',
-        headers: { 
+        headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}` 
+          Authorization: `Bearer ${token}`
         },
         body: JSON.stringify(payload)
       });
@@ -376,11 +376,11 @@ const AccountPage = () => {
         </div>
       </div>
 
-      <div className="order-filters" style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem'}}>
-        <div style={{display: 'flex', gap: '1.5rem', flexWrap: 'wrap'}}>
+      <div className="order-filters" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
+        <div style={{ display: 'flex', gap: '1.5rem', flexWrap: 'wrap' }}>
           {['ALL ORDERS'].map(filter => (
-            <button 
-              key={filter} 
+            <button
+              key={filter}
               className={`filter-btn ${orderFilter === filter ? 'active' : ''}`}
               onClick={() => setOrderFilter(filter)}
             >
@@ -388,52 +388,52 @@ const AccountPage = () => {
             </button>
           ))}
         </div>
-        <button className="card-btn-small" style={{background: 'var(--primary-burgundy)', color: 'white'}} onClick={() => setActiveTab('cart')}>
+        <button className="card-btn-small" style={{ background: 'var(--primary-burgundy)', color: 'white' }} onClick={() => setActiveTab('cart')}>
           VIEW CART
         </button>
       </div>
 
       <div className="orders-list-detailed">
-        {loadingOrders ? <p style={{textAlign: 'center', padding: '2rem'}}>Loading orders...</p> : 
-         orders.length === 0 ? <p style={{textAlign: 'center', padding: '2rem'}}>No orders found.</p> :
-         orders.filter(o => orderFilter === 'ALL ORDERS' || o?.status === orderFilter).map((order, idx) => (
-          <div className="order-row" key={idx} style={{ opacity: order.status === 'CANCELLED' ? 0.6 : 1 }}>
-            <div className="order-item-img" style={{background: '#f9f6f0', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
-              <span style={{fontSize: '2rem'}}>🛍️</span>
-            </div>
-            
-            <div className="order-item-info">
-              <p className="order-id-text">Order <span>#MRY-{order.id}</span></p>
-              <p className="order-date-text">Date: {new Date(order.createdAt).toLocaleDateString()}</p>
-              <p className="order-price-text">₹{order.totalAmount.toLocaleString('en-IN')}</p>
-              <p className="order-items-text">1 Custom Item</p>
-            </div>
+        {loadingOrders ? <p style={{ textAlign: 'center', padding: '2rem' }}>Loading orders...</p> :
+          orders.length === 0 ? <p style={{ textAlign: 'center', padding: '2rem' }}>No orders found.</p> :
+            orders.filter(o => orderFilter === 'ALL ORDERS' || o?.status === orderFilter).map((order, idx) => (
+              <div className="order-row" key={idx} style={{ opacity: order.status === 'CANCELLED' ? 0.6 : 1 }}>
+                <div className="order-item-img" style={{ background: '#f9f6f0', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <span style={{ fontSize: '2rem' }}>🛍️</span>
+                </div>
 
-            <div className="order-item-status">
-              <p className={`status-badge ${order.status?.toLowerCase()}`}>{order.status}</p>
-              <p className="delivery-date-text">
-                {order.status === 'SHIPPED' ? `Expected by ${new Date(Date.now() + 5*24*60*60*1000).toLocaleDateString()}` : 
-                 order.status === 'DELIVERED' ? `Delivered on ${new Date(order.createdAt).toLocaleDateString()}` : 
-                 order.status === 'CANCELLED' ? `Cancelled` : 'In progress'}
-              </p>
-            </div>
+                <div className="order-item-info">
+                  <p className="order-id-text">Order <span>#MRY-{order.id}</span></p>
+                  <p className="order-date-text">Date: {new Date(order.createdAt).toLocaleDateString()}</p>
+                  <p className="order-price-text">₹{order.totalAmount.toLocaleString('en-IN')}</p>
+                  <p className="order-items-text">1 Custom Item</p>
+                </div>
 
-            <div className="order-item-action" style={{display: 'flex', flexDirection: 'column', gap: '0.5rem', alignItems: 'flex-end'}}>
-              <button className="card-btn-small">
-                {order.status === 'SHIPPED' ? 'TRACK ORDER' : 'VIEW DETAILS'} ⟶
-              </button>
-              {(order.status === 'PENDING' || order.status === 'PROCESSING') && (
-                <button 
-                  className="card-btn-small" 
-                  style={{color: 'red', borderColor: 'red'}} 
-                  onClick={() => cancelOrder(order.id)}
-                >
-                  CANCEL ORDER ✕
-                </button>
-              )}
-            </div>
-          </div>
-        ))}
+                <div className="order-item-status">
+                  <p className={`status-badge ${order.status?.toLowerCase()}`}>{order.status}</p>
+                  <p className="delivery-date-text">
+                    {order.status === 'SHIPPED' ? `Expected by ${new Date(Date.now() + 5 * 24 * 60 * 60 * 1000).toLocaleDateString()}` :
+                      order.status === 'DELIVERED' ? `Delivered on ${new Date(order.createdAt).toLocaleDateString()}` :
+                        order.status === 'CANCELLED' ? `Cancelled` : 'In progress'}
+                  </p>
+                </div>
+
+                <div className="order-item-action" style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', alignItems: 'flex-end' }}>
+                  <button className="card-btn-small">
+                    {order.status === 'SHIPPED' ? 'TRACK ORDER' : 'VIEW DETAILS'} ⟶
+                  </button>
+                  {(order.status === 'PENDING' || order.status === 'PROCESSING') && (
+                    <button
+                      className="card-btn-small"
+                      style={{ color: 'red', borderColor: 'red' }}
+                      onClick={() => cancelOrder(order.id)}
+                    >
+                      CANCEL ORDER ✕
+                    </button>
+                  )}
+                </div>
+              </div>
+            ))}
       </div>
 
     </div>
@@ -460,27 +460,27 @@ const AccountPage = () => {
         </div>
 
         {editingProfile ? (
-          <div className="measurements-form-container" style={{background: '#fff', padding: '2rem', borderRadius: '12px', border: '1px solid #ebebeb'}}>
+          <div className="measurements-form-container" style={{ background: '#fff', padding: '2rem', borderRadius: '12px', border: '1px solid #ebebeb' }}>
             <h3>{editingProfile.id ? 'Edit Profile' : 'New Profile'}</h3>
-            <form onSubmit={saveMeasurement} style={{display: 'flex', flexDirection: 'column', gap: '1rem', marginTop: '1rem'}}>
-              <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem'}}>
-                <input required placeholder="Profile Title (e.g. Wedding)" value={editingProfile.title} onChange={e => setEditingProfile({...editingProfile, title: e.target.value})} style={{padding: '0.8rem', border: '1px solid #ccc'}} />
-                <input required placeholder="Full Name" value={editingProfile.fullName} onChange={e => setEditingProfile({...editingProfile, fullName: e.target.value})} style={{padding: '0.8rem', border: '1px solid #ccc'}} />
-                <input required placeholder="Height" value={editingProfile.height} onChange={e => setEditingProfile({...editingProfile, height: e.target.value})} style={{padding: '0.8rem', border: '1px solid #ccc'}} />
-                <input required placeholder="Bust" value={editingProfile.bust} onChange={e => setEditingProfile({...editingProfile, bust: e.target.value})} style={{padding: '0.8rem', border: '1px solid #ccc'}} />
-                <input required placeholder="Waist" value={editingProfile.waist} onChange={e => setEditingProfile({...editingProfile, waist: e.target.value})} style={{padding: '0.8rem', border: '1px solid #ccc'}} />
-                <input required placeholder="Hips" value={editingProfile.hips} onChange={e => setEditingProfile({...editingProfile, hips: e.target.value})} style={{padding: '0.8rem', border: '1px solid #ccc'}} />
-                <input required placeholder="Shoulder" value={editingProfile.shoulder} onChange={e => setEditingProfile({...editingProfile, shoulder: e.target.value})} style={{padding: '0.8rem', border: '1px solid #ccc'}} />
-                <input required placeholder="Arm Length" value={editingProfile.armLength} onChange={e => setEditingProfile({...editingProfile, armLength: e.target.value})} style={{padding: '0.8rem', border: '1px solid #ccc'}} />
-                <input required placeholder="Neck" value={editingProfile.neck} onChange={e => setEditingProfile({...editingProfile, neck: e.target.value})} style={{padding: '0.8rem', border: '1px solid #ccc'}} />
+            <form onSubmit={saveMeasurement} style={{ display: 'flex', flexDirection: 'column', gap: '1rem', marginTop: '1rem' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+                <input required placeholder="Profile Title (e.g. Wedding)" value={editingProfile.title} onChange={e => setEditingProfile({ ...editingProfile, title: e.target.value })} style={{ padding: '0.8rem', border: '1px solid #ccc' }} />
+                <input required placeholder="Full Name" value={editingProfile.fullName} onChange={e => setEditingProfile({ ...editingProfile, fullName: e.target.value })} style={{ padding: '0.8rem', border: '1px solid #ccc' }} />
+                <input required placeholder="Height" value={editingProfile.height} onChange={e => setEditingProfile({ ...editingProfile, height: e.target.value })} style={{ padding: '0.8rem', border: '1px solid #ccc' }} />
+                <input required placeholder="Bust" value={editingProfile.bust} onChange={e => setEditingProfile({ ...editingProfile, bust: e.target.value })} style={{ padding: '0.8rem', border: '1px solid #ccc' }} />
+                <input required placeholder="Waist" value={editingProfile.waist} onChange={e => setEditingProfile({ ...editingProfile, waist: e.target.value })} style={{ padding: '0.8rem', border: '1px solid #ccc' }} />
+                <input required placeholder="Hips" value={editingProfile.hips} onChange={e => setEditingProfile({ ...editingProfile, hips: e.target.value })} style={{ padding: '0.8rem', border: '1px solid #ccc' }} />
+                <input required placeholder="Shoulder" value={editingProfile.shoulder} onChange={e => setEditingProfile({ ...editingProfile, shoulder: e.target.value })} style={{ padding: '0.8rem', border: '1px solid #ccc' }} />
+                <input required placeholder="Arm Length" value={editingProfile.armLength} onChange={e => setEditingProfile({ ...editingProfile, armLength: e.target.value })} style={{ padding: '0.8rem', border: '1px solid #ccc' }} />
+                <input required placeholder="Neck" value={editingProfile.neck} onChange={e => setEditingProfile({ ...editingProfile, neck: e.target.value })} style={{ padding: '0.8rem', border: '1px solid #ccc' }} />
               </div>
-              <label style={{display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer'}}>
-                <input type="checkbox" checked={editingProfile.isDefault} onChange={e => setEditingProfile({...editingProfile, isDefault: e.target.checked})} />
+              <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer' }}>
+                <input type="checkbox" checked={editingProfile.isDefault} onChange={e => setEditingProfile({ ...editingProfile, isDefault: e.target.checked })} />
                 Set as Default Profile
               </label>
-              <div style={{display: 'flex', gap: '1rem', marginTop: '1rem'}}>
-                <button type="submit" className="btn-solid-burgundy" style={{padding: '0.8rem 2rem', border: 'none', color: 'white', cursor: 'pointer'}}>SAVE PROFILE</button>
-                <button type="button" onClick={() => setEditingProfile(null)} style={{padding: '0.8rem 2rem', border: '1px solid #ccc', background: 'white', cursor: 'pointer'}}>CANCEL</button>
+              <div style={{ display: 'flex', gap: '1rem', marginTop: '1rem' }}>
+                <button type="submit" className="btn-solid-burgundy" style={{ padding: '0.8rem 2rem', border: 'none', color: 'white', cursor: 'pointer' }}>SAVE PROFILE</button>
+                <button type="button" onClick={() => setEditingProfile(null)} style={{ padding: '0.8rem 2rem', border: '1px solid #ccc', background: 'white', cursor: 'pointer' }}>CANCEL</button>
               </div>
             </form>
           </div>
@@ -490,15 +490,15 @@ const AccountPage = () => {
               {loadingMeasurements ? (
                 <p>Loading profiles...</p>
               ) : measurements.length === 0 ? (
-                <p style={{padding: '1rem', color: '#666'}}>No profiles found. Add one!</p>
+                <p style={{ padding: '1rem', color: '#666' }}>No profiles found. Add one!</p>
               ) : measurements.map(profile => (
-                <div 
+                <div
                   key={profile.id}
                   className={`profile-card ${selectedProfileId === profile.id ? 'active' : ''}`}
                   onClick={() => setSelectedProfileId(profile.id)}
                 >
                   <h3>{profile.title}</h3>
-                  <p>Last updated on<br/>{new Date(profile.updatedAt).toLocaleDateString()}</p>
+                  <p>Last updated on<br />{new Date(profile.updatedAt).toLocaleDateString()}</p>
                   {profile.isDefault && <div className="default-check">✓</div>}
                 </div>
               ))}
@@ -514,12 +514,12 @@ const AccountPage = () => {
             {selectedProfile && (
               <div className="profile-details-pane">
                 <div className="pane-header">
-                  <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%'}}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
                     <div>
                       <h3>{selectedProfile.title}</h3>
                       {selectedProfile.isDefault && <span className="default-badge">Default Profile</span>}
                     </div>
-                    <button onClick={() => deleteMeasurement(selectedProfile.id)} style={{background: 'none', border: 'none', color: 'red', cursor: 'pointer'}} title="Delete Profile">
+                    <button onClick={() => deleteMeasurement(selectedProfile.id)} style={{ background: 'none', border: 'none', color: 'red', cursor: 'pointer' }} title="Delete Profile">
                       <Trash2 size={20} />
                     </button>
                   </div>
@@ -541,42 +541,42 @@ const AccountPage = () => {
                     </div>
                   </div>
                   <div className="m-item">
-                    <img src="/logoR.png" className="m-icon-custom" alt="" style={{width:20, filter:'grayscale(1) opacity(0.5)'}} />
+                    <img src="/logoR.png" className="m-icon-custom" alt="" style={{ width: 20, filter: 'grayscale(1) opacity(0.5)' }} />
                     <div className="m-text">
                       <span className="m-label">Bust</span>
                       <span className="m-val">{selectedProfile.bust}</span>
                     </div>
                   </div>
                   <div className="m-item">
-                    <img src="/logoR.png" className="m-icon-custom" alt="" style={{width:20, filter:'grayscale(1) opacity(0.5)'}} />
+                    <img src="/logoR.png" className="m-icon-custom" alt="" style={{ width: 20, filter: 'grayscale(1) opacity(0.5)' }} />
                     <div className="m-text">
                       <span className="m-label">Waist</span>
                       <span className="m-val">{selectedProfile.waist}</span>
                     </div>
                   </div>
                   <div className="m-item">
-                    <img src="/logoR.png" className="m-icon-custom" alt="" style={{width:20, filter:'grayscale(1) opacity(0.5)'}} />
+                    <img src="/logoR.png" className="m-icon-custom" alt="" style={{ width: 20, filter: 'grayscale(1) opacity(0.5)' }} />
                     <div className="m-text">
                       <span className="m-label">Hips</span>
                       <span className="m-val">{selectedProfile.hips}</span>
                     </div>
                   </div>
                   <div className="m-item">
-                    <img src="/logoR.png" className="m-icon-custom" alt="" style={{width:20, filter:'grayscale(1) opacity(0.5)'}} />
+                    <img src="/logoR.png" className="m-icon-custom" alt="" style={{ width: 20, filter: 'grayscale(1) opacity(0.5)' }} />
                     <div className="m-text">
                       <span className="m-label">Shoulder</span>
                       <span className="m-val">{selectedProfile.shoulder}</span>
                     </div>
                   </div>
                   <div className="m-item">
-                    <img src="/logoR.png" className="m-icon-custom" alt="" style={{width:20, filter:'grayscale(1) opacity(0.5)'}} />
+                    <img src="/logoR.png" className="m-icon-custom" alt="" style={{ width: 20, filter: 'grayscale(1) opacity(0.5)' }} />
                     <div className="m-text">
                       <span className="m-label">Arm Length</span>
                       <span className="m-val">{selectedProfile.armLength}</span>
                     </div>
                   </div>
                   <div className="m-item">
-                    <img src="/logoR.png" className="m-icon-custom" alt="" style={{width:20, filter:'grayscale(1) opacity(0.5)'}} />
+                    <img src="/logoR.png" className="m-icon-custom" alt="" style={{ width: 20, filter: 'grayscale(1) opacity(0.5)' }} />
                     <div className="m-text">
                       <span className="m-label">Neck</span>
                       <span className="m-val">{selectedProfile.neck}</span>
@@ -596,7 +596,7 @@ const AccountPage = () => {
 
         <div className="help-banner-row">
           <div className="help-banner-icon">
-            <Headphones size={24} color="#5e0a0b" />
+            <Headphones size={24} color="#50090aff" />
           </div>
           <div className="help-banner-text">
             <h4>Need help with measurements?</h4>
@@ -620,14 +620,14 @@ const AccountPage = () => {
 
       <div className="wishlist-grid">
         {loadingWishlist ? (
-          <div style={{padding: '4rem', textAlign: 'center', width: '100%', gridColumn: '1/-1'}}>
+          <div style={{ padding: '4rem', textAlign: 'center', width: '100%', gridColumn: '1/-1' }}>
             <p>Loading your wishlist...</p>
           </div>
         ) : wishlist.length === 0 ? (
-          <div className="empty-state-wrapper" style={{gridColumn: '1/-1', textAlign: 'center', padding: '6rem 2rem', background: 'var(--primary-cream)', borderRadius: '12px', border: '1px solid rgba(205,163,114,0.3)'}}>
-            <Heart size={48} color="var(--primary-gold)" style={{marginBottom: '1rem', opacity: 0.5}} />
-            <h3 style={{color: 'var(--primary-burgundy)', marginBottom: '1rem'}}>Your wishlist is empty</h3>
-            <p style={{color: '#666', marginBottom: '2rem'}}>Save your favorite items here to view them later or add to cart.</p>
+          <div className="empty-state-wrapper" style={{ gridColumn: '1/-1', textAlign: 'center', padding: '6rem 2rem', background: 'var(--primary-cream)', borderRadius: '12px', border: '1px solid rgba(205,163,114,0.3)' }}>
+            <Heart size={48} color="var(--primary-gold)" style={{ marginBottom: '1rem', opacity: 0.5 }} />
+            <h3 style={{ color: 'var(--primary-burgundy)', marginBottom: '1rem' }}>Your wishlist is empty</h3>
+            <p style={{ color: '#666', marginBottom: '2rem' }}>Save your favorite items here to view them later or add to cart.</p>
             <button className="btn-solid-burgundy" onClick={() => navigate('/collection/all')}>
               EXPLORE COLLECTIONS
             </button>
@@ -693,15 +693,15 @@ const AccountPage = () => {
                   <div className="order-item-img">
                     <img src={item.image} alt="Cart Item" />
                   </div>
-                  
+
                   <div className="order-item-info">
-                    <p className="order-id-text" style={{fontSize:'1.1rem'}}>{item.title}</p>
+                    <p className="order-id-text" style={{ fontSize: '1.1rem' }}>{item.title}</p>
                     <p className="order-price-text">₹{item.price.toLocaleString('en-IN')}</p>
                     <p className="order-items-text">Qty: {item.qty}</p>
                   </div>
 
                   <div className="order-item-action">
-                    <button className="card-btn-small" onClick={() => setCartItems(cartItems.filter(i => i.id !== item.id))} style={{background:'none', border:'1px solid #ccc', color:'#888'}}>
+                    <button className="card-btn-small" onClick={() => setCartItems(cartItems.filter(i => i.id !== item.id))} style={{ background: 'none', border: '1px solid #ccc', color: '#888' }}>
                       REMOVE
                     </button>
                   </div>
@@ -729,8 +729,8 @@ const AccountPage = () => {
     if (user?.eventDate) {
       const eventD = new Date(user.eventDate);
       const now = new Date();
-      now.setHours(0,0,0,0);
-      eventD.setHours(0,0,0,0);
+      now.setHours(0, 0, 0, 0);
+      eventD.setHours(0, 0, 0, 0);
       daysRemaining = Math.ceil((eventD - now) / (1000 * 60 * 60 * 24));
     }
 
@@ -766,7 +766,7 @@ const AccountPage = () => {
                 {daysRemaining > 30 ? "Time to finalize your custom outfit measurements." : "Priority tailoring is active for your upcoming event."}
               </p>
             </div>
-            <button 
+            <button
               onClick={() => setActiveTab('measurements')}
               style={{
                 padding: '0.8rem 1.5rem',
@@ -785,91 +785,91 @@ const AccountPage = () => {
         )}
 
 
-      <div className="dashboard-overview">
-        {/* Recent Order Status */}
-        <div className="dash-widget order-tracker-widget">
-          <div className="widget-header">
-            <h3>Recent Order Status</h3>
-            {orders.length > 0 && <span className="order-id">#MRY-{orders[0]?.id}</span>}
+        <div className="dashboard-overview">
+          {/* Recent Order Status */}
+          <div className="dash-widget order-tracker-widget">
+            <div className="widget-header">
+              <h3>Recent Order Status</h3>
+              {orders.length > 0 && <span className="order-id">#MRY-{orders[0]?.id}</span>}
+            </div>
+            {orders.length > 0 ? (
+              <>
+                <div className="tracker-timeline">
+                  <div className="track-step completed">
+                    <div className="track-dot"></div>
+                    <p>Confirmed</p>
+                  </div>
+                  <div className={`track-step ${orders[0]?.status === 'PROCESSING' || orders[0]?.status === 'SHIPPED' || orders[0]?.status === 'DELIVERED' ? 'completed' : orders[0]?.status === 'PENDING' ? 'active' : ''}`}>
+                    <div className="track-dot"></div>
+                    <p>Tailoring</p>
+                  </div>
+                  <div className={`track-step ${orders[0]?.status === 'SHIPPED' || orders[0]?.status === 'DELIVERED' ? 'completed' : orders[0]?.status === 'PROCESSING' ? 'active' : ''}`}>
+                    <div className="track-dot"></div>
+                    <p>Shipped</p>
+                  </div>
+                  <div className={`track-step ${orders[0]?.status === 'DELIVERED' ? 'completed' : orders[0]?.status === 'SHIPPED' ? 'active' : ''}`}>
+                    <div className="track-dot"></div>
+                    <p>Delivered</p>
+                  </div>
+                </div>
+                <p className="tracker-note">Your custom order is {orders[0]?.status ? orders[0]?.status.toLowerCase() : 'pending'}.</p>
+              </>
+            ) : (
+              <p style={{ textAlign: 'center', color: '#888' }}>No recent orders. <button onClick={placeDemoOrder} style={{ background: 'none', border: 'none', color: '#cda372', cursor: 'pointer', textDecoration: 'underline' }}>Place a demo order</button></p>
+            )}
           </div>
-          {orders.length > 0 ? (
-          <>
-          <div className="tracker-timeline">
-            <div className="track-step completed">
-              <div className="track-dot"></div>
-              <p>Confirmed</p>
+
+          <div className="dash-bottom-row">
+            {/* Quick Stats */}
+            <div className="dash-widget quick-stats-widget">
+              <h3>At a Glance</h3>
+              <div className="stats-grid">
+                <div className="stat-box" onClick={() => setActiveTab('wishlist')}>
+                  <Heart size={20} color="#cda372" />
+                  <span className="stat-num">{wishlist.length}</span>
+                  <span className="stat-label">Saved</span>
+                </div>
+                <div className="stat-box" onClick={() => setActiveTab('orders')}>
+                  <ShoppingBag size={20} color="#cda372" />
+                  <span className="stat-num">{orders.length}</span>
+                  <span className="stat-label">Orders</span>
+                </div>
+                <div className="stat-box" onClick={() => setActiveTab('measurements')}>
+                  <Ruler size={20} color="#cda372" />
+                  <span className="stat-num">1</span>
+                  <span className="stat-label">Fits</span>
+                </div>
+              </div>
             </div>
-            <div className={`track-step ${orders[0]?.status === 'PROCESSING' || orders[0]?.status === 'SHIPPED' || orders[0]?.status === 'DELIVERED' ? 'completed' : orders[0]?.status === 'PENDING' ? 'active' : ''}`}>
-              <div className="track-dot"></div>
-              <p>Tailoring</p>
-            </div>
-            <div className={`track-step ${orders[0]?.status === 'SHIPPED' || orders[0]?.status === 'DELIVERED' ? 'completed' : orders[0]?.status === 'PROCESSING' ? 'active' : ''}`}>
-              <div className="track-dot"></div>
-              <p>Shipped</p>
-            </div>
-            <div className={`track-step ${orders[0]?.status === 'DELIVERED' ? 'completed' : orders[0]?.status === 'SHIPPED' ? 'active' : ''}`}>
-              <div className="track-dot"></div>
-              <p>Delivered</p>
+
+            {/* Style Tip */}
+            <div className="dash-widget style-tip-widget">
+              <div className="tip-header">
+                <span className="flower-icon-small" style={{ color: '#cda372', fontSize: '1.2rem', marginRight: '0.5rem' }}>✿</span>
+                <h3>Stylist's Note</h3>
+              </div>
+              <p className="tip-text">"Deep burgundy and gold hues are trending this wedding season. Pair your upcoming outfit with vintage polki jewelry for a timeless, regal look."</p>
             </div>
           </div>
-          <p className="tracker-note">Your custom order is {orders[0]?.status ? orders[0]?.status.toLowerCase() : 'pending'}.</p>
-          </>
-          ) : (
-            <p style={{textAlign: 'center', color: '#888'}}>No recent orders yet. Start shopping to see your orders here!</p>
-          )}
         </div>
 
-        <div className="dash-bottom-row">
-          {/* Quick Stats */}
-          <div className="dash-widget quick-stats-widget">
-            <h3>At a Glance</h3>
-            <div className="stats-grid">
-              <div className="stat-box" onClick={() => setActiveTab('wishlist')}>
-                <Heart size={20} color="#cda372" />
-                <span className="stat-num">{wishlist.length}</span>
-                <span className="stat-label">Saved</span>
-              </div>
-              <div className="stat-box" onClick={() => setActiveTab('orders')}>
-                <ShoppingBag size={20} color="#cda372" />
-                <span className="stat-num">{orders.length}</span>
-                <span className="stat-label">Orders</span>
-              </div>
-              <div className="stat-box" onClick={() => setActiveTab('measurements')}>
-                <Ruler size={20} color="#cda372" />
-                <span className="stat-num">1</span>
-                <span className="stat-label">Fits</span>
-              </div>
+        <div className="support-banner">
+          <div className="support-icon-wrap">
+            <div className="card-icon gold medium">
+              <Headphones size={22} strokeWidth={1.5} color="#fff" />
             </div>
           </div>
-
-          {/* Style Tip */}
-          <div className="dash-widget style-tip-widget">
-            <div className="tip-header">
-              <span className="flower-icon-small" style={{color: '#cda372', fontSize: '1.2rem', marginRight: '0.5rem'}}>✿</span>
-              <h3>Stylist's Note</h3>
-            </div>
-            <p className="tip-text">"Deep burgundy and gold hues are trending this wedding season. Pair your upcoming outfit with vintage polki jewelry for a timeless, regal look."</p>
+          <div className="support-info">
+            <h3>Personal Stylist Support</h3>
+            <p>Need help with styling or custom orders?<br />Our team is just a message away.</p>
+          </div>
+          <div className="support-action">
+            <button className="card-btn wide" onClick={() => navigate('/contact')}>CHAT WITH STYLIST <span className="bubble-icon">💬</span></button>
           </div>
         </div>
       </div>
-
-      <div className="support-banner">
-        <div className="support-icon-wrap">
-          <div className="card-icon gold medium">
-            <Headphones size={22} strokeWidth={1.5} color="#fff" />
-          </div>
-        </div>
-        <div className="support-info">
-          <h3>Personal Stylist Support</h3>
-          <p>Need help with styling or custom orders?<br/>Our team is just a message away.</p>
-        </div>
-        <div className="support-action">
-          <button className="card-btn wide" onClick={() => navigate('/contact')}>CHAT WITH STYLIST <span className="bubble-icon">💬</span></button>
-        </div>
-      </div>
-    </div>
-  );
-};
+    );
+  };
 
   const handleUpdateProfile = async (e) => {
     e.preventDefault();
@@ -878,9 +878,9 @@ const AccountPage = () => {
       if (!token) return;
       const res = await fetch(`${API_URL}/api/auth/profile`, {
         method: 'PUT',
-        headers: { 
+        headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}` 
+          Authorization: `Bearer ${token}`
         },
         body: JSON.stringify({
           firstName: user.firstName,
@@ -905,7 +905,7 @@ const AccountPage = () => {
 
   const handleDeleteAccount = async () => {
     if (!window.confirm("Are you absolutely sure you want to delete your account? This action cannot be undone and you will lose all your data.")) return;
-    
+
     try {
       const token = localStorage.getItem('token');
       if (!token) return;
@@ -932,14 +932,14 @@ const AccountPage = () => {
         </div>
       </div>
 
-      <div className="settings-container" style={{maxWidth: '600px'}}>
-        <form onSubmit={handleUpdateProfile} style={{display: 'flex', flexDirection: 'column', gap: '1.5rem'}}>
-          
+      <div className="settings-container" style={{ maxWidth: '600px' }}>
+        <form onSubmit={handleUpdateProfile} style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+
           <div className="form-group">
-            <label style={{display: 'block', marginBottom: '0.8rem', fontWeight: '500', color: 'var(--primary-burgundy)'}}>Profile Photo</label>
-            <div style={{display: 'flex', alignItems: 'center', gap: '1.5rem'}}>
+            <label style={{ display: 'block', marginBottom: '0.8rem', fontWeight: '500', color: 'var(--primary-burgundy)' }}>Profile Photo</label>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
               <div style={{
-                width: '80px', height: '80px', borderRadius: '50%', 
+                width: '80px', height: '80px', borderRadius: '50%',
                 background: user.profilePhoto ? 'none' : '#f5ede8',
                 backgroundImage: user.profilePhoto ? `url(${user.profilePhoto})` : 'none',
                 backgroundSize: 'cover', backgroundPosition: 'center',
@@ -948,7 +948,7 @@ const AccountPage = () => {
               }}>
                 {!user.profilePhoto && '👤'}
               </div>
-              <div style={{display: 'flex', flexDirection: 'column', gap: '0.5rem'}}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
                 <label htmlFor="photo-upload" style={{
                   padding: '0.6rem 1.2rem', background: 'var(--primary-burgundy)', color: 'white',
                   borderRadius: '4px', cursor: 'pointer', fontSize: '0.85rem', fontWeight: '500',
@@ -956,22 +956,22 @@ const AccountPage = () => {
                 }}>
                   📷 Upload Photo
                 </label>
-                <input 
+                <input
                   id="photo-upload"
-                  type="file" 
+                  type="file"
                   accept="image/*"
-                  style={{display: 'none'}}
+                  style={{ display: 'none' }}
                   onChange={(e) => {
                     const file = e.target.files[0];
                     if (!file) return;
                     const reader = new FileReader();
-                    reader.onloadend = () => setUser({...user, profilePhoto: reader.result});
+                    reader.onloadend = () => setUser({ ...user, profilePhoto: reader.result });
                     reader.readAsDataURL(file);
                   }}
                 />
                 {user.profilePhoto && (
-                  <button type="button" onClick={() => setUser({...user, profilePhoto: ''})}
-                    style={{background: 'none', border: 'none', color: '#999', cursor: 'pointer', fontSize: '0.8rem', textAlign: 'left', padding: 0}}>
+                  <button type="button" onClick={() => setUser({ ...user, profilePhoto: '' })}
+                    style={{ background: 'none', border: 'none', color: '#999', cursor: 'pointer', fontSize: '0.8rem', textAlign: 'left', padding: 0 }}>
                     ✕ Remove photo
                   </button>
                 )}
@@ -979,62 +979,62 @@ const AccountPage = () => {
             </div>
           </div>
 
-          <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem'}}>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }}>
             <div className="form-group">
-              <label style={{display: 'block', marginBottom: '0.5rem', fontWeight: '500', color: 'var(--primary-burgundy)'}}>First Name</label>
-              <input 
-                type="text" 
+              <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: '500', color: 'var(--primary-burgundy)' }}>First Name</label>
+              <input
+                type="text"
                 value={user.firstName || ''}
-                onChange={(e) => setUser({...user, firstName: e.target.value})}
+                onChange={(e) => setUser({ ...user, firstName: e.target.value })}
                 required
-                style={{width: '100%', padding: '0.8rem', border: '1px solid #ddd', borderRadius: '4px'}}
+                style={{ width: '100%', padding: '0.8rem', border: '1px solid #ddd', borderRadius: '4px' }}
               />
             </div>
             <div className="form-group">
-              <label style={{display: 'block', marginBottom: '0.5rem', fontWeight: '500', color: 'var(--primary-burgundy)'}}>Last Name</label>
-              <input 
-                type="text" 
+              <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: '500', color: 'var(--primary-burgundy)' }}>Last Name</label>
+              <input
+                type="text"
                 value={user.lastName || ''}
-                onChange={(e) => setUser({...user, lastName: e.target.value})}
+                onChange={(e) => setUser({ ...user, lastName: e.target.value })}
                 required
-                style={{width: '100%', padding: '0.8rem', border: '1px solid #ddd', borderRadius: '4px'}}
+                style={{ width: '100%', padding: '0.8rem', border: '1px solid #ddd', borderRadius: '4px' }}
               />
             </div>
           </div>
 
           <div className="form-group">
-            <label style={{display: 'block', marginBottom: '0.5rem', fontWeight: '500', color: 'var(--primary-burgundy)'}}>Shipping Address</label>
-            <textarea 
+            <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: '500', color: 'var(--primary-burgundy)' }}>Shipping Address</label>
+            <textarea
               rows="3"
               placeholder="Enter your full shipping address"
               value={user.address || ''}
-              onChange={(e) => setUser({...user, address: e.target.value})}
-              style={{width: '100%', padding: '0.8rem', border: '1px solid #ddd', borderRadius: '4px', resize: 'vertical'}}
+              onChange={(e) => setUser({ ...user, address: e.target.value })}
+              style={{ width: '100%', padding: '0.8rem', border: '1px solid #ddd', borderRadius: '4px', resize: 'vertical' }}
             />
           </div>
 
           <div className="form-group">
-            <label style={{display: 'block', marginBottom: '0.5rem', fontWeight: '500', color: 'var(--primary-burgundy)'}}>Special Event / Wedding Date</label>
-            <input 
+            <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: '500', color: 'var(--primary-burgundy)' }}>Special Event / Wedding Date</label>
+            <input
               type="date"
               value={user.eventDate ? new Date(user.eventDate).toISOString().split('T')[0] : ''}
-              onChange={(e) => setUser({...user, eventDate: e.target.value})}
-              style={{width: '100%', padding: '0.8rem', border: '1px solid #ddd', borderRadius: '4px'}}
+              onChange={(e) => setUser({ ...user, eventDate: e.target.value })}
+              style={{ width: '100%', padding: '0.8rem', border: '1px solid #ddd', borderRadius: '4px' }}
             />
-            <p style={{fontSize: '0.8rem', color: '#666', marginTop: '0.4rem'}}>We will help you keep track of your outfit timeline.</p>
+            <p style={{ fontSize: '0.8rem', color: '#666', marginTop: '0.4rem' }}>We will help you keep track of your outfit timeline.</p>
           </div>
 
-          <button type="submit" className="btn-solid-burgundy" style={{padding: '1rem', width: '200px'}}>
+          <button type="submit" className="btn-solid-burgundy" style={{ padding: '1rem', width: '200px' }}>
             SAVE CHANGES
           </button>
         </form>
 
-        <div style={{marginTop: '4rem', paddingTop: '2rem', borderTop: '1px solid #eee'}}>
-          <h3 style={{color: '#d32f2f', marginBottom: '0.5rem'}}>Danger Zone</h3>
-          <p style={{color: '#666', marginBottom: '1.5rem'}}>Once you delete your account, there is no going back. Please be certain.</p>
-          <button 
+        <div style={{ marginTop: '4rem', paddingTop: '2rem', borderTop: '1px solid #eee' }}>
+          <h3 style={{ color: '#d32f2f', marginBottom: '0.5rem' }}>Danger Zone</h3>
+          <p style={{ color: '#666', marginBottom: '1.5rem' }}>Once you delete your account, there is no going back. Please be certain.</p>
+          <button
             onClick={handleDeleteAccount}
-            style={{padding: '0.8rem 1.5rem', background: 'transparent', color: '#d32f2f', border: '1px solid #d32f2f', borderRadius: '4px', cursor: 'pointer', fontWeight: '500'}}
+            style={{ padding: '0.8rem 1.5rem', background: 'transparent', color: '#d32f2f', border: '1px solid #d32f2f', borderRadius: '4px', cursor: 'pointer', fontWeight: '500' }}
           >
             DELETE ACCOUNT
           </button>
@@ -1053,6 +1053,7 @@ const AccountPage = () => {
 
   return (
     <div className="account-page-wrapper">
+      <ConfirmModal config={confirmConfig} onClose={() => setConfirmConfig(null)} />
       {globalError && (
         <div style={{
           position: 'fixed', top: '20px', left: '50%', transform: 'translateX(-50%)',
@@ -1061,12 +1062,12 @@ const AccountPage = () => {
           display: 'flex', alignItems: 'center', gap: '12px', fontWeight: '500'
         }}>
           <span>⚠️ {globalError}</span>
-          <button onClick={() => setGlobalError(null)} style={{background: 'none', border: 'none', color: 'white', cursor: 'pointer', fontSize: '16px'}}>✕</button>
+          <button onClick={() => setGlobalError(null)} style={{ background: 'none', border: 'none', color: 'white', cursor: 'pointer', fontSize: '16px' }}>✕</button>
         </div>
       )}
       <div className="account-layout">
         <aside className="sidebar">
-          
+
           <div className="sidebar-profile">
             <div className="profile-avatar" style={{
               backgroundImage: user?.profilePhoto ? `url(${user.profilePhoto})` : 'none',
@@ -1115,7 +1116,7 @@ const AccountPage = () => {
           <div className="help-card">
             <div className="help-content">
               <h3>Need Help?</h3>
-              <p>Our stylist team is here<br/>to assist you.</p>
+              <p>Our stylist team is here<br />to assist you.</p>
               <button className="contact-btn" onClick={() => navigate('/contact')}>CONTACT US</button>
             </div>
             <img src="/mannequin_small.png" alt="Stylist" className="help-img" />
