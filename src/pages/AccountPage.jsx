@@ -815,7 +815,7 @@ const AccountPage = () => {
           <p className="tracker-note">Your custom order is {orders[0]?.status ? orders[0]?.status.toLowerCase() : 'pending'}.</p>
           </>
           ) : (
-            <p style={{textAlign: 'center', color: '#888'}}>No recent orders. <button onClick={placeDemoOrder} style={{background: 'none', border: 'none', color: '#cda372', cursor: 'pointer', textDecoration: 'underline'}}>Place a demo order</button></p>
+            <p style={{textAlign: 'center', color: '#888'}}>No recent orders yet. Start shopping to see your orders here!</p>
           )}
         </div>
 
@@ -869,7 +869,6 @@ const AccountPage = () => {
       </div>
     </div>
   );
-};
 
   const handleUpdateProfile = async (e) => {
     e.preventDefault();
