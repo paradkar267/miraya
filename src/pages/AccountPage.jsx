@@ -869,6 +869,7 @@ const AccountPage = () => {
       </div>
     </div>
   );
+};
 
   const handleUpdateProfile = async (e) => {
     e.preventDefault();
