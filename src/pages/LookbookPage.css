@@ -1,0 +1,689 @@
+.lookbook-page-new {
+  background-color: var(--bg-cream);
+  min-height: 100vh;
+  width: 100%;
+}
+
+.lookbook-hero-new {
+  display: flex;
+  min-height: 100vh;
+  width: 100%;
+}
+
+/* --- LEFT COLUMN --- */
+.lookbook-left-col {
+  flex: 0 0 55%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8rem 4rem 4rem;
+  background-color: var(--bg-cream);
+  overflow: hidden;
+}
+
+.floral-bg-lookbook {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('/collectionbg.png');
+  background-size: cover;
+  background-position: center;
+  opacity: 0.15;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.lookbook-content-wrapper {
+  position: relative;
+  z-index: 1;
+  max-width: 550px;
+}
+
+.style-guide-label {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  letter-spacing: 0.25em;
+  color: #cda372;
+  margin-bottom: 2rem;
+  justify-content: center;
+}
+
+.style-guide-label .line {
+  height: 1px;
+  width: 40px;
+  background-color: #cda372;
+  opacity: 0.5;
+}
+
+.lookbook-main-title {
+  font-family: var(--font-heading);
+  font-size: clamp(3.5rem, 5vw, 5.5rem);
+  color: var(--primary-burgundy);
+  line-height: 1.1;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  text-align: left;
+}
+
+.lookbook-main-title i {
+  font-family: var(--font-script);
+  font-style: normal;
+  font-weight: 400;
+  color: #cda372;
+  font-size: 1.3em;
+  margin-left: 10px;
+}
+
+.lotus-ornament {
+  text-align: center;
+  margin: 1.5rem 0;
+  display: flex;
+  justify-content: center;
+}
+
+.lookbook-desc {
+  font-family: var(--font-body);
+  font-size: 1.1rem;
+  line-height: 1.7;
+  color: rgba(94, 10, 11, 0.75);
+  margin-bottom: 2.5rem;
+  text-align: justify;
+}
+
+/* Solid Burgundy Button */
+.btn-shop-kurtis {
+  display: inline-flex;
+  align-items: center;
+  gap: 1rem;
+  background-color: var(--primary-burgundy);
+  color: var(--bg-cream);
+  padding: 14px 30px;
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border-radius: 4px;
+  margin-bottom: 4rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 10px 20px rgba(94, 10, 11, 0.15);
+}
+
+.btn-shop-kurtis:hover {
+  background-color: #3b171c; /* darker burgundy */
+  transform: translateY(-2px);
+}
+
+.btn-lotus {
+  color: #cda372;
+  display: flex;
+  align-items: center;
+}
+
+.btn-arrow {
+  margin-left: auto;
+  font-size: 1.2rem;
+}
+
+/* Features Bottom Row */
+.lookbook-features {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid rgba(205, 163, 114, 0.3);
+  padding-top: 2rem;
+}
+
+.feature-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 1rem;
+}
+
+.feature-icon-circle {
+  width: 50px;
+  height: 50px;
+  border: 1px solid rgba(205, 163, 114, 0.5);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #cda372;
+}
+
+.feature-item span {
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  letter-spacing: 0.15em;
+  color: var(--primary-burgundy);
+  text-transform: uppercase;
+  line-height: 1.4;
+  font-weight: 600;
+}
+
+.feature-divider {
+  width: 1px;
+  height: 40px;
+  background-color: rgba(205, 163, 114, 0.3);
+}
+
+/* --- RIGHT COLUMN (IMAGE & CURVE) --- */
+.lookbook-right-col {
+  flex: 0 0 45%;
+  position: relative;
+  background-color: var(--bg-cream);
+  padding-top: 6rem;
+  padding-left: 2rem; /* Space between gold line and image */
+}
+
+/* The curved gold arch */
+.lookbook-right-col::before {
+  content: '';
+  position: absolute;
+  top: 6rem;
+  left: 0;
+  width: 100%;
+  height: calc(100% - 6rem);
+  border-top-left-radius: 350px;
+  border-left: 1px solid #cda372;
+  border-top: 1px solid #cda372;
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* The image wrapper with matching curve */
+.lookbook-image-wrapper {
+  width: 100%;
+  height: 100%;
+  border-top-left-radius: 330px; /* slightly smaller than outline */
+  overflow: hidden;
+  position: relative;
+}
+
+.main-look-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+/* Floating Tip Card */
+.style-tip-card {
+  position: absolute;
+  bottom: 2rem;
+  right: 2rem;
+  background-color: var(--primary-burgundy);
+  color: var(--bg-cream);
+  width: 250px;
+  padding: 2rem;
+  text-align: center;
+  border-radius: 12px;
+  box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+  z-index: 5;
+}
+
+.tip-lotus {
+  color: #cda372;
+  margin-bottom: 1rem;
+  display: flex;
+  justify-content: center;
+}
+
+.style-tip-card h4 {
+  font-family: var(--font-body);
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+}
+
+.style-tip-card p {
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: rgba(253, 246, 233, 0.8);
+  margin-bottom: 1rem;
+}
+
+.tip-ornament {
+  color: #cda372;
+  font-size: 1rem;
+}
+
+/* Responsiveness */
+@media (max-width: 1024px) {
+  .lookbook-hero-new {
+    flex-direction: column;
+  }
+  
+  .lookbook-left-col,
+  .lookbook-right-col {
+    flex: 0 0 100%;
+  }
+  
+  .lookbook-image-wrapper,
+  .lookbook-image-wrapper-inverted {
+    border-top-left-radius: 150px;
+    border-bottom-right-radius: 0;
+    height: 70vh;
+  }
+
+  .lookbook-right-col-text::before {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .lookbook-main-title {
+    font-size: 3rem;
+  }
+  .lookbook-features {
+    flex-direction: column;
+    gap: 2rem;
+  }
+  .feature-divider {
+    width: 60px;
+    height: 1px;
+  }
+  .style-tip-card,
+  .style-tip-card-inverted {
+    right: 50%;
+    transform: translateX(50%);
+    bottom: 1rem;
+    left: auto;
+  }
+  .lookbook-gallery-grid {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+  }
+  .gallery-item {
+    grid-column: span 1;
+    grid-row: span 1;
+  }
+}
+
+/* --- SIGNATURE STYLES (NEW BENTO GRID) --- */
+.signature-styles-wrapper {
+  position: relative;
+  background-color: var(--bg-cream);
+  padding: 6rem 4rem 10rem;
+  overflow: hidden;
+}
+
+/* Floral branches background on sides */
+.floral-branch {
+  position: absolute;
+  top: 0;
+  width: 250px;
+  height: 400px;
+  background-image: url('/floral-branch.png'); /* Or use the faint floral bg */
+  background-size: contain;
+  background-repeat: no-repeat;
+  opacity: 0.1;
+  pointer-events: none;
+}
+.floral-branch.left {
+  left: 0;
+  background-position: left center;
+}
+.floral-branch.right {
+  right: 0;
+  background-position: right center;
+  transform: scaleX(-1);
+}
+
+.signature-styles-header {
+  text-align: center;
+  margin-bottom: 4rem;
+  position: relative;
+  z-index: 2;
+}
+
+.signature-title {
+  font-family: var(--font-heading);
+  font-size: clamp(3rem, 4vw, 4.5rem);
+  color: var(--primary-burgundy);
+  margin-top: 1rem;
+}
+
+.signature-title i {
+  font-family: var(--font-script);
+  font-style: normal;
+  color: #cda372;
+  font-size: 1.2em;
+}
+
+.signature-subtitle {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  color: rgba(94, 10, 11, 0.7);
+  margin-top: 1.5rem;
+}
+
+/* Bento Grid */
+.signature-bento-grid {
+  display: grid;
+  grid-template-columns: 60% 40%;
+  gap: 1.5rem;
+  max-width: 1300px;
+  margin: 0 auto 4rem;
+  height: 600px;
+}
+
+.bento-card {
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+  background-color: transparent;
+}
+
+.bento-bg-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+  object-position: right center;
+}
+
+.bento-col-right .bento-bg-img {
+  width: 100%;
+}
+
+.bento-gradient-overlay {
+  display: none;
+}
+
+.bento-col-right .bento-gradient-overlay {
+  display: block;
+  background: linear-gradient(to right, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.15) 60%, rgba(0,0,0,0) 100%);
+}
+
+.left-gradient {
+  background: none;
+}
+
+.bento-content {
+  position: relative;
+  z-index: 2;
+  padding: 4rem 4rem;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  max-width: 48%;
+}
+
+.bento-category {
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  letter-spacing: 0.15em;
+  color: #cda372;
+  margin-bottom: 1.5rem;
+  font-weight: 600;
+  display: flex;
+  flex-direction: column;
+}
+
+.bento-category::after {
+  content: '';
+  display: block;
+  width: 40px;
+  height: 1px;
+  background-color: #cda372;
+  margin-top: 0.8rem;
+  opacity: 0.8;
+}
+
+.bento-heading {
+  font-family: var(--font-heading);
+  font-size: 2.8rem;
+  color: var(--primary-burgundy);
+  line-height: 1.1;
+  margin-bottom: 1.2rem;
+  font-weight: 400;
+}
+
+.bento-heading-sm {
+  font-family: var(--font-heading);
+  font-size: 2.2rem;
+  color: var(--primary-burgundy);
+  line-height: 1.1;
+  margin-bottom: 1rem;
+  font-weight: 400;
+}
+
+.bento-col-right .bento-heading-sm {
+  color: #fff;
+  text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+}
+
+.bento-desc {
+  font-family: var(--font-body);
+  font-size: 1.05rem;
+  line-height: 1.6;
+  color: var(--primary-burgundy);
+  opacity: 0.85;
+  margin-bottom: 3rem;
+}
+
+.bento-desc-sm {
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: var(--primary-burgundy);
+  opacity: 0.85;
+  margin-bottom: 2rem;
+}
+
+.bento-col-right .bento-desc-sm {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.btn-bento-burgundy {
+  display: inline-flex;
+  align-items: center;
+  background-color: var(--primary-burgundy);
+  color: var(--bg-cream);
+  padding: 14px 28px;
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  letter-spacing: 0.1em;
+  text-decoration: none;
+  border-radius: 4px;
+  width: max-content;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(94, 10, 11, 0.2);
+}
+
+.btn-bento-burgundy:hover {
+  background-color: #3b171c;
+  transform: translateY(-2px);
+}
+
+.arrow-right {
+  margin-left: 1rem;
+  font-size: 1.2rem;
+}
+
+.btn-bento-round {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background-color: #e6d3ba;
+  color: var(--primary-burgundy);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  cursor: pointer;
+  font-size: 1.2rem;
+  transition: all 0.3s ease;
+}
+
+.btn-bento-round:hover {
+  background-color: #cda372;
+  color: #fff;
+  transform: translateX(4px);
+}
+
+/* Slider Controls in Large Card */
+.bento-slider-controls {
+  position: absolute;
+  bottom: 2.5rem;
+  left: 45%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  z-index: 3;
+}
+
+.slider-btn {
+  background-color: #fff;
+  border: 1px solid rgba(0,0,0,0.05);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--primary-burgundy);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+}
+
+.slider-btn:hover {
+  background-color: var(--bg-cream);
+}
+
+.slider-dots {
+  display: flex;
+  gap: 10px;
+}
+
+.dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: rgba(94, 10, 11, 0.2);
+}
+
+.dot.active {
+  background-color: var(--primary-burgundy);
+}
+
+/* Right Column Stack */
+.bento-col-right {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.bento-col-right .bento-card {
+  flex: 1;
+}
+
+.bento-col-right .bento-content {
+  padding: 3rem;
+  max-width: 80%;
+}
+
+/* Bottom Feature Bar */
+.signature-features-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid rgba(205, 163, 114, 0.3);
+  padding-top: 3rem;
+  max-width: 1300px;
+  margin: 0 auto;
+}
+
+.sig-feature-item {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.sig-icon {
+  width: 48px;
+  height: 48px;
+  border: 1px solid rgba(205, 163, 114, 0.5);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sig-text h4 {
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  letter-spacing: 0.1em;
+  color: var(--primary-burgundy);
+  margin-bottom: 0.2rem;
+  font-weight: 600;
+}
+
+.sig-text p {
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  color: rgba(94, 10, 11, 0.6);
+}
+
+.sig-feature-divider {
+  height: 40px;
+  width: 1px;
+  background-color: rgba(205, 163, 114, 0.3);
+}
+
+/* Responsiveness for Bento */
+@media (max-width: 1024px) {
+  .signature-bento-grid {
+    grid-template-columns: 1fr;
+    height: auto;
+  }
+  .bento-card.large {
+    height: 500px;
+  }
+  .bento-col-right {
+    flex-direction: row;
+    height: 350px;
+  }
+  .signature-features-bar {
+    flex-wrap: wrap;
+    gap: 2rem;
+    justify-content: center;
+  }
+  .sig-feature-divider {
+    display: none;
+  }
+}
+@media (max-width: 768px) {
+  .bento-col-right {
+    flex-direction: column;
+    height: auto;
+  }
+  .bento-col-right .bento-card {
+    height: 400px;
+  }
+  .bento-content {
+    max-width: 100%;
+    padding: 2rem;
+  }
+  .bento-slider-controls {
+    left: 50%;
+  }
+}

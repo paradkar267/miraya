@@ -40,12 +40,9 @@ const Footer = () => {
                 <div className="heading-ornament">◈</div>
               </h4>
               <ul>
-                <li><Link to="/collection/lehengas">Lehengas</Link></li>
-                <li><Link to="/collection/sarees">Sarees</Link></li>
-                <li><Link to="/collection/anarkalis">Anarkalis</Link></li>
-                <li><Link to="/collection/shararas">Shararas</Link></li>
-                <li><Link to="/collection/gowns">Gowns</Link></li>
                 <li><Link to="/collection/kurtis">Kurtis</Link></li>
+                <li><Link to="/collection/coord-sets">Co-ord Sets</Link></li>
+                <li><Link to="/collection/traditional">Traditional Wear</Link></li>
               </ul>
             </div>
             
@@ -57,6 +54,7 @@ const Footer = () => {
               </h4>
               <ul>
                 <li><Link to="/about">Our Story</Link></li>
+                <li><Link to="/lookbook">Lookbook</Link></li>
                 <li><Link to="#">Artisanal Legacy</Link></li>
                 <li><Link to="#">Exhibitions</Link></li>
                 <li><Link to="#">Press</Link></li>
@@ -73,10 +71,10 @@ const Footer = () => {
               </h4>
               <ul>
                 <li><Link to="/contact">Contact Boutique</Link></li>
-                <li><Link to="#">Sizing Consultation</Link></li>
-                <li><Link to="#">Shipping & Customs</Link></li>
-                <li><Link to="#">Returns & Exchanges</Link></li>
-                <li><Link to="#">Care & Restorations</Link></li>
+                <li><Link to="/faq">FAQ</Link></li>
+                <li><Link to="/shipping-returns">Shipping & Returns</Link></li>
+                <li><Link to="/privacy-policy">Privacy Policy</Link></li>
+                <li><Link to="/terms">Terms of Service</Link></li>
               </ul>
             </div>
           </div>

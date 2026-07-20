@@ -69,7 +69,8 @@
 }
 
 .craft-title i {
-  font-family: var(--font-script);
+  font-family: var(--font-heading);
+  font-style: italic;
   font-weight: 400;
   color: #cda372;
   font-size: 1.1em;

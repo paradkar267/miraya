@@ -81,7 +81,7 @@ const WishlistPage = () => {
           <div className="empty-wishlist">
             <h2>Your wishlist is empty</h2>
             <p>Looks like you haven't added any items yet.</p>
-            <Link to="/collection/lehengas" className="premium-link">
+            <Link to="/collection/kurtis" className="premium-link">
               Explore Collections <span className="arrow">⟶</span>
             </Link>
           </div>

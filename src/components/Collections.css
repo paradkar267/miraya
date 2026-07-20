@@ -145,8 +145,8 @@
   color: var(--gold-accent);
   display: block;
   font-size: 1.2em;
-  line-height: 0.8;
-  margin-bottom: -0.35em;
+  line-height: 1;
+  margin-bottom: 0;
 }
 
 .editorial-desc {

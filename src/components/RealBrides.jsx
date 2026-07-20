@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import './RealBrides.css';
 
 const bridesData = [
@@ -37,13 +38,20 @@ const RealBrides = () => {
     const prev = (activeIndex - 1 + bridesData.length) % bridesData.length;
     const next = (activeIndex + 1) % bridesData.length;
     return [
-      { ...bridesData[prev], type: 'light', key: `prev-${bridesData[prev].id}` },
-      { ...bridesData[activeIndex], type: 'dark', key: `active-${bridesData[activeIndex].id}` },
-      { ...bridesData[next], type: 'light', key: `next-${bridesData[next].id}` },
+      { ...bridesData[prev], type: 'light', key: bridesData[prev].id, position: 'prev' },
+      { ...bridesData[activeIndex], type: 'dark', key: bridesData[activeIndex].id, position: 'active' },
+      { ...bridesData[next], type: 'light', key: bridesData[next].id, position: 'next' },
     ];
   };
 
   const visibleBrides = getVisibleBrides();
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      nextSlide();
+    }, 5000);
+    return () => clearInterval(timer);
+  }, []);
 
   return (
     <section className="real-brides-section">
@@ -64,8 +72,17 @@ const RealBrides = () => {
         </div>
 
         <div className="brides-carousel">
-          {visibleBrides.map((bride) => (
-            <div key={bride.key} className={`bride-card ${bride.type} animate-fade`}>
+          <AnimatePresence mode="popLayout">
+            {visibleBrides.map((bride) => (
+              <motion.div 
+                key={bride.key} 
+                layout
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.8, position: 'absolute' }}
+                transition={{ duration: 0.6, type: "spring", bounce: 0.2 }}
+                className={`bride-card ${bride.type}`}
+              >
               <div className="bride-image-col">
                 <img src={bride.image} alt={bride.name} className="bride-image" />
               </div>
@@ -88,8 +105,9 @@ const RealBrides = () => {
                   </>
                 )}
               </div>
-            </div>
-          ))}
+              </motion.div>
+            ))}
+          </AnimatePresence>
         </div>
 
         <div className="carousel-controls">

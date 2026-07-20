@@ -21,7 +21,7 @@ const AdminDashboard = () => {
   const [isProductModalOpen, setIsProductModalOpen] = useState(false);
   const [editingProduct, setEditingProduct] = useState(null);
   const [productForm, setProductForm] = useState({
-    name: '', category: 'lehengas', price: '', priceValue: '', color: '', fabric: '', image: '', description: ''
+    name: '', category: 'kurtis', price: '', priceValue: '', color: '', fabric: '', image: '', description: ''
   });
 
   const [measurementModalOpen, setMeasurementModalOpen] = useState(false);
@@ -74,7 +74,7 @@ const AdminDashboard = () => {
       setProductForm(product);
     } else {
       setEditingProduct(null);
-      setProductForm({ name: '', category: 'lehengas', price: '', priceValue: '', color: '', fabric: '', image: '', description: '' });
+      setProductForm({ name: '', category: 'kurtis', price: '', priceValue: '', color: '', fabric: '', image: '', description: '' });
     }
     setIsProductModalOpen(true);
   };
@@ -322,14 +322,9 @@ const AdminDashboard = () => {
                 <div className="form-group">
                   <label>Category</label>
                   <select value={productForm.category} onChange={e => setProductForm({...productForm, category: e.target.value})} required>
-                    <option value="lehengas">Lehengas</option>
-                    <option value="sarees">Sarees</option>
-                    <option value="wedding">Wedding</option>
-                    <option value="indo-western">Indo-Western</option>
-                    <option value="coord-sets">Co-ord Sets</option>
-                    <option value="sharara">Sharara</option>
                     <option value="kurtis">Kurtis</option>
-                    <option value="salwar-suit">Salwar Suit</option>
+                    <option value="coord-sets">Co-ord Sets</option>
+                    <option value="traditional">Traditional Wear</option>
                   </select>
                 </div>
               </div>

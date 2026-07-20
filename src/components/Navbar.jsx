@@ -49,7 +49,7 @@ const Navbar = () => {
   const isAboutPage = location.pathname === '/about';
   
   // Pages with dark hero sections at the top where white text is visible
-  const hasDarkHero = isHomePage || isCollectionPage || isAboutPage;
+  const hasDarkHero = isHomePage;
   
   // Force scrolled state (burgundy text, cream bg) on pages without a dark hero
   const isNavbarScrolled = scrolled || !hasDarkHero;
@@ -79,9 +79,9 @@ const Navbar = () => {
               onMouseEnter={() => setDropdownOpen(true)}
               onMouseLeave={() => setDropdownOpen(false)}
             >
-              <div className={`nav-link dropdown-trigger ${location.pathname.includes('/collection') ? 'active' : ''}`}>
+              <Link to="/collection/all" className={`nav-link dropdown-trigger ${location.pathname.includes('/collection') ? 'active' : ''}`}>
                 Collection <ChevronDown size={14} className="dropdown-icon" />
-              </div>
+              </Link>
 
               <AnimatePresence>
                 {dropdownOpen && (
@@ -102,15 +102,11 @@ const Navbar = () => {
                       </div>
 
                       <div className="mega-grid">
-                        <Link to="/collection/lehengas" className="mega-item">
-                          <div className="mega-img-wrap"><img src="/lehenga_mega.png" alt="Lehenga" /></div>
-                          <span className="mega-item-title">LEHENGA</span>
-                        </Link>
                         <Link to="/collection/sarees" className="mega-item">
                           <div className="mega-img-wrap"><img src="/saree_mega.png" alt="Saree" /></div>
                           <span className="mega-item-title">SAREE</span>
                         </Link>
-                        <Link to="/collection/wedding" className="mega-item">
+                        <Link to="/collection/anarkali" className="mega-item">
                           <div className="mega-img-wrap"><img src="/anarkali_mega.png" alt="Anarkali" /></div>
                           <span className="mega-item-title">ANARKALI</span>
                         </Link>
@@ -118,21 +114,25 @@ const Navbar = () => {
                           <div className="mega-img-wrap"><img src="/indo_western_mega.png" alt="Indo-Western" /></div>
                           <span className="mega-item-title">INDO-WESTERN</span>
                         </Link>
-                        <Link to="/collection/coord-sets" className="mega-item">
-                          <div className="mega-img-wrap"><img src="/craftman.jpg" alt="Co-ord Set" /></div>
-                          <span className="mega-item-title">CO-ORD SET</span>
-                        </Link>
                         <Link to="/collection/sharara" className="mega-item">
                           <div className="mega-img-wrap"><img src="/sharara_mega.png" alt="Sharara" /></div>
                           <span className="mega-item-title">SHARARA</span>
                         </Link>
-                        <Link to="/collection/kurtis" className="mega-item">
-                          <div className="mega-img-wrap"><img src="/kurti_mega.png" alt="Kurti" /></div>
-                          <span className="mega-item-title">KURTI</span>
-                        </Link>
                         <Link to="/collection/salwar-suit" className="mega-item">
                           <div className="mega-img-wrap"><img src="/salwar_mega.png" alt="Salwar Suit" /></div>
                           <span className="mega-item-title">SALWAR SUIT</span>
+                        </Link>
+                        <Link to="/collection/kurtis" className="mega-item">
+                          <div className="mega-img-wrap"><img src="/kurti_mega.png" alt="Kurti" /></div>
+                          <span className="mega-item-title">KURTIS</span>
+                        </Link>
+                        <Link to="/collection/coord-sets" className="mega-item">
+                          <div className="mega-img-wrap"><img src="/craftman.jpg" alt="Co-ord Set" /></div>
+                          <span className="mega-item-title">CO-ORD SETS</span>
+                        </Link>
+                        <Link to="/collection/traditional" className="mega-item">
+                          <div className="mega-img-wrap"><img src="/anarkali_mega.png" alt="Traditional Wear" /></div>
+                          <span className="mega-item-title">TRADITIONAL WEAR</span>
                         </Link>
                         <Link to="/collection/all" className="mega-view-all">
                           <div className="view-all-corner-tr"></div>
@@ -159,6 +159,7 @@ const Navbar = () => {
               </AnimatePresence>
             </div>
 
+            <NavLink to="/lookbook" className="nav-link">Lookbook</NavLink>
             <NavLink to="/about" className="nav-link">About Us</NavLink>
             <NavLink to="/contact" className="nav-link">Contact Us</NavLink>
           </div>
@@ -244,14 +245,15 @@ const Navbar = () => {
                         transition={{ duration: 0.3 }}
                       >
                         <Link to="/collection/all" className="mobile-dropdown-item" onClick={() => setMobileMenuOpen(false)}>View All</Link>
-                        <Link to="/collection/lehengas" className="mobile-dropdown-item" onClick={() => setMobileMenuOpen(false)}>Lehengas</Link>
-                        <Link to="/collection/sarees" className="mobile-dropdown-item" onClick={() => setMobileMenuOpen(false)}>Sarees</Link>
-                        <Link to="/collection/wedding" className="mobile-dropdown-item" onClick={() => setMobileMenuOpen(false)}>Wedding</Link>
                         <Link to="/collection/kurtis" className="mobile-dropdown-item" onClick={() => setMobileMenuOpen(false)}>Kurtis</Link>
                         <Link to="/collection/coord-sets" className="mobile-dropdown-item" onClick={() => setMobileMenuOpen(false)}>Co-ord Sets</Link>
+                        <Link to="/collection/traditional" className="mobile-dropdown-item" onClick={() => setMobileMenuOpen(false)}>Traditional Wear</Link>
                       </motion.div>
                     )}
                   </AnimatePresence>
+                </motion.div>
+                <motion.div initial={{ opacity: 0, x: 40 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 20 }} transition={{ delay: 0.18, duration: 0.5, ease: "easeOut" }}>
+                  <Link to="/lookbook" onClick={() => setMobileMenuOpen(false)}>Lookbook</Link>
                 </motion.div>
                 <motion.div initial={{ opacity: 0, x: 40 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 20 }} transition={{ delay: 0.2, duration: 0.5, ease: "easeOut" }}>
                   <Link to="/about" onClick={() => setMobileMenuOpen(false)}>About Us</Link>

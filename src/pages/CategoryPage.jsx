@@ -39,7 +39,7 @@ const CategoryPage = () => {
   const [samples, setSamples] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const availableCategories = ['lehengas', 'sarees', 'wedding', 'kurtis', 'coord-sets'];
+  const availableCategories = ['kurtis', 'coord-sets', 'traditional'];
   const availableFabrics = useMemo(() => Array.from(new Set(samples.map(item => item.fabric).filter(Boolean))), [samples]);
 
   const handleCheckboxChange = (setState, value) => {

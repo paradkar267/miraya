@@ -22,15 +22,39 @@ const Craftsmanship = () => {
               </p>
             </div>
             
-            <div className="craft-feature">
-              <div className="feature-icon-wrapper">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M12 2L15 8L21 9L16.5 14L18 20L12 17L6 20L7.5 14L3 9L9 8L12 2Z" />
-                </svg>
+            <div className="craft-features-list" style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+              <div className="craft-feature">
+                <div className="feature-icon-wrapper">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M12 2L15 8L21 9L16.5 14L18 20L12 17L6 20L7.5 14L3 9L9 8L12 2Z" />
+                  </svg>
+                </div>
+                <span className="feature-number">01</span>
+                <span className="feature-text">HAND-WOVEN TEXTILES</span>
+                <div className="feature-line"></div>
               </div>
-              <span className="feature-number">01</span>
-              <span className="feature-text">HAND-WOVEN TEXTILES</span>
-              <div className="feature-line"></div>
+
+              <div className="craft-feature">
+                <div className="feature-icon-wrapper">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M12 2L15 8L21 9L16.5 14L18 20L12 17L6 20L7.5 14L3 9L9 8L12 2Z" />
+                  </svg>
+                </div>
+                <span className="feature-number">02</span>
+                <span className="feature-text">INTRICATE ZARDOZI</span>
+                <div className="feature-line"></div>
+              </div>
+
+              <div className="craft-feature">
+                <div className="feature-icon-wrapper">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M12 2L15 8L21 9L16.5 14L18 20L12 17L6 20L7.5 14L3 9L9 8L12 2Z" />
+                  </svg>
+                </div>
+                <span className="feature-number">03</span>
+                <span className="feature-text">HERITAGE PATTERNS</span>
+                <div className="feature-line"></div>
+              </div>
             </div>
           </div>
 

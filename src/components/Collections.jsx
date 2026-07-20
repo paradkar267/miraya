@@ -7,42 +7,6 @@ const Collections = () => {
     <section id="collections" className="section collections-section">
       <div className="container">
         
-        {/* LEHENGAS SECTION */}
-        <div className="collection-editorial-block">
-          <div className="editorial-text-col left">
-            <motion.div
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 1, ease: "easeOut" }}
-            >
-              <div className="collection-subtitle">Collection I</div>
-              <h2 className="collection-heading">
-                <i>Luxury</i><br/>Lehengas
-              </h2>
-              <p className="editorial-desc">
-                Handcrafted for life's most beautiful moments. Our lehengas blend authentic heritage with quiet sophistication, ensuring you feel truly yourself.
-              </p>
-              <Link to="/collection/lehengas" className="premium-link">Explore Lehengas <span className="arrow">⟶</span></Link>
-            </motion.div>
-          </div>
-          
-          <div className="editorial-img-col right">
-            <motion.div 
-              className="editorial-img-wrapper"
-              initial={{ opacity: 0, scale: 0.95 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 1.5, ease: "easeOut" }}
-            >
-              <img 
-                src="/soft-pink.jpg" 
-                alt="Luxury Lehengas" 
-                className="editorial-img" 
-              />
-            </motion.div>
-          </div>
-        </div>
 
         {/* INTERLUDE TEXT TO FILL THE GAP */}
         <div className="collection-interlude">
@@ -67,9 +31,9 @@ const Collections = () => {
               viewport={{ once: true, margin: "-100px" }}
               transition={{ duration: 1, ease: "easeOut" }}
             >
-              <div className="collection-subtitle">Collection II</div>
+              <div className="collection-subtitle">Collection I</div>
               <h2 className="collection-heading">
-                <i>Designer</i><br/>Kurtis
+                <i>Designer</i>Kurtis
               </h2>
               <p className="editorial-desc">
                 Elevating the everyday. Thoughtful details, premium fabrics, and impeccable tailoring for the woman who finds luxury in simplicity.

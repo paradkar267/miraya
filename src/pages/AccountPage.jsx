@@ -14,7 +14,7 @@ const orderHistoryData = [
     items: 3,
     status: 'Delivered',
     deliveryDate: '22 May, 2024',
-    image: '/lehenga_mega.png'
+    image: '/kurti_mega.png'
   },
   {
     id: '#MRY12312',
@@ -40,11 +40,11 @@ const orderHistoryData = [
 const wishlistData = [
   {
     id: 1,
-    title: 'Red Embroidered Lehenga',
+    title: 'Red Embroidered Kurti',
     price: '₹85,000',
     size: 'M',
     stock: 'In Stock',
-    image: '/lehenga_mega.png'
+    image: '/kurti_mega.png'
   },
   {
     id: 2,

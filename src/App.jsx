@@ -12,8 +12,13 @@ import SearchPage from './pages/SearchPage';
 import AboutPage from './pages/AboutPage';
 import AccountPage from './pages/AccountPage';
 import AuthPage from './pages/AuthPage';
+import LookbookPage from './pages/LookbookPage';
 import ErrorBoundary from './components/ErrorBoundary';
 import AdminDashboard from './pages/AdminDashboard';
+import FAQPage from './pages/FAQPage';
+import PrivacyPolicyPage from './pages/PrivacyPolicyPage';
+import TermsPage from './pages/TermsPage';
+import ReturnPolicyPage from './pages/ReturnPolicyPage';
 import WhatsAppButton from './components/WhatsAppButton';
 
 function App() {
@@ -40,6 +45,11 @@ function App() {
             } />
             <Route path="/auth" element={<AuthPage />} />
             <Route path="/admin" element={<AdminDashboard />} />
+            <Route path="/lookbook" element={<LookbookPage />} />
+            <Route path="/faq" element={<FAQPage />} />
+            <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
+            <Route path="/terms" element={<TermsPage />} />
+            <Route path="/shipping-returns" element={<ReturnPolicyPage />} />
           </Routes>
         </main>
         {!isAuthPage && <Footer />}
