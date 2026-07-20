@@ -119,8 +119,8 @@
   background-color: transparent;
   color: var(--gold-accent);
   border: 1px solid var(--gold-accent);
-  padding: 1.2rem 3rem;
-  font-size: 0.85rem;
+  padding: 0.8rem 2rem;
+  font-size: 0.75rem;
   letter-spacing: 0.2em;
   border-radius: 0; /* Sharp, high-fashion edges */
   cursor: pointer;
