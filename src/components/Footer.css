@@ -193,8 +193,8 @@
 .boutique-icon {
   position: absolute;
   top: 0;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  left: 1.5rem;
+  transform: translateY(-50%);
   width: 32px;
   height: 32px;
   background: var(--gold-accent);
