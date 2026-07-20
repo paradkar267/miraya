@@ -134,17 +134,6 @@ const LookbookPage = () => {
           <div className="lookbook-image-wrapper">
             <img src="/kurti_mega.png" alt="Styling Kurtis" className="main-look-img" />
           </div>
-
-          <div className="style-tip-card">
-            <div className="tip-lotus">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2">
-                <path d="M12 2L15 12L12 22L9 12Z"/>
-              </svg>
-            </div>
-            <h4>Style Tip</h4>
-            <p>Add oxidized jewelry and juttis to complete your ethnic look.</p>
-            <div className="tip-ornament">◈</div>
-          </div>
         </div>
 
       </div>
