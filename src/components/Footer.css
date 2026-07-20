@@ -5,7 +5,7 @@
   background-position: center;
   background-repeat: no-repeat;
   color: var(--bg-cream, #FAF7F2);
-  padding-top: 3rem;
+  padding-top: 2rem;
   padding-bottom: 1rem;
   position: relative;
   overflow: hidden;
@@ -15,8 +15,8 @@
 .footer-top {
   display: flex;
   justify-content: space-between;
-  gap: 3rem;
-  margin-bottom: 4rem;
+  gap: 2rem;
+  margin-bottom: 2.5rem;
   flex-wrap: wrap;
 }
 
@@ -30,7 +30,7 @@
   height: 60px;
   width: auto;
   object-fit: contain;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
   filter: brightness(0) invert(1) sepia(1) saturate(3) hue-rotate(5deg);
 }
 
@@ -124,10 +124,10 @@
   font-size: 1rem;
   letter-spacing: 0.15em;
   color: var(--gold-accent);
-  margin-bottom: 2rem;
+  margin-bottom: 1.2rem;
   text-transform: uppercase;
   position: relative;
-  padding-bottom: 1rem;
+  padding-bottom: 0.8rem;
   display: inline-block;
 }
 
@@ -158,7 +158,7 @@
 }
 
 .footer-column-new li {
-  margin-bottom: 1.2rem;
+  margin-bottom: 0.8rem;
 }
 
 .footer-column-new a {
