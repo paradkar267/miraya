@@ -28,8 +28,8 @@ const AdminDashboard = () => {
   const [selectedMeasurements, setSelectedMeasurements] = useState(null);
   const [confirmConfig, setConfirmConfig] = useState(null);
 
-  const askConfirm = (message, subMessage, confirmText, danger, onConfirm) =>
-    setConfirmConfig({ message, subMessage, confirmText, danger, onConfirm });
+  const askConfirm = (message, subMessage, confirmText, danger, onConfirm, isAlert = false, isSuccess = false) =>
+    setConfirmConfig({ message, subMessage, confirmText, danger, onConfirm, isAlert, isSuccess });
 
   const fetchProducts = async (token) => {
     const res = await fetch(`${API_URL}/api/admin/products`, { headers: { Authorization: `Bearer ${token}` }});
@@ -101,7 +101,7 @@ const AdminDashboard = () => {
         setIsProductModalOpen(false);
         fetchProducts(token);
       } else {
-        alert("Failed to save product");
+        askConfirm('Error', 'Failed to save product. Please try again.', 'OK', true, null, true);
       }
     } catch (err) {
       console.error(err);
@@ -136,7 +136,7 @@ const AdminDashboard = () => {
       setSelectedMeasurements(profile);
       setMeasurementModalOpen(true);
     } else {
-      alert("No measurements found for this customer.");
+      askConfirm('No Measurements', 'No measurements found for this customer.', 'OK', false, null, true);
     }
   };
 

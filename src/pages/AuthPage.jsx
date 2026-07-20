@@ -37,7 +37,7 @@ const AuthPage = () => {
         setError('Failed to parse Google login data.');
       }
     } else if (authError) {
-      setError('Google Authentication Failed.');
+      setError(`Google Authentication Failed: ${authError}`);
     }
   }, [navigate]);
 
@@ -255,10 +255,6 @@ const AuthPage = () => {
                     >
                       <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" alt="Google" />
                       Continue with Google
-                    </button>
-                    <button type="button" className="social-btn">
-                      <img src="https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg" alt="Apple" />
-                      Continue with Apple
                     </button>
                   </div>
                 </>

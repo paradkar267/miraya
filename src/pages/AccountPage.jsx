@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Home, ShoppingBag, Ruler, Heart, LogOut, Headphones, ChevronRight, Plus, Trash2, User, Trash, PenTool, ShoppingCart, Settings } from 'lucide-react';
 import API_URL from '../config';
+import ConfirmModal from '../components/ConfirmModal';
 import './AccountPage.css';
 
 // --- MOCK DATA ---
@@ -79,6 +80,10 @@ const AccountPage = () => {
   const [user, setUser] = useState({});
   const [globalError, setGlobalError] = useState(null);
   const [globalSuccess, setGlobalSuccess] = useState(null);
+  const [confirmConfig, setConfirmConfig] = useState(null);
+
+  const askConfirm = (message, subMessage, confirmText, danger, onConfirm, isAlert = false, isSuccess = false) =>
+    setConfirmConfig({ message, subMessage, confirmText, danger, onConfirm, isAlert, isSuccess });
 
   // Set tab from navbar link state
   useEffect(() => {
@@ -197,25 +202,32 @@ const AccountPage = () => {
     }
   };
 
-  const deleteMeasurement = async (id) => {
-    if (!window.confirm("Are you sure you want to delete this profile?")) return;
-    try {
-      const token = localStorage.getItem('token');
-      if (!token) return;
-      const res = await fetch(`${API_URL}/api/measurements/${id}`, {
-        method: 'DELETE',
-        headers: { Authorization: `Bearer ${token}` }
-      });
-      if (res.ok) {
-        fetchMeasurements();
-        if (selectedProfileId === id) setSelectedProfileId(null);
-      } else {
-        showError("Failed to delete measurement profile.");
+  const deleteMeasurement = (id) => {
+    askConfirm(
+      'Delete Profile?',
+      'Are you sure you want to delete this profile?',
+      'Delete',
+      true,
+      async () => {
+        try {
+          const token = localStorage.getItem('token');
+          if (!token) return;
+          const res = await fetch(`${API_URL}/api/measurements/${id}`, {
+            method: 'DELETE',
+            headers: { Authorization: `Bearer ${token}` }
+          });
+          if (res.ok) {
+            fetchMeasurements();
+            if (selectedProfileId === id) setSelectedProfileId(null);
+          } else {
+            showError("Failed to delete measurement profile.");
+          }
+        } catch (err) {
+          console.error("Failed to delete measurement", err);
+          showError("A network error occurred while deleting profile.");
+        }
       }
-    } catch (err) {
-      console.error("Failed to delete measurement", err);
-      showError("A network error occurred while deleting profile.");
-    }
+    );
   };
 
   const [wishlist, setWishlist] = useState([]);
@@ -329,7 +341,7 @@ const AccountPage = () => {
     const product = wishlistItem.product;
     // Check if already in cart
     if (cartItems.find(c => c.id === product.id)) {
-      alert("Item is already in your cart.");
+      askConfirm('Already in Bag', 'This item is already in your shopping bag.', 'OK', false, null, true);
       return;
     }
     setCartItems([...cartItems, {
@@ -341,26 +353,33 @@ const AccountPage = () => {
     }]);
     // Optionally remove from wishlist
     removeWishlistItem(wishlistItem.id);
-    alert(`${product.name} added to cart!`);
+    askConfirm('Added to Bag', `${product.name} has been successfully added to your shopping bag.`, 'Continue', false, null, true, true);
   };
 
-  const cancelOrder = async (orderId) => {
-    if (!window.confirm("Are you sure you want to cancel this order?")) return;
-    try {
-      const token = localStorage.getItem('token');
-      if (!token) return;
-      const res = await fetch(`${API_URL}/api/orders/${orderId}/cancel`, {
-        method: 'PUT',
-        headers: { Authorization: `Bearer ${token}` }
-      });
-      if (res.ok) {
-        fetchOrders();
-      } else {
-        showError("Could not cancel the order. It might already be shipped.");
+  const cancelOrder = (orderId) => {
+    askConfirm(
+      'Cancel Order',
+      'Are you sure you want to cancel this order?',
+      'Yes, Cancel Order',
+      true,
+      async () => {
+        try {
+          const token = localStorage.getItem('token');
+          if (!token) return;
+          const res = await fetch(`${API_URL}/api/orders/${orderId}/cancel`, {
+            method: 'PUT',
+            headers: { Authorization: `Bearer ${token}` }
+          });
+          if (res.ok) {
+            fetchOrders();
+          } else {
+            showError("Could not cancel the order. It might already be shipped.");
+          }
+        } catch (err) {
+          showError("A network error occurred while cancelling order.");
+        }
       }
-    } catch (err) {
-      showError("A network error occurred while cancelling order.");
-    }
+    );
   };
 
   // States for sub-tabs
@@ -815,7 +834,7 @@ const AccountPage = () => {
                 <p className="tracker-note">Your custom order is {orders[0]?.status ? orders[0]?.status.toLowerCase() : 'pending'}.</p>
               </>
             ) : (
-              <p style={{ textAlign: 'center', color: '#888' }}>No recent orders. <button onClick={placeDemoOrder} style={{ background: 'none', border: 'none', color: '#cda372', cursor: 'pointer', textDecoration: 'underline' }}>Place a demo order</button></p>
+              <p style={{ textAlign: 'center', color: '#888' }}>No recent orders. <button onClick={() => navigate('/')} style={{ background: 'none', border: 'none', color: '#cda372', cursor: 'pointer', textDecoration: 'underline' }}>Start Shopping</button></p>
             )}
           </div>
 
@@ -903,24 +922,30 @@ const AccountPage = () => {
     }
   };
 
-  const handleDeleteAccount = async () => {
-    if (!window.confirm("Are you absolutely sure you want to delete your account? This action cannot be undone and you will lose all your data.")) return;
-
-    try {
-      const token = localStorage.getItem('token');
-      if (!token) return;
-      const res = await fetch(`${API_URL}/api/auth/account`, {
-        method: 'DELETE',
-        headers: { Authorization: `Bearer ${token}` }
-      });
-      if (res.ok) {
-        handleLogout();
-      } else {
-        showError("Failed to delete account.");
+  const handleDeleteAccount = () => {
+    askConfirm(
+      'Delete Account',
+      'Are you absolutely sure you want to delete your account? This action cannot be undone and you will lose all your data.',
+      'Delete Account',
+      true,
+      async () => {
+        try {
+          const token = localStorage.getItem('token');
+          if (!token) return;
+          const res = await fetch(`${API_URL}/api/auth/account`, {
+            method: 'DELETE',
+            headers: { Authorization: `Bearer ${token}` }
+          });
+          if (res.ok) {
+            handleLogout();
+          } else {
+            showError("Failed to delete account.");
+          }
+        } catch (err) {
+          showError("A network error occurred while deleting account.");
+        }
       }
-    } catch (err) {
-      showError("A network error occurred while deleting account.");
-    }
+    );
   };
 
   const renderSettings = () => (

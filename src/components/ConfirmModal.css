@@ -56,6 +56,12 @@
   border: 2px solid #f5c0c0;
 }
 
+.cm-icon.success {
+  background: #e8f5e9;
+  color: #2e7d32;
+  border: 2px solid #c8e6c9;
+}
+
 .cm-title {
   font-family: var(--font-heading, 'Playfair Display', serif);
   color: #2c1a1a;
@@ -123,4 +129,13 @@
 .cm-btn-confirm.danger:hover {
   background: #b71c1c;
   box-shadow: 0 4px 12px rgba(211,47,47,0.3);
+}
+
+.cm-btn-confirm.success {
+  background: #2e7d32;
+}
+
+.cm-btn-confirm.success:hover {
+  background: #1b5e20;
+  box-shadow: 0 4px 12px rgba(46,125,50,0.3);
 }

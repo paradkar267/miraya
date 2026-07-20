@@ -12,6 +12,7 @@ import SearchPage from './pages/SearchPage';
 import AboutPage from './pages/AboutPage';
 import AccountPage from './pages/AccountPage';
 import AuthPage from './pages/AuthPage';
+import ErrorBoundary from './components/ErrorBoundary';
 import AdminDashboard from './pages/AdminDashboard';
 import WhatsAppButton from './components/WhatsAppButton';
 
@@ -32,7 +33,11 @@ function App() {
             <Route path="/contact" element={<ContactPage />} />
             <Route path="/search" element={<SearchPage />} />
             <Route path="/about" element={<AboutPage />} />
-            <Route path="/account" element={<AccountPage />} />
+            <Route path="/account" element={
+              <ErrorBoundary>
+                <AccountPage />
+              </ErrorBoundary>
+            } />
             <Route path="/auth" element={<AuthPage />} />
             <Route path="/admin" element={<AdminDashboard />} />
           </Routes>

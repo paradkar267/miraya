@@ -1,16 +1,21 @@
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { ArrowLeft, Star, Heart, ZoomIn, Search, Minus, Plus, ShieldCheck, Truck, Lock, Flower2 } from 'lucide-react';
 import API_URL from '../config';
+import ConfirmModal from '../components/ConfirmModal';
 import './ProductDetailPage.css';
 
 const ProductDetailPage = () => {
   const { category, id } = useParams();
+  const location = useLocation();
+  const initialProduct = location.state?.product || null;
+
   const [quantity, setQuantity] = useState(1);
   const [activeImageIndex, setActiveImageIndex] = useState(0);
+  const [confirmConfig, setConfirmConfig] = useState(null);
 
-  const [product, setProduct] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [product, setProduct] = useState(initialProduct);
+  const [loading, setLoading] = useState(!initialProduct);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -86,11 +91,18 @@ const ProductDetailPage = () => {
     }
     
     localStorage.setItem('miraya_cart', JSON.stringify(existingCart));
-    alert(`${product.title} added to your cart!`);
+    setConfirmConfig({
+      message: 'Added to Bag',
+      subMessage: `${product.title} has been successfully added to your shopping bag.`,
+      confirmText: 'Continue',
+      isAlert: true,
+      isSuccess: true
+    });
   };
 
   return (
     <div className="product-detail-page">
+      <ConfirmModal config={confirmConfig} onClose={() => setConfirmConfig(null)} />
       <div className="container product-container">
         <div className="back-nav">
           <Link to={`/collection/${product.category}`} className="back-link">

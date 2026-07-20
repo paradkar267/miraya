@@ -253,7 +253,7 @@ const CategoryPage = () => {
                     >
                       <Heart size={16} fill={isWishlisted ? "currentColor" : "none"} />
                     </button>
-                    <Link to={`/product/${item.category}/${item.id}`}>
+                    <Link to={`/product/${item.category}/${item.id}`} state={{ product: item }}>
                       <img src={item.image || `https://source.unsplash.com/random/400x600/?${item.category}`} alt={item.title} loading="lazy" />
                     </Link>
                   </div>

@@ -7,69 +7,68 @@ const prisma = new PrismaClient();
 const auth = require('../middleware/auth');
 const passport = require('passport');
 
+const { OAuth2Client } = require('google-auth-library');
+const googleClient = new OAuth2Client(
+  process.env.GOOGLE_CLIENT_ID,
+  process.env.GOOGLE_CLIENT_SECRET,
+  `${process.env.BACKEND_URL || 'http://localhost:5000'}/api/auth/google/callback`
+);
+
 // Google OAuth login route
-router.get('/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
+router.get('/google', (req, res) => {
+  const url = googleClient.generateAuthUrl({
+    access_type: 'offline',
+    scope: ['profile', 'email'],
+    prompt: 'consent'
+  });
+  res.redirect(url);
+});
+
+const usedCodes = new Set();
 
 router.get('/google/callback', async (req, res) => {
-  const code = req.query.code;
-  console.log("=== GOOGLE CALLBACK ===");
-  console.log("Code received:", code ? code.substring(0, 20) + "..." : "MISSING");
-  
   const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5173';
-  const backendUrl = process.env.BACKEND_URL || 'http://localhost:5000';
-
+  const code = req.query.code;
+  
   if (!code) {
-    return res.redirect(`${frontendUrl}/auth?error=no_code`);
+    return res.redirect(`${frontendUrl}/auth?error=no_code_provided`);
   }
 
+  if (usedCodes.has(code)) {
+    console.log("Duplicate request for code ignored.");
+    return; // Don't redirect, just ignore to not override the first successful response
+  }
+  usedCodes.add(code);
+  setTimeout(() => usedCodes.delete(code), 1000 * 60 * 5); // Clean up after 5 mins
+
   try {
-    // Manual token exchange - bypassing passport to debug
-    const params = new URLSearchParams({
-      grant_type: 'authorization_code',
-      code: code,
-      redirect_uri: `${backendUrl}/api/auth/google/callback`,
-      client_id: process.env.GOOGLE_CLIENT_ID,
-      client_secret: process.env.GOOGLE_CLIENT_SECRET,
-    });
-
-    console.log("Sending to Google token endpoint...");
-    console.log("client_id:", process.env.GOOGLE_CLIENT_ID);
+    const { tokens } = await googleClient.getToken(code);
+    googleClient.setCredentials(tokens);
     
-    const tokenRes = await fetch('https://oauth2.googleapis.com/token', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: params.toString(),
+    const ticket = await googleClient.verifyIdToken({
+      idToken: tokens.id_token,
+      audience: process.env.GOOGLE_CLIENT_ID,
     });
-
-    const tokenData = await tokenRes.json();
-    console.log("=== GOOGLE TOKEN RESPONSE ===");
-    console.log(JSON.stringify(tokenData, null, 2));
-
-    if (tokenData.error) {
-      return res.redirect(`${frontendUrl}/auth?error=${tokenData.error_description || tokenData.error}`);
-    }
-
-    // Get user info from Google
-    const userRes = await fetch('https://www.googleapis.com/oauth2/v2/userinfo', {
-      headers: { Authorization: `Bearer ${tokenData.access_token}` }
-    });
-    const googleUser = await userRes.json();
-    console.log("=== GOOGLE USER ===", googleUser.email);
-
-    // Find or create user in DB
-    let user = await prisma.user.findUnique({ where: { googleId: googleUser.id } });
+    
+    const payload = ticket.getPayload();
+    
+    // Find or create user
+    let user = await prisma.user.findUnique({ where: { googleId: payload.sub } });
     if (!user) {
-      user = await prisma.user.findUnique({ where: { email: googleUser.email } });
+      user = await prisma.user.findUnique({ where: { email: payload.email } });
       if (user) {
-        user = await prisma.user.update({ where: { email: googleUser.email }, data: { googleId: googleUser.id } });
+        user = await prisma.user.update({
+          where: { email: payload.email },
+          data: { googleId: payload.sub, profilePhoto: user.profilePhoto || payload.picture }
+        });
       } else {
         user = await prisma.user.create({
           data: {
-            firstName: googleUser.given_name || 'Google',
-            lastName: googleUser.family_name || 'User',
-            email: googleUser.email,
-            googleId: googleUser.id,
-            profilePhoto: googleUser.picture || null,
+            firstName: payload.given_name || 'Google',
+            lastName: payload.family_name || 'User',
+            email: payload.email,
+            googleId: payload.sub,
+            profilePhoto: payload.picture || null,
           }
         });
       }
@@ -77,36 +76,22 @@ router.get('/google/callback', async (req, res) => {
 
     const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '7d' });
     const userParam = encodeURIComponent(JSON.stringify({
-      id: user.id, firstName: user.firstName, lastName: user.lastName,
-      email: user.email, profilePhoto: null
+      id: user.id,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      email: user.email
     }));
-    console.log("=== REDIRECTING TO FRONTEND ===");
+    
     res.redirect(`${frontendUrl}/auth?token=${token}&user=${userParam}`);
-
   } catch (err) {
-    console.error("=== OAUTH ERROR ===", err);
-    res.redirect(`${frontendUrl}/auth?error=server_error`);
+    console.error("=== OAUTH ERROR ===", err.message);
+    if (err.response && err.response.data) {
+      console.error("=== OAUTH ERROR DETAILS ===", err.response.data);
+    }
+    const errorDetails = err.response?.data?.error_description || err.message;
+    res.redirect(`${frontendUrl}/auth?error=${encodeURIComponent(errorDetails)}`);
   }
 });
-
-// OLD passport route (commented out for debug)
-/*
-router.get('/google/callback-passport', (req, res, next) => {
-  next();
-
-  // Successful authentication
-  const token = jwt.sign({ id: req.user.id }, process.env.JWT_SECRET, { expiresIn: '7d' });
-  const userParam = encodeURIComponent(JSON.stringify({
-    id: req.user.id,
-    firstName: req.user.firstName,
-    lastName: req.user.lastName,
-    email: req.user.email,
-    profilePhoto: req.user.profilePhoto
-  }));
-  const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5173';
-  res.redirect(`${frontendUrl}/auth?token=${token}&user=${userParam}`);
-});
-*/
 // Register
 router.post('/register', async (req, res) => {
   try {
