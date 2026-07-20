@@ -153,14 +153,7 @@ const ProductDetailPage = () => {
             </div>
 
             <div className="product-reviews-price">
-              <div className="reviews-row">
-                <div className="stars">
-                  {[...Array(5)].map((_, i) => <Star key={i} size={14} fill="#C6A46A" color="#C6A46A" />)}
-                </div>
-                <span className="review-count">4.9 (128 reviews)</span>
-                <span className="bestseller-badge">
-                  <Flower2 size={12} /> Bestseller
-                </span>
+              <div className="reviews-row" style={{ display: 'none' }}>
               </div>
               <div className="price-row">
                 <span className="price-amount">₹ {product.price ? product.price.toLocaleString('en-IN') : '24,500'}</span>
