@@ -572,7 +572,7 @@ const AccountPage = () => {
             <h4>Need help with measurements?</h4>
             <p>Our stylist can guide you step-by-step.</p>
           </div>
-          <button className="card-btn-small">BOOK APPOINTMENT ⟶</button>
+          <button className="card-btn-small" onClick={() => navigate('/contact')}>BOOK APPOINTMENT ⟶</button>
         </div>
       </div>
     );
