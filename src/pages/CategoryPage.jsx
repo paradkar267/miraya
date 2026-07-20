@@ -1,7 +1,7 @@
 import { useParams, useLocation, Link } from 'react-router-dom';
 import { useEffect, useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Heart, ChevronDown, LayoutGrid, RefreshCw, Scissors, Layers, Flower, ShieldCheck, Sparkles, Gem, Shirt, Scissors as ScissorsIcon } from 'lucide-react';
+import { Heart, ChevronDown, ChevronUp, LayoutGrid, List, RefreshCw, ShoppingBag, Sparkles, Gem, Shirt, ArrowRight } from 'lucide-react';
 import { useWishlist } from '../context/WishlistContext';
 import API_URL from '../config';
 import './CategoryPage.css';
@@ -136,25 +136,38 @@ const CategoryPage = () => {
           </div>
           <h1>{displayTitle}</h1>
           <p>Explore our exclusive collection of handcrafted {displayTitle.toLowerCase()},<br/>where timeless tradition meets modern elegance.</p>
-          <Ornament />
+          <div className="ornament-container">
+            <div className="line"></div>
+            <div className="diamond">
+               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" className="ornament-icon"><path d="M12 2L15 12L12 22L9 12Z"/></svg>
+            </div>
+            <div className="line"></div>
+          </div>
         </div>
       </div>
-
+      <div className="floral-bg-category"></div>
       <div className="container category-layout">
         
         {/* SIDEBAR FILTERS */}
         <aside className="filter-sidebar">
-          <div className="corner-tl"></div>
-          <div className="corner-tr"></div>
-          <div className="corner-bl"></div>
-          <div className="corner-br"></div>
           <div className="sidebar-sticky">
             <h2 className="sidebar-title">FILTERS</h2>
-            <Ornament />
+            <div className="sidebar-ornament">
+              <svg width="32" height="12" viewBox="0 0 32 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M16 1C16 1 19 6 16 11C13 6 16 1 16 1Z" stroke="#cda372" strokeWidth="1"/>
+                <path d="M16 11C16 11 20 8 24 5C19 5 16 11 16 11Z" stroke="#cda372" strokeWidth="1"/>
+                <path d="M16 11C16 11 12 8 8 5C13 5 16 11 16 11Z" stroke="#cda372" strokeWidth="1"/>
+                <line x1="0" y1="5.5" x2="10" y2="5.5" stroke="#cda372" strokeWidth="1" />
+                <line x1="22" y1="5.5" x2="32" y2="5.5" stroke="#cda372" strokeWidth="1" />
+              </svg>
+            </div>
             
             {category === 'all' && (
               <div className="filter-section">
-                <h3 className="filter-heading">CATEGORY</h3>
+                <div className="filter-heading-wrap">
+                  <h3 className="filter-heading">CATEGORY</h3>
+                  <ChevronUp size={14} className="filter-chevron" />
+                </div>
                 <div className="checkbox-list">
                   {availableCategories.map(cat => (
                     <label key={cat} className={`custom-checkbox ${selectedCategories.includes(cat) ? 'active' : ''}`}>
@@ -165,18 +178,23 @@ const CategoryPage = () => {
                       />
                       <span className="checkmark"></span>
                       <span className="cat-icon">{getCategoryIcon(cat)}</span>
-                      {formatCategoryName(cat)}
+                      <span className="cat-label">{formatCategoryName(cat)}</span>
                     </label>
                   ))}
                 </div>
               </div>
             )}
             
-            <Ornament />
+            <div className="sidebar-divider">
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#cda372" strokeWidth="1"><path d="M12 2L15 12L12 22L9 12Z"/></svg>
+            </div>
 
             {availableFabrics.length > 0 && (
               <div className="filter-section">
-                <h3 className="filter-heading">FABRIC</h3>
+                <div className="filter-heading-wrap">
+                  <h3 className="filter-heading">FABRIC</h3>
+                  <ChevronUp size={14} className="filter-chevron" />
+                </div>
                 <div className="checkbox-list">
                   {availableFabrics.map(fabric => (
                     <label key={fabric} className={`custom-checkbox fabric-checkbox ${selectedFabrics.includes(fabric) ? 'active' : ''}`}>
@@ -185,8 +203,9 @@ const CategoryPage = () => {
                         checked={selectedFabrics.includes(fabric)}
                         onChange={() => handleCheckboxChange(setSelectedFabrics, fabric)}
                       />
+                      <span className="checkmark"></span>
                       <span className="fabric-swatch" style={{ backgroundColor: getFabricColor(fabric) }}></span>
-                      {fabric}
+                      <span className="cat-label">{fabric}</span>
                     </label>
                   ))}
                 </div>
@@ -197,7 +216,7 @@ const CategoryPage = () => {
               setSelectedCategories([]);
               setSelectedFabrics([]);
             }}>
-              <RefreshCw size={14} className="mr-2" /> CLEAR FILTERS
+              RESET FILTERS <RefreshCw size={14} className="ml-2" />
             </button>
           </div>
         </aside>
@@ -207,7 +226,7 @@ const CategoryPage = () => {
           
           <div className="sort-bar-top">
             <div className="results-count">
-              Showing {filteredAndSortedProducts.length} of {samples.length} results
+              Showing <span className="highlight-count">{filteredAndSortedProducts.length}</span> of <span className="highlight-count">{samples.length}</span> results
             </div>
             <div className="sort-controls">
               <div className="custom-sort-dropdown">
@@ -215,9 +234,14 @@ const CategoryPage = () => {
                   Sort by: Featured <ChevronDown size={14} className="ml-1" />
                 </div>
               </div>
-              <button className="grid-toggle-btn">
-                <LayoutGrid size={18} />
-              </button>
+              <div className="view-toggles">
+                <button className="grid-toggle-btn active">
+                  <LayoutGrid size={16} />
+                </button>
+                <button className="list-toggle-btn">
+                  <List size={16} />
+                </button>
+              </div>
             </div>
           </div>
 
@@ -259,7 +283,23 @@ const CategoryPage = () => {
                   </div>
                   <div className="card-info">
                     <h3>{item.title}</h3>
-                    <div className="product-price">{item.price}</div>
+                    <div className="card-ornament">
+                      <svg width="24" height="8" viewBox="0 0 24 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <line x1="0" y1="4" x2="10" y2="4" stroke="#cda372" strokeWidth="1"/>
+                        <line x1="14" y1="4" x2="24" y2="4" stroke="#cda372" strokeWidth="1"/>
+                        <path d="M12 2L13.5 4L12 6L10.5 4L12 2Z" fill="#cda372"/>
+                      </svg>
+                    </div>
+                    <div className="product-price">₹{parseInt(item.price.replace(/[^\d]/g, '') || '0').toLocaleString('en-IN')}</div>
+                    
+                    <div className="card-action-bar">
+                      <Link to={`/product/${item.category}/${item.id}`} state={{ product: item }} className="view-details-link">
+                        VIEW DETAILS <ArrowRight size={14} className="ml-1" />
+                      </Link>
+                      <button className="bag-btn">
+                        <ShoppingBag size={14} />
+                      </button>
+                    </div>
                   </div>
                   </motion.div>
                 );
@@ -277,51 +317,18 @@ const CategoryPage = () => {
           )}
         </main>
       </div>
-
-      <div className="container">
-        <div className="features-section">
-          <CornerOrnament className="corner-top-left" />
-          <CornerOrnament className="corner-top-right" />
-          <CornerOrnament className="corner-bottom-left" />
-          <CornerOrnament className="corner-bottom-right" />
-          <div className="feature-item">
-            <div className="feature-icon-wrapper">
-              <ScissorsIcon size={24} color="#dfc28d" />
-            </div>
-            <div className="feature-text">
-              <h4>Handcrafted<br/>with Love</h4>
-              <p>Each piece is a masterpiece crafted by skilled artisans.</p>
-            </div>
-          </div>
-          <div className="feature-item">
-            <div className="feature-icon-wrapper">
-              <Layers size={24} color="#dfc28d" />
-            </div>
-            <div className="feature-text">
-              <h4>Premium<br/>Quality Fabrics</h4>
-              <p>We use the finest fabrics for unmatched comfort.</p>
-            </div>
-          </div>
-          <div className="feature-item">
-            <div className="feature-icon-wrapper">
-              <Flower size={24} color="#dfc28d" />
-            </div>
-            <div className="feature-text">
-              <h4>Timeless<br/>Designs</h4>
-              <p>Elegant silhouettes that never go out of style.</p>
-            </div>
-          </div>
-          <div className="feature-item">
-            <div className="feature-icon-wrapper">
-              <ShieldCheck size={24} color="#dfc28d" />
-            </div>
-            <div className="feature-text">
-              <h4>Trusted<br/>by Thousands</h4>
-              <p>Loved by our customers across the globe.</p>
-            </div>
-          </div>
+      
+      {filteredAndSortedProducts.length > 0 && !loading && (
+        <div className="pagination-wrapper">
+          <button className="page-nav-btn"><ChevronDown size={16} style={{transform: 'rotate(90deg)'}} /></button>
+          <button className="page-btn active">1</button>
+          <button className="page-btn">2</button>
+          <button className="page-btn">3</button>
+          <span className="page-dots">...</span>
+          <button className="page-btn">7</button>
+          <button className="page-nav-btn"><ChevronDown size={16} style={{transform: 'rotate(-90deg)'}} /></button>
         </div>
-      </div>
+      )}
     </div>
   );
 };

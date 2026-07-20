@@ -2,13 +2,7 @@ const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
 const productsData = {
-  lehengas: [
-    { id: 1, category: 'lehengas', image: '/lehenga/lehenga-1.jpg', title: 'Royal Crimson Lehenga', price: '₹1,25,000', priceValue: 125000, color: 'Red', fabric: 'Silk', description: 'A breathtaking vision in crimson, featuring intricate zardosi hand-embroidery. This silk masterpiece takes over 200 hours to craft, embodying regal elegance for your most momentous occasions.' },
-    { id: 2, category: 'lehengas', image: '/lehenga/lehenga-2.jpg', title: 'Ivory Pearl Bridal', price: '₹2,50,000', priceValue: 250000, color: 'White', fabric: 'Georgette', description: 'Ethereal ivory georgette adorned with lustrous pearl and sequin work. A contemporary bridal dream that flows beautifully and captures light from every angle.' },
-    { id: 3, category: 'lehengas', image: '/lehenga/lehenga-3.jpg', title: 'Midnight Velvet Elegance', price: '₹1,75,000', priceValue: 175000, color: 'Black', fabric: 'Velvet', description: 'Deep midnight velvet enriched with antique gold motifs. This luxurious ensemble offers a dramatic, sophisticated silhouette perfect for evening receptions.' },
-    { id: 4, category: 'lehengas', image: '/lehenga/lehenga-4.jpg', title: 'Emerald Zardosi Masterpiece', price: '₹3,00,000', priceValue: 300000, color: 'Green', fabric: 'Brocade', description: 'A heritage brocade lehenga in striking emerald, featuring heirloom-quality zardosi artistry. An unapologetically opulent choice for the modern royal.' },
-    { id: 5, category: 'lehengas', image: '/lehenga/lehenga-5.jpg', title: 'Dusty Rose Heritage', price: '₹1,80,000', priceValue: 180000, color: 'Pink', fabric: 'Silk', description: 'Soft dusty rose pure silk detailed with vintage-inspired gota patti. A romantic and timeless piece that celebrates feminine grace.' },
-  ],
+  lehengas: [],
   kurtis: [
     { id: 1, category: 'kurtis', image: '/kurti/kurti-1.jpg', title: 'Pastel Organza Kurti', price: '₹45,000', priceValue: 45000, color: 'Pink', fabric: 'Georgette', description: 'Light-as-air pastel organza layered over soft georgette, featuring delicate threadwork. A versatile and effortlessly chic addition to your festive wardrobe.' },
     { id: 2, category: 'kurtis', image: '/kurti/kurti-2.jpg', title: 'Handwoven Chanderi', price: '₹55,000', priceValue: 55000, color: 'White', fabric: 'Silk', description: 'Pristine white handwoven Chanderi silk with subtle metallic woven motifs. A testament to understated luxury and classic Indian textile heritage.' },

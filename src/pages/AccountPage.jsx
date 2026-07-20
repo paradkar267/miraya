@@ -647,7 +647,7 @@ const AccountPage = () => {
             <Heart size={48} color="var(--primary-gold)" style={{ marginBottom: '1rem', opacity: 0.5 }} />
             <h3 style={{ color: 'var(--primary-burgundy)', marginBottom: '1rem' }}>Your wishlist is empty</h3>
             <p style={{ color: '#666', marginBottom: '2rem' }}>Save your favorite items here to view them later or add to cart.</p>
-            <button className="btn-solid-burgundy" onClick={() => navigate('/collection/all')}>
+            <button className="btn-solid-burgundy" style={{ margin: '0 auto' }} onClick={() => navigate('/collection/all')}>
               EXPLORE COLLECTIONS
             </button>
           </div>
