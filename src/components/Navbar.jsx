@@ -1,7 +1,9 @@
 import { useEffect, useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link, NavLink, useNavigate, useLocation } from 'react-router-dom';
-import { Menu, X, ChevronDown, User, ShoppingCart, Heart } from 'lucide-react';
+import { Menu, X, ChevronDown, User, ShoppingCart, Heart, Settings, LogOut } from 'lucide-react';
+import { useWishlist } from '../context/WishlistContext';
+import { useCart } from '../context/CartContext';
 import './Navbar.css';
 
 const Navbar = () => {
@@ -9,10 +11,25 @@ const Navbar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [mobileCollectionOpen, setMobileCollectionOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem('isLoggedIn') === 'true');
+  const [user, setUser] = useState(null);
   const [isAdmin, setIsAdmin] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
+
+  const { wishlistCount } = useWishlist();
+  const { cartCount } = useCart();
+
+  const handleLogout = () => {
+    localStorage.removeItem('isLoggedIn');
+    localStorage.removeItem('user');
+    setIsLoggedIn(false);
+    setIsAdmin(false);
+    navigate('/');
+    setProfileDropdownOpen(false);
+    window.dispatchEvent(new Event('loginStateChange'));
+  };
 
   useEffect(() => {
     const handleLoginChange = () => {
@@ -21,9 +38,11 @@ const Navbar = () => {
       if (userStr) {
         try {
           const userObj = JSON.parse(userStr);
+          setUser(userObj);
           setIsAdmin(userObj.email === 'bizleap1@gmail.com' || userObj.role === 'ADMIN');
         } catch(e) {}
       } else {
+        setUser(null);
         setIsAdmin(false);
       }
     };
@@ -51,7 +70,7 @@ const Navbar = () => {
   // Pages with dark hero sections at the top where white text is visible
   const hasDarkHero = isHomePage;
   
-  // Force scrolled state (burgundy text, cream bg) on pages without a dark hero
+  // Navbar is scrolled if we have scrolled down OR if there is no dark hero section
   const isNavbarScrolled = scrolled || !hasDarkHero;
 
   return (
@@ -130,10 +149,7 @@ const Navbar = () => {
                           <div className="mega-img-wrap"><img src="/craftman.jpg" alt="Co-ord Set" /></div>
                           <span className="mega-item-title">CO-ORD SETS</span>
                         </Link>
-                        <Link to="/collection/traditional" className="mega-item">
-                          <div className="mega-img-wrap"><img src="/anarkali_mega.png" alt="Traditional Wear" /></div>
-                          <span className="mega-item-title">TRADITIONAL WEAR</span>
-                        </Link>
+
                         <Link to="/collection/all" className="mega-view-all">
                           <div className="view-all-corner-tr"></div>
                           <div className="view-all-corner-bl"></div>
@@ -159,6 +175,7 @@ const Navbar = () => {
               </AnimatePresence>
             </div>
 
+            <NavLink to="/bespoke" className="nav-link">Bespoke</NavLink>
             <NavLink to="/lookbook" className="nav-link">Lookbook</NavLink>
             <NavLink to="/about" className="nav-link">About Us</NavLink>
             <NavLink to="/contact" className="nav-link">Contact Us</NavLink>
@@ -172,15 +189,58 @@ const Navbar = () => {
                   Admin Panel
                 </Link>
               )}
-              <Link to="/account" state={{ tab: 'wishlist' }} className="icon-btn desktop-only" aria-label="Wishlist" title="Wishlist">
+              <Link to="/account" state={{ tab: 'wishlist' }} className="icon-btn desktop-only position-relative" aria-label="Wishlist" title="Wishlist">
                 <Heart size={20} strokeWidth={1.5} />
+                {wishlistCount > 0 && <span className="nav-badge">{wishlistCount}</span>}
               </Link>
-              <Link to="/account" state={{ tab: 'cart' }} className="icon-btn desktop-only" aria-label="Cart" title="Cart">
+              <Link to="/account" state={{ tab: 'cart' }} className="icon-btn desktop-only position-relative" aria-label="Cart" title="Cart">
                 <ShoppingCart size={20} strokeWidth={1.5} />
+                {cartCount > 0 && <span className="nav-badge">{cartCount}</span>}
               </Link>
-              <Link to={isLoggedIn ? "/account" : "/auth"} className={isLoggedIn ? "icon-btn" : "nav-link signup-link"} aria-label="Account">
-                {isLoggedIn ? <User size={20} strokeWidth={1.5} /> : <span>SIGN UP</span>}
-              </Link>
+              {isLoggedIn ? (
+                <div 
+                  className="profile-dropdown-container"
+                  onMouseEnter={() => setProfileDropdownOpen(true)}
+                  onMouseLeave={() => setProfileDropdownOpen(false)}
+                >
+                  <button className="icon-btn profile-photo-btn" aria-label="Profile">
+                    <img 
+                      src={user?.profilePicture || "/profile.jpg"} 
+                      alt="Profile" 
+                      className="profile-photo" 
+                      onError={(e) => { e.target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(user?.name || 'User')}&background=3d1c1a&color=fff&rounded=true&size=128`; }}
+                    />
+                  </button>
+                  <AnimatePresence>
+                    {profileDropdownOpen && (
+                      <motion.div
+                        className="profile-dropdown-menu"
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: 10 }}
+                        transition={{ duration: 0.2 }}
+                      >
+                        <Link to="/account" className="profile-dropdown-item" onClick={() => setProfileDropdownOpen(false)}>
+                          <User size={16} className="profile-dropdown-icon" />
+                          <span>View Profile</span>
+                        </Link>
+                        <Link to="/account?tab=settings" className="profile-dropdown-item" onClick={() => setProfileDropdownOpen(false)}>
+                          <Settings size={16} className="profile-dropdown-icon" />
+                          <span>Settings</span>
+                        </Link>
+                        <button onClick={handleLogout} className="profile-dropdown-item logout-btn">
+                          <LogOut size={16} className="profile-dropdown-icon" />
+                          <span>Logout</span>
+                        </button>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+              ) : (
+                <Link to="/auth" className="nav-link signup-link" aria-label="Account">
+                  <span>SIGN UP</span>
+                </Link>
+              )}
               <button
                 className="icon-btn mobile-only"
                 onClick={() => setMobileMenuOpen(true)}
@@ -251,6 +311,9 @@ const Navbar = () => {
                       </motion.div>
                     )}
                   </AnimatePresence>
+                </motion.div>
+                <motion.div initial={{ opacity: 0, x: 40 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 20 }} transition={{ delay: 0.17, duration: 0.5, ease: "easeOut" }}>
+                  <Link to="/bespoke" onClick={() => setMobileMenuOpen(false)}>Bespoke</Link>
                 </motion.div>
                 <motion.div initial={{ opacity: 0, x: 40 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 20 }} transition={{ delay: 0.18, duration: 0.5, ease: "easeOut" }}>
                   <Link to="/lookbook" onClick={() => setMobileMenuOpen(false)}>Lookbook</Link>

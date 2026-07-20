@@ -101,20 +101,7 @@ const AuthPage = () => {
               <p>Discover the finest<br/>handcrafted luxury wear<br/>curated just for you.</p>
             </div>
 
-            <div className="auth-features">
-              <div className="feature-item">
-                <div className="feature-icon"><span className="flower-icon-small">✿</span></div>
-                <p>Timeless<br/>Craftsmanship</p>
-              </div>
-              <div className="feature-item">
-                <div className="feature-icon"><span className="leaf-icon-small">✧</span></div>
-                <p>Premium<br/>Fabrics</p>
-              </div>
-              <div className="feature-item">
-                <div className="feature-icon"><span className="heart-icon-small">♡</span></div>
-                <p>Made with<br/>Love</p>
-              </div>
-            </div>
+
 
           </div>
         </div>

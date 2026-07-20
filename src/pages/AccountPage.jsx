@@ -3,6 +3,8 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { Home, ShoppingBag, Ruler, Heart, LogOut, Headphones, ChevronRight, Plus, Trash2, User, Trash, PenTool, ShoppingCart, Settings } from 'lucide-react';
 import API_URL from '../config';
 import ConfirmModal from '../components/ConfirmModal';
+import { useCart } from '../context/CartContext';
+import { useWishlist } from '../context/WishlistContext';
 import './AccountPage.css';
 
 // --- MOCK DATA ---
@@ -108,20 +110,7 @@ const AccountPage = () => {
 
   const [orders, setOrders] = useState([]);
   const [loadingOrders, setLoadingOrders] = useState(false);
-  const [cartItems, setCartItems] = useState(() => {
-    try {
-      const saved = localStorage.getItem('miraya_cart');
-      const parsed = saved ? JSON.parse(saved) : [];
-      return Array.isArray(parsed) ? parsed : [];
-    } catch (e) {
-      console.error("Failed to parse cart from local storage", e);
-      return [];
-    }
-  });
-
-  useEffect(() => {
-    localStorage.setItem('miraya_cart', JSON.stringify(cartItems));
-  }, [cartItems]);
+  const { cartItems, setCartItems } = useCart();
 
   const fetchOrders = async () => {
     try {
@@ -230,30 +219,8 @@ const AccountPage = () => {
     );
   };
 
-  const [wishlist, setWishlist] = useState([]);
+  const { wishlist, toggleWishlist } = useWishlist();
   const [loadingWishlist, setLoadingWishlist] = useState(false);
-
-  const fetchWishlist = async () => {
-    try {
-      const token = localStorage.getItem('token');
-      if (!token) return;
-      setLoadingWishlist(true);
-      const res = await fetch(`${API_URL}/api/wishlist`, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
-      if (res.ok) {
-        const data = await res.json();
-        setWishlist(data);
-      } else {
-        showError("Failed to fetch wishlist");
-      }
-    } catch (err) {
-      console.error("Failed to fetch wishlist", err);
-      showError("A network error occurred while fetching wishlist.");
-    } finally {
-      setLoadingWishlist(false);
-    }
-  };
 
   useEffect(() => {
     const savedUser = localStorage.getItem('user');
@@ -270,7 +237,6 @@ const AccountPage = () => {
         return;
       }
       fetchOrders();
-      fetchWishlist();
       fetchMeasurements();
       // Fetch fresh data from DB in background
       fetch(`${API_URL}/api/auth/profile`, { headers: { Authorization: `Bearer ${token}` } })
@@ -320,25 +286,10 @@ const AccountPage = () => {
   };
 
   const removeWishlistItem = async (id) => {
-    try {
-      const token = localStorage.getItem('token');
-      if (!token) return;
-      const res = await fetch(`${API_URL}/api/wishlist/${id}`, {
-        method: 'DELETE',
-        headers: { Authorization: `Bearer ${token}` }
-      });
-      if (res.ok) {
-        fetchWishlist();
-      } else {
-        showError("Failed to remove item from wishlist.");
-      }
-    } catch (err) {
-      showError("A network error occurred while updating wishlist.");
-    }
+    toggleWishlist({ id });
   };
 
-  const moveToCart = (wishlistItem) => {
-    const product = wishlistItem.product;
+  const moveToCart = (product) => {
     // Check if already in cart
     if (cartItems.find(c => c.id === product.id)) {
       askConfirm('Already in Bag', 'This item is already in your shopping bag.', 'OK', false, null, true);
@@ -352,7 +303,7 @@ const AccountPage = () => {
       qty: 1
     }]);
     // Optionally remove from wishlist
-    removeWishlistItem(wishlistItem.id);
+    removeWishlistItem(product.id);
     askConfirm('Added to Bag', `${product.name} has been successfully added to your shopping bag.`, 'Continue', false, null, true, true);
   };
 
@@ -655,14 +606,14 @@ const AccountPage = () => {
           wishlist.map(item => (
             <div className="wishlist-card" key={item.id}>
               <div className="w-img-wrapper">
-                <img src={item.product?.image} alt={item.product?.name} />
-                <button className="w-heart-btn">
+                <img src={item.image} alt={item.name} />
+                <button className="w-heart-btn" onClick={() => toggleWishlist(item)}>
                   <Heart size={16} fill="#5e0a0b" color="#5e0a0b" />
                 </button>
               </div>
               <div className="w-card-body">
-                <h4 className="w-title">{item.product?.name}</h4>
-                <p className="w-price">₹{item.product?.price ? item.product.price.toLocaleString('en-IN') : 'N/A'}</p>
+                <h4 className="w-title">{item.name}</h4>
+                <p className="w-price">₹{item.price ? item.price.toLocaleString('en-IN') : 'N/A'}</p>
                 <div className="w-meta">
                   <span>Size: Custom</span>
                 </div>
@@ -671,7 +622,7 @@ const AccountPage = () => {
                 </p>
                 <div className="w-actions">
                   <button className="w-add-btn" onClick={() => moveToCart(item)}>ADD TO BAG</button>
-                  <button className="w-del-btn" onClick={() => removeWishlistItem(item.id)}><Trash2 size={18} /></button>
+                  <button className="w-del-btn" onClick={() => toggleWishlist(item)}><Trash2 size={18} /></button>
                 </div>
               </div>
             </div>

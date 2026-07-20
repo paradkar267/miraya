@@ -48,13 +48,13 @@
 .navbar-right {
   display: flex;
   align-items: center;
-  gap: 2.5rem;
+  gap: 1.5rem;
 }
 
 .navbar-links {
   display: flex;
   align-items: center;
-  gap: 2.5rem;
+  gap: 1.5rem;
 }
 
 .logo-img {
@@ -86,6 +86,7 @@
   align-items: center;
   cursor: pointer;
   text-decoration: none;
+  white-space: nowrap;
 }
 
 .navbar.scrolled .nav-link {
@@ -201,7 +202,7 @@
   padding-top: 1rem;
   z-index: 2000;
   width: 90vw;
-  max-width: 780px;
+  max-width: 680px;
 }
 
 .mega-menu-inner {
@@ -209,7 +210,7 @@
   border-radius: 12px;
   box-shadow: 0 30px 60px rgba(0,0,0,0.15);
   border: 1px solid rgba(212, 175, 55, 0.2);
-  padding: 1.25rem 1.5rem;
+  padding: 1rem 1.25rem;
   position: relative;
 }
 
@@ -242,7 +243,7 @@
 
 .mega-grid {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 1rem 0.8rem;
 }
 
@@ -308,7 +309,6 @@
 }
 
 .mega-view-all {
-  grid-column: span 2;
   border: 1px solid rgba(198, 164, 106, 0.4);
   border-radius: 6px;
   display: flex;
@@ -317,9 +317,10 @@
   text-decoration: none;
   background-color: transparent;
   transition: background-color 0.3s ease, border-color 0.3s ease;
-  padding: 1.5rem;
+  padding: 1rem;
   position: relative;
   overflow: hidden;
+  height: 100%;
 }
 
 .mega-view-all:hover {
@@ -714,6 +715,151 @@
   font-family: var(--font-body);
   font-size: 0.75rem;
   color: var(--gold-accent);
+}
+/* Profile Dropdown Styles */
+.profile-dropdown-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+.profile-photo-btn {
+  padding: 0;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 1px solid var(--gold-accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  background-color: transparent;
+  transition: border-color 0.3s ease;
+}
+
+.profile-photo-btn:hover {
+  border-color: var(--primary-burgundy);
+}
+
+.profile-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.profile-dropdown-menu {
+  position: absolute;
+  top: 130%;
+  right: -10px;
+  background-color: #fff;
+  border: 1px solid rgba(198, 164, 106, 0.2);
+  border-radius: 8px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  min-width: 180px;
+  display: flex;
+  flex-direction: column;
+  padding: 0.5rem 0;
+  z-index: 100;
+}
+
+.profile-dropdown-menu::before {
+  content: '';
+  position: absolute;
+  top: -6px;
+  right: 20px;
+  width: 12px;
+  height: 12px;
+  background-color: #fff;
+  border-top: 1px solid rgba(198, 164, 106, 0.2);
+  border-left: 1px solid rgba(198, 164, 106, 0.2);
+  transform: rotate(45deg);
+}
+
+.profile-dropdown-item {
+  padding: 0.75rem 1.25rem;
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  color: var(--text-dark);
+  text-decoration: none;
+  text-align: left;
+  background: none;
+  border: none;
+  width: 100%;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  position: relative;
+  z-index: 2; /* To sit above the triangle before pseudo-element */
+  white-space: nowrap;
+}
+
+.profile-dropdown-item span {
+  display: block;
+  flex: 1;
+}
+
+.profile-dropdown-icon {
+  color: var(--gold-accent);
+  transition: color 0.2s ease;
+}
+
+.profile-dropdown-item:hover {
+  background-color: var(--bg-cream);
+  color: var(--primary-burgundy);
+}
+
+.profile-dropdown-item:hover .profile-dropdown-icon {
+  color: var(--primary-burgundy);
+}
+
+.logout-btn {
+  border-top: 1px solid rgba(198, 164, 106, 0.15);
+  color: #d32f2f;
+  margin-top: 0.25rem;
+  padding-top: 0.85rem;
+}
+
+.logout-btn .profile-dropdown-icon {
+  color: #d32f2f;
+}
+
+.logout-btn span {
+  color: #d32f2f;
+}
+
+.logout-btn:hover {
+  color: #b71c1c;
+  background-color: #fdf5f5;
+}
+
+.logout-btn:hover .profile-dropdown-icon,
+.logout-btn:hover span {
+  color: #b71c1c;
+}
+
+.position-relative {
+  position: relative;
+}
+
+.nav-badge {
+  position: absolute;
+  top: -6px;
+  right: -8px;
+  background-color: var(--gold-accent);
+  color: var(--bg-cream);
+  font-size: 0.65rem;
+  font-weight: 700;
+  border-radius: 50%;
+  width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
 }
 
 @media (max-width: 992px) {

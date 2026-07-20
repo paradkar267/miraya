@@ -17,8 +17,7 @@
   justify-content: center;
   background-image: url('/infobg.png');
   background-size: cover;
-  background-position: center;
-  background-attachment: fixed;
+  background-position: right top;
   min-height: 70vh;
 }
 

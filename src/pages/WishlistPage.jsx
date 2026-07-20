@@ -13,22 +13,8 @@ const WishlistPage = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchWishlistProducts = async () => {
-      setLoading(true);
-      try {
-        const res = await fetch(`${API_URL}/api/products`);
-        if (res.ok) {
-          const allProducts = await res.json();
-          const filtered = allProducts.filter(p => wishlist.includes(`${p.category}-${p.id}`));
-          setSavedProducts(filtered);
-        }
-      } catch (err) {
-        console.error(err);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchWishlistProducts();
+    setSavedProducts(wishlist);
+    setLoading(false);
   }, [wishlist]);
 
   return (
@@ -46,33 +32,27 @@ const WishlistPage = () => {
         ) : savedProducts.length > 0 ? (
           <div className="premium-grid">
             {savedProducts.map((item) => (
-              <div key={`${item.category}-${item.id}`} className="premium-card">
+              <div className="premium-card" key={item.id}>
                 <div className="card-image-wrapper">
-                  <img src={item.image} alt={item.title} loading="lazy" />
+                  <img src={item.image} alt={item.name} loading="lazy" />
                   
                   <button 
                     className="wishlist-btn active"
                     onClick={(e) => {
                       e.preventDefault();
-                      toggleWishlist(`${item.category}-${item.id}`);
+                      toggleWishlist(item);
                     }}
                     aria-label="Remove from wishlist"
                   >
-                    <Heart 
-                      size={20} 
-                      fill="var(--primary-burgundy)" 
-                      color="var(--primary-burgundy)" 
-                    />
+                    <Heart size={16} fill="currentColor" />
                   </button>
-
-                  <div className="card-overlay">
-                    <Link to={`/product/${item.category}/${item.id}`} className="view-details-btn">
-                      View Details
-                    </Link>
-                  </div>
+                  <Link to={`/product/${String(item.id).split('-')[0]}/${String(item.id).split('-')[1] || item.id}`} state={{ product: item }}>
+                    <div className="card-overlay"></div>
+                  </Link>
                 </div>
                 <div className="card-info">
-                  <h3>{item.title}</h3>
+                  <h3>{item.name}</h3>
+                  <div className="product-price">₹{item.price ? item.price.toLocaleString('en-IN') : 'N/A'}</div>
                 </div>
               </div>
             ))}

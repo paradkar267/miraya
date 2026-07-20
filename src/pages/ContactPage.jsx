@@ -149,26 +149,7 @@ const ContactPage = () => {
             </motion.div>
           </div>
 
-          {/* Bottom Banner */}
-          <motion.div 
-            className="appointment-banner"
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: 0.6 }}
-          >
-            <div className="banner-left">
-              <div className="calendar-icon-wrapper">
-                <Calendar size={24} />
-              </div>
-              <div className="banner-text">
-                <h3>Looking for a personalized styling session?</h3>
-                <p>Schedule an appointment with our expert stylist.</p>
-              </div>
-            </div>
-            <button className="book-btn-outline">
-              BOOK AN APPOINTMENT &nbsp; <span>⟶</span>
-            </button>
-          </motion.div>
+
         </div>
     </div>
   );

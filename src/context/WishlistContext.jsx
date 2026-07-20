@@ -11,7 +11,8 @@ export const WishlistProvider = ({ children }) => {
   const [wishlist, setWishlist] = useState(() => {
     try {
       const saved = localStorage.getItem('miraya_wishlist');
-      return saved ? JSON.parse(saved) : [];
+      const parsed = saved ? JSON.parse(saved) : [];
+      return Array.isArray(parsed) ? parsed.filter(i => typeof i === 'object' && i !== null && i.id) : [];
     } catch (e) {
       console.warn("Failed to read wishlist from localStorage", e);
       return [];
@@ -27,16 +28,16 @@ export const WishlistProvider = ({ children }) => {
     }
   }, [wishlist]);
 
-  const toggleWishlist = (uniqueId) => {
+  const toggleWishlist = (productObj) => {
     setWishlist(prev => 
-      prev.includes(uniqueId) 
-        ? prev.filter(id => id !== uniqueId) 
-        : [...prev, uniqueId]
+      prev.some(item => item.id === productObj.id)
+        ? prev.filter(item => item.id !== productObj.id) 
+        : [...prev, productObj]
     );
   };
 
-  const isInWishlist = (uniqueId) => {
-    return wishlist.includes(uniqueId);
+  const isInWishlist = (id) => {
+    return wishlist.some(item => item.id === id);
   };
 
   const wishlistCount = wishlist.length;

@@ -3,7 +3,7 @@
   padding: 8rem 0;
   background-image: url('/infobg.png');
   background-size: cover;
-  background-position: center;
+  background-position: right top;
   background-repeat: no-repeat;
   display: flex;
   justify-content: center;

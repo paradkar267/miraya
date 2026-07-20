@@ -19,6 +19,7 @@ import FAQPage from './pages/FAQPage';
 import PrivacyPolicyPage from './pages/PrivacyPolicyPage';
 import TermsPage from './pages/TermsPage';
 import ReturnPolicyPage from './pages/ReturnPolicyPage';
+import BespokePage from './pages/BespokePage';
 import WhatsAppButton from './components/WhatsAppButton';
 
 function App() {
@@ -46,6 +47,7 @@ function App() {
             <Route path="/auth" element={<AuthPage />} />
             <Route path="/admin" element={<AdminDashboard />} />
             <Route path="/lookbook" element={<LookbookPage />} />
+            <Route path="/bespoke" element={<BespokePage />} />
             <Route path="/faq" element={<FAQPage />} />
             <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
             <Route path="/terms" element={<TermsPage />} />

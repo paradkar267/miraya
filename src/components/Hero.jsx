@@ -1,24 +1,16 @@
 import { useRef } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import './Hero.css';
 
 const Hero = () => {
   const containerRef = useRef(null);
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start start", "end start"]
-  });
-
-  // Moves the background down at half the speed of the scroll
-  const y = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
 
   return (
     <section className="hero" ref={containerRef}>
-      {/* Video Background with Parallax */}
+      {/* Video Background */}
       <motion.div 
         className="hero-video-wrapper"
-        style={{ y }}
       >
         <video 
           src="/hero-video.mp4" 

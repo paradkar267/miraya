@@ -86,11 +86,16 @@ const CategoryPage = () => {
     setSelectedFabrics([]);
   }, [category, location.hash]);
 
-  const handleWishlistToggle = (itemId, cat, e) => {
+  const handleWishlistToggle = (item, e) => {
     e.preventDefault();
     e.stopPropagation();
-    const uniqueId = `${cat}-${itemId}`;
-    toggleWishlist(uniqueId);
+    
+    toggleWishlist({
+      id: `${item.category}-${item.id}`,
+      name: item.title,
+      price: typeof item.price === 'string' ? parseInt(item.price.replace(/[^\d]/g, '') || '0') : item.price,
+      image: item.image || `https://source.unsplash.com/random/400x600/?${item.category}`
+    });
   };
 
   const formatCategoryName = (cat) => {
@@ -273,7 +278,7 @@ const CategoryPage = () => {
                     {isNew && <span className="new-badge">NEW</span>}
                     <button 
                       className={`wishlist-btn-card ${isWishlisted ? 'active' : ''}`}
-                      onClick={(e) => handleWishlistToggle(item.id, item.category, e)}
+                      onClick={(e) => handleWishlistToggle(item, e)}
                     >
                       <Heart size={16} fill={isWishlisted ? "currentColor" : "none"} />
                     </button>

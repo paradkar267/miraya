@@ -1,8 +1,10 @@
-import { useParams, Link, useLocation } from 'react-router-dom';
+import { useParams, Link, useLocation, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { ArrowLeft, Star, Heart, ZoomIn, Search, Minus, Plus, ShieldCheck, Truck, Lock, Flower2 } from 'lucide-react';
 import API_URL from '../config';
 import ConfirmModal from '../components/ConfirmModal';
+import { useCart } from '../context/CartContext';
+import { useWishlist } from '../context/WishlistContext';
 import './ProductDetailPage.css';
 
 const ProductDetailPage = () => {
@@ -13,6 +15,15 @@ const ProductDetailPage = () => {
   const [quantity, setQuantity] = useState(1);
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   const [confirmConfig, setConfirmConfig] = useState(null);
+  
+  const navigate = useNavigate();
+  const { addToCart: contextAddToCart } = useCart();
+  const { toggleWishlist, isInWishlist } = useWishlist();
+
+  const buyNow = () => {
+    addToCart();
+    navigate('/account', { state: { tab: 'cart' } });
+  };
 
   const [product, setProduct] = useState(initialProduct);
   const [loading, setLoading] = useState(!initialProduct);
@@ -75,22 +86,13 @@ const ProductDetailPage = () => {
   ];
 
   const addToCart = () => {
-    const existingCart = JSON.parse(localStorage.getItem('miraya_cart') || '[]');
-    const existingItem = existingCart.find(item => item.id === product.id);
-    
-    if (existingItem) {
-      existingItem.qty += quantity;
-    } else {
-      existingCart.push({
-        id: product.id,
-        title: product.title,
-        price: typeof product.price === 'string' ? parseInt(product.price.replace(/,/g, '').replace('₹', '')) : product.price,
-        image: product.image,
-        qty: quantity
-      });
-    }
-    
-    localStorage.setItem('miraya_cart', JSON.stringify(existingCart));
+    contextAddToCart({
+      id: product.id,
+      title: product.title,
+      price: typeof product.price === 'string' ? parseInt(product.price.replace(/,/g, '').replace('₹', '')) : product.price,
+      image: product.image
+    }, 'M', quantity); // Assume a default size of M if none specified, matching original behavior somewhat
+
     setConfirmConfig({
       message: 'Added to Bag',
       subMessage: `${product.title} has been successfully added to your shopping bag.`,
@@ -212,18 +214,33 @@ const ProductDetailPage = () => {
               </div>
               
               <div style={{display: 'flex', gap: '1rem', flexWrap: 'wrap'}}>
-                <button className="inquire-btn-new" onClick={addToCart} style={{background: 'var(--primary-burgundy)', color: 'white', flex: 1, minWidth: '200px'}}>
+                <button className="inquire-btn-new" onClick={addToCart} style={{background: 'var(--primary-burgundy)', color: 'white', flex: 1, minWidth: '150px'}}>
                   ADD TO CART
                 </button>
-                
-                <button className="wishlist-btn" style={{flex: 1, minWidth: '200px'}}>
-                  <Heart size={18} /> Add to Wishlist
+                <button className="inquire-btn-new" onClick={buyNow} style={{background: '#8a1f1f', color: 'white', flex: 1, minWidth: '150px'}}>
+                  BUY NOW
                 </button>
               </div>
               
-              <Link to="/contact" className="inquire-btn-new" style={{width: '100%', marginTop: '1rem', display: 'flex', justifyContent: 'center'}}>
-                INQUIRE ABOUT THIS OUTFIT <ArrowLeft size={16} style={{transform: 'rotate(180deg)', marginLeft: '10px'}} />
-              </Link>
+              <div style={{marginTop: '1rem', display: 'flex', justifyContent: 'center'}}>
+                <button 
+                  className="wishlist-btn-text" 
+                  onClick={() => toggleWishlist({
+                    id: `${product.category || category}-${product.id}`,
+                    name: product.title,
+                    price: product.price,
+                    image: product.image
+                  })}
+                  style={{display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', background: 'none', border: 'none', color: 'var(--text-dark)', fontSize: '1rem', padding: '0.5rem'}}
+                >
+                  <Heart 
+                    size={20} 
+                    fill={isInWishlist(`${product.category || category}-${product.id}`) ? "var(--primary-burgundy)" : "none"} 
+                    color={isInWishlist(`${product.category || category}-${product.id}`) ? "var(--primary-burgundy)" : "currentColor"} 
+                  /> 
+                  {isInWishlist(`${product.category || category}-${product.id}`) ? "Remove from Wishlist" : "Add to Wishlist"}
+                </button>
+              </div>
             </div>
 
             <div className="trust-badges">
