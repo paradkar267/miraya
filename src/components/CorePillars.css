@@ -5,7 +5,7 @@
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  padding: 8rem 0;
+  padding: 2rem 0 8rem 0;
   position: relative;
   background-color: var(--bg-cream, #FAF7F2);
   /* Added a fallback background color just in case */
