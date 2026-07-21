@@ -83,6 +83,8 @@ const AccountPage = () => {
   const [globalError, setGlobalError] = useState(null);
   const [globalSuccess, setGlobalSuccess] = useState(null);
   const [confirmConfig, setConfirmConfig] = useState(null);
+  const [showAddressModal, setShowAddressModal] = useState(false);
+  const [checkoutAddress, setCheckoutAddress] = useState('');
 
   const askConfirm = (message, subMessage, confirmText, danger, onConfirm, isAlert = false, isSuccess = false) =>
     setConfirmConfig({ message, subMessage, confirmText, danger, onConfirm, isAlert, isSuccess });
@@ -248,7 +250,7 @@ const AccountPage = () => {
     }
   }, [navigate]);
 
-  const placeCheckoutOrder = async () => {
+  const placeCheckoutOrder = async (deliveryAddress) => {
     try {
       const token = localStorage.getItem('token');
       if (!token) return;
@@ -259,7 +261,7 @@ const AccountPage = () => {
           quantity: item.qty,
           product: { price: item.price }
         })),
-        address: user?.address || 'No address provided'
+        address: deliveryAddress || user?.address || 'No address provided'
       };
 
       const res = await fetch(`${API_URL}/api/orders/checkout`, {
@@ -282,9 +284,20 @@ const AccountPage = () => {
     }
   };
 
-  const handleCheckout = async () => {
+  const handleCheckout = () => {
     if (cartItems.length === 0) return;
-    await placeCheckoutOrder();
+    setCheckoutAddress(user?.address || '');
+    setShowAddressModal(true);
+  };
+
+  const confirmCheckout = async (e) => {
+    if (e) e.preventDefault();
+    if (!checkoutAddress.trim()) {
+      showError("Please enter your delivery address.");
+      return;
+    }
+    setShowAddressModal(false);
+    await placeCheckoutOrder(checkoutAddress);
     setCartItems([]);
     setActiveTab('orders');
   };
@@ -1066,6 +1079,32 @@ const AccountPage = () => {
   return (
     <div className="account-page-wrapper">
       <ConfirmModal config={confirmConfig} onClose={() => setConfirmConfig(null)} />
+      
+      {showAddressModal && (
+        <div className="modal-overlay animate-fade">
+          <div className="modal-content animate-slide-up" style={{maxWidth: '500px'}}>
+            <button className="modal-close" onClick={() => setShowAddressModal(false)}>✕</button>
+            <h2 style={{fontFamily: 'var(--font-heading)', color: 'var(--primary-burgundy)', marginBottom: '1rem', marginTop: 0}}>Delivery Address</h2>
+            <p style={{marginBottom: '1.5rem', color: '#666', lineHeight: 1.5}}>Please provide your complete delivery address before placing the order.</p>
+            <form onSubmit={confirmCheckout}>
+              <div className="form-group" style={{marginBottom: '1.5rem'}}>
+                <textarea 
+                  value={checkoutAddress}
+                  onChange={(e) => setCheckoutAddress(e.target.value)}
+                  placeholder="Street Address, City, State, ZIP Code"
+                  required
+                  rows={4}
+                  style={{width: '100%', padding: '1rem', border: '1px solid #ddd', borderRadius: '4px', resize: 'vertical', fontFamily: 'var(--font-body)', fontSize: '0.95rem'}}
+                />
+              </div>
+              <div style={{display: 'flex', gap: '1rem'}}>
+                <button type="button" className="btn-outline-burgundy" style={{flex: 1}} onClick={() => setShowAddressModal(false)}>CANCEL</button>
+                <button type="submit" className="btn-solid-burgundy" style={{flex: 1}}>CONFIRM & BUY</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
       {globalError && (
         <div style={{
           position: 'fixed', top: '20px', left: '50%', transform: 'translateX(-50%)',
