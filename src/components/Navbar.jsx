@@ -124,6 +124,7 @@ const Navbar = () => {
           {/* Center Links */}
           <div className="navbar-links center-links desktop-only">
             <NavLink to="/" className="nav-link" end>Home</NavLink>
+            <NavLink to="/about" className="nav-link">About Us</NavLink>
 
             <div
               className="nav-dropdown-container"
@@ -209,7 +210,6 @@ const Navbar = () => {
 
             <NavLink to="/bespoke" className="nav-link">Bespoke</NavLink>
             <NavLink to="/lookbook" className="nav-link">Lookbook</NavLink>
-            <NavLink to="/about" className="nav-link">About Us</NavLink>
             <NavLink to="/contact" className="nav-link">Contact Us</NavLink>
           </div>
 
