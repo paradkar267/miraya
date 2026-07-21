@@ -73,7 +73,6 @@ const ShopByOccasion = () => {
     <section className="shop-by-occasion-section">
       <div className="occasion-header">
         <div className="occasion-title-wrapper">
-          <LineOrnamentLeft />
           <motion.h2 
             className="occasion-title"
             initial={{ opacity: 0, y: 20 }}
@@ -83,7 +82,6 @@ const ShopByOccasion = () => {
           >
             EXPLORE BY OCCASION
           </motion.h2>
-          <LineOrnamentRight />
         </div>
       </div>
 
