@@ -1,12 +1,10 @@
 import { useState, Suspense, lazy } from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
 import { ReactLenis } from 'lenis/react';
-import { AnimatePresence } from 'framer-motion';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import ErrorBoundary from './components/ErrorBoundary';
 import WhatsAppButton from './components/WhatsAppButton';
-import PageTransition from './components/PageTransition';
 
 // Lazy loaded pages
 const Home = lazy(() => import('./pages/Home'));
@@ -39,30 +37,28 @@ function App() {
         {!isAuthPage && <Navbar />}
         <main className="main-content">
           <Suspense fallback={<PageLoader />}>
-            <AnimatePresence mode="wait">
-              <Routes location={location} key={location.pathname}>
-                <Route path="/" element={<PageTransition><Home /></PageTransition>} />
-                <Route path="/collection/:category" element={<PageTransition><CategoryPage /></PageTransition>} />
-                <Route path="/product/:category/:id" element={<PageTransition><ProductDetailPage /></PageTransition>} />
-                <Route path="/wishlist" element={<PageTransition><WishlistPage /></PageTransition>} />
-                <Route path="/contact" element={<PageTransition><ContactPage /></PageTransition>} />
-                <Route path="/search" element={<PageTransition><SearchPage /></PageTransition>} />
-                <Route path="/about" element={<PageTransition><AboutPage /></PageTransition>} />
-                <Route path="/account" element={
-                  <ErrorBoundary>
-                    <PageTransition><AccountPage /></PageTransition>
-                  </ErrorBoundary>
-                } />
-                <Route path="/auth" element={<PageTransition><AuthPage /></PageTransition>} />
-                <Route path="/admin" element={<PageTransition><AdminDashboard /></PageTransition>} />
-                <Route path="/lookbook" element={<PageTransition><LookbookPage /></PageTransition>} />
-                <Route path="/bespoke" element={<PageTransition><BespokePage /></PageTransition>} />
-                <Route path="/faq" element={<PageTransition><FAQPage /></PageTransition>} />
-                <Route path="/privacy-policy" element={<PageTransition><PrivacyPolicyPage /></PageTransition>} />
-                <Route path="/terms" element={<PageTransition><TermsPage /></PageTransition>} />
-                <Route path="/shipping-returns" element={<PageTransition><ReturnPolicyPage /></PageTransition>} />
-              </Routes>
-            </AnimatePresence>
+            <Routes location={location} key={location.pathname}>
+              <Route path="/" element={<Home />} />
+              <Route path="/collection/:category" element={<CategoryPage />} />
+              <Route path="/product/:category/:id" element={<ProductDetailPage />} />
+              <Route path="/wishlist" element={<WishlistPage />} />
+              <Route path="/contact" element={<ContactPage />} />
+              <Route path="/search" element={<SearchPage />} />
+              <Route path="/about" element={<AboutPage />} />
+              <Route path="/account" element={
+                <ErrorBoundary>
+                  <AccountPage />
+                </ErrorBoundary>
+              } />
+              <Route path="/auth" element={<AuthPage />} />
+              <Route path="/admin" element={<AdminDashboard />} />
+              <Route path="/lookbook" element={<LookbookPage />} />
+              <Route path="/bespoke" element={<BespokePage />} />
+              <Route path="/faq" element={<FAQPage />} />
+              <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
+              <Route path="/terms" element={<TermsPage />} />
+              <Route path="/shipping-returns" element={<ReturnPolicyPage />} />
+            </Routes>
           </Suspense>
         </main>
         {!isAuthPage && <Footer />}
