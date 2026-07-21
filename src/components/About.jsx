@@ -13,7 +13,7 @@ const About = () => {
           transition={{ duration: 1 }}
         >
           {/* Using a placeholder for now. Replace with your uploaded image in public folder */}
-          <img src="/brand-intro.png" alt="Miraya Brand" className="about-image" onError={(e) => { e.target.src = "https://images.unsplash.com/photo-1583391733958-d25e07fac0ec?q=80&w=800&auto=format&fit=crop"; }} />
+          <img src="/brand-intro.png" alt="Miraya Brand" className="about-image" loading="lazy" onError={(e) => { e.target.src = "https://images.unsplash.com/photo-1583391733958-d25e07fac0ec?q=80&w=800&auto=format&fit=crop"; }} />
         </motion.div>
         
         <motion.div 

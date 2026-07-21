@@ -678,7 +678,7 @@ const AccountPage = () => {
               {cartItems.map((item, idx) => (
                 <div className="order-row" key={idx}>
                   <div className="order-item-img">
-                    <img src={item.image} alt="Cart Item" />
+                    <img src={item.image} alt="Cart Item" loading="lazy" />
                   </div>
 
                   <div className="order-item-info">
@@ -729,7 +729,7 @@ const AccountPage = () => {
             <p>Manage your luxury ethnic wear experience, track your custom pieces, and update your measurements.</p>
           </div>
           <div className="welcome-img-wrapper">
-            <img src="/mannequin_gold.png" alt="Luxury Mannequin" className="welcome-img" />
+            <img src="/mannequin_gold.png" alt="Luxury Mannequin" className="welcome-img" loading="lazy" />
           </div>
         </div>
 
@@ -1170,7 +1170,7 @@ const AccountPage = () => {
               <p>Our stylist team is here<br />to assist you.</p>
               <button className="contact-btn" onClick={() => navigate('/contact')}>CONTACT US</button>
             </div>
-            <img src="/mannequin_small.png" alt="Stylist" className="help-img" />
+            <img src="/mannequin_small.png" alt="Stylist" className="help-img" loading="lazy" />
           </div>
         </aside>
 

@@ -11,7 +11,7 @@ const Footer = () => {
         <div className="footer-top">
           {/* Column 1: Brand & Newsletter */}
           <div className="footer-brand-section">
-            <img src="/logoR.png" alt="Miraya by Garima" className="footer-logo-img" />
+            <img src="/logoR.png" alt="Miraya by Garima" className="footer-logo-img" loading="lazy" />
             <p className="footer-desc">
               Join the inner circle of Miraya for early access to private seasonal launches, design histories, and exclusive artisanal exhibitions.
             </p>

@@ -26,7 +26,7 @@ const OurStory = () => {
             viewport={{ once: true, margin: "-50px" }}
             transition={{ duration: 1 }}
           >
-            <img src="/our_story_model.png" alt="The Miraya Legacy" className="our-story-image" />
+            <img src="/our_story_model.png" alt="The Miraya Legacy" className="our-story-image" loading="lazy" />
           </motion.div>
         </div>
 

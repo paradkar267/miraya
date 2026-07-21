@@ -132,7 +132,7 @@ const LookbookPage = () => {
         {/* RIGHT COLUMN */}
         <div className="lookbook-right-col">
           <div className="lookbook-image-wrapper">
-            <img src="/kurti_mega.png" alt="Styling Kurtis" className="main-look-img" />
+            <img src="/kurti_mega.png" alt="Styling Kurtis" className="main-look-img" loading="lazy" />
           </div>
         </div>
 
@@ -171,7 +171,7 @@ const LookbookPage = () => {
           
           {/* Left Large Card */}
           <div className="bento-card large">
-            <img src={signatureSlides[currentSlide].image} alt="Signature Look" className="bento-bg-img" />
+            <img src={signatureSlides[currentSlide].image} alt="Signature Look" className="bento-bg-img" loading="lazy" />
             
             {/* The beige gradient overlay that fades out */}
             <div className="bento-gradient-overlay left-gradient"></div>
@@ -218,7 +218,7 @@ const LookbookPage = () => {
             
             {/* Top Right Card */}
             <div className="bento-card small">
-              <img src="/craftman.jpg" alt="Indo-Western Looks" className="bento-bg-img" />
+              <img src="/craftman.jpg" alt="Indo-Western Looks" className="bento-bg-img" loading="lazy" />
               <div className="bento-gradient-overlay left-gradient"></div>
               
               <div className="bento-content">
@@ -233,7 +233,7 @@ const LookbookPage = () => {
 
             {/* Bottom Right Card */}
             <div className="bento-card small">
-              <img src="/craftsmanship-bg.png" alt="Handcrafted Details" className="bento-bg-img" />
+              <img src="/craftsmanship-bg.png" alt="Handcrafted Details" className="bento-bg-img" loading="lazy" />
               <div className="bento-gradient-overlay left-gradient"></div>
               
               <div className="bento-content">

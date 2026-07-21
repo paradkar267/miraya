@@ -84,7 +84,7 @@ const RealBrides = () => {
                 className={`bride-card ${bride.type}`}
               >
               <div className="bride-image-col">
-                <img src={bride.image} alt={bride.name} className="bride-image" />
+                <img src={bride.image} alt={bride.name} className="bride-image" loading="lazy" />
               </div>
               <div className="bride-text-col">
                 {bride.type === "dark" ? (

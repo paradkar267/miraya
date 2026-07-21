@@ -282,7 +282,7 @@ const AdminDashboard = () => {
                   bestsellers.map((product, index) => (
                     <div className="bestseller-item" key={product.id}>
                       <div className="rank">#{index + 1}</div>
-                      <img src={product.image} alt={product.name} className="bs-img" />
+                      <img src={product.image} alt={product.name} className="bs-img" loading="lazy" />
                       <div className="bs-info">
                         <h4>{product.name}</h4>
                         <p>{product.totalSold} sold</p>
@@ -320,7 +320,7 @@ const AdminDashboard = () => {
                 {products.map(product => (
                   <tr key={product.id}>
                     <td>{product.id}</td>
-                    <td><img src={product.image} alt={product.name} className="table-img" /></td>
+                    <td><img src={product.image} alt={product.name} className="table-img" loading="lazy" /></td>
                     <td><strong>{product.name}</strong></td>
                     <td style={{textTransform: 'capitalize'}}>{product.category}</td>
                     <td>{product.price}</td>

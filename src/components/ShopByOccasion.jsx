@@ -99,7 +99,7 @@ const ShopByOccasion = () => {
           >
             <Link to={occasion.link} className="occasion-link">
               <div className="occasion-image-container">
-                <img src={occasion.image} alt={occasion.title} className="occasion-image" />
+                <img src={occasion.image} alt={occasion.title} className="occasion-image" loading="lazy" />
                 <div className="occasion-overlay"></div>
                 <div className="occasion-content">
                   <div className="icon-wrapper">
