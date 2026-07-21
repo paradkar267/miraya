@@ -26,12 +26,8 @@ const TermsPage = lazy(() => import('./pages/TermsPage'));
 const ReturnPolicyPage = lazy(() => import('./pages/ReturnPolicyPage'));
 const BespokePage = lazy(() => import('./pages/BespokePage'));
 
-// A simple loading fallback
-const PageLoader = () => (
-  <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '60vh', color: 'var(--primary-burgundy)' }}>
-    <p style={{ fontFamily: 'var(--font-heading)', fontSize: '1.5rem', fontStyle: 'italic' }}>Loading Miraya...</p>
-  </div>
-);
+// A simple loading fallback - returning null to avoid "slow" feeling
+const PageLoader = () => null;
 
 function App() {
   const location = useLocation();
