@@ -1,10 +1,12 @@
-import { useState, Suspense, lazy } from 'react';
+import { useState, Suspense, lazy, useEffect } from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
 import { ReactLenis } from 'lenis/react';
+import { AnimatePresence } from 'framer-motion';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import ErrorBoundary from './components/ErrorBoundary';
 import WhatsAppButton from './components/WhatsAppButton';
+import Preloader from './components/Preloader';
 
 // Lazy loaded pages
 const Home = lazy(() => import('./pages/Home'));
@@ -30,9 +32,24 @@ const PageLoader = () => null;
 function App() {
   const location = useLocation();
   const isAuthPage = location.pathname === '/auth';
+  const [isPreloading, setIsPreloading] = useState(true);
+
+  // Prevent scrolling while preloading
+  useEffect(() => {
+    if (isPreloading) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+  }, [isPreloading]);
 
   return (
     <ReactLenis root options={{ lerp: 0.08, duration: 1.5, smoothWheel: true }}>
+      <AnimatePresence>
+        {isPreloading && (
+          <Preloader key="preloader" onComplete={() => setIsPreloading(false)} />
+        )}
+      </AnimatePresence>
       <div className="app-container">
         {!isAuthPage && <Navbar />}
         <main className="main-content">

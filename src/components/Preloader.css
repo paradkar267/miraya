@@ -1,0 +1,45 @@
+.preloader-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: var(--primary-burgundy);
+  z-index: 9999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.preloader-content {
+  text-align: center;
+  color: var(--gold-accent);
+}
+
+.preloader-title {
+  font-family: var(--font-heading);
+  font-size: 4rem;
+  font-weight: 400;
+  margin: 0;
+  line-height: 1.1;
+  text-transform: uppercase;
+  letter-spacing: 4px;
+}
+
+.preloader-subtitle {
+  font-family: var(--font-heading);
+  font-size: 1.5rem;
+  font-style: italic;
+  margin: 0;
+  margin-top: 0.5rem;
+  opacity: 0.9;
+}
+
+@media (max-width: 768px) {
+  .preloader-title {
+    font-size: 2.5rem;
+  }
+  .preloader-subtitle {
+    font-size: 1.2rem;
+  }
+}
