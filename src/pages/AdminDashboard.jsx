@@ -140,6 +140,29 @@ const AdminDashboard = () => {
     }
   };
 
+  const handleUpdateOrderStatus = async (id, status) => {
+    const token = localStorage.getItem('token');
+    try {
+      const res = await fetch(`${API_URL}/api/admin/orders/${id}/status`, {
+        method: 'PUT',
+        headers: { 
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}` 
+        },
+        body: JSON.stringify({ status })
+      });
+      if (res.ok) {
+        // Refresh orders
+        const ordersRes = await fetch(`${API_URL}/api/admin/orders`, { headers: { Authorization: `Bearer ${token}` }});
+        setOrders(await ordersRes.json());
+      } else {
+        askConfirm('Error', 'Failed to update order status.', 'OK', true, null, true);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   if (loading) return <div className="admin-loading">Loading Dashboard...</div>;
   if (error) return <div className="admin-error">Error: {error}</div>;
 
@@ -224,6 +247,16 @@ const AdminDashboard = () => {
                             </span>
                           </td>
                           <td>
+                            {order.status === 'PENDING' && (
+                              <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '0.5rem' }}>
+                                <button className="action-btn" onClick={() => handleUpdateOrderStatus(order.id, 'APPROVED')} title="Approve Order" style={{ color: 'green', border: '1px solid green', padding: '0.2rem 0.5rem', borderRadius: '4px' }}>
+                                  ✓ Approve
+                                </button>
+                                <button className="action-btn" onClick={() => handleUpdateOrderStatus(order.id, 'CANCELLED')} title="Cancel Order" style={{ color: 'red', border: '1px solid red', padding: '0.2rem 0.5rem', borderRadius: '4px' }}>
+                                  ✕ Cancel
+                                </button>
+                              </div>
+                            )}
                             <button className="action-btn measure-btn" onClick={() => handleViewMeasurements(order.user.measurements)} title="View Measurements">
                               <Ruler size={16} /> Sizes
                             </button>

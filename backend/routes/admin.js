@@ -65,6 +65,42 @@ router.get('/orders', auth, isAdmin, async (req, res) => {
   }
 });
 
+// PUT /api/admin/orders/:id/status - Update order status (Approve/Cancel)
+router.put('/orders/:id/status', auth, isAdmin, async (req, res) => {
+  try {
+    const { status } = req.body;
+    
+    if (!['APPROVED', 'CANCELLED'].includes(status)) {
+      return res.status(400).json({ msg: 'Invalid status' });
+    }
+
+    const order = await prisma.order.findUnique({
+      where: { id: parseInt(req.params.id) }
+    });
+
+    if (!order) return res.status(404).json({ msg: 'Order not found' });
+
+    const updatedOrder = await prisma.order.update({
+      where: { id: parseInt(req.params.id) },
+      data: { status }
+    });
+
+    // Create a notification for the user
+    await prisma.notification.create({
+      data: {
+        userId: order.userId,
+        title: `Order ${status.toLowerCase()}`,
+        message: `Your order #MRY-${order.id} has been ${status.toLowerCase()}.`
+      }
+    });
+
+    res.json(updatedOrder);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
 // GET /api/admin/bestsellers - Get top selling products
 router.get('/bestsellers', auth, isAdmin, async (req, res) => {
   try {

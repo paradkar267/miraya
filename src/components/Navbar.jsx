@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link, NavLink, useNavigate, useLocation } from 'react-router-dom';
-import { Menu, X, ChevronDown, User, ShoppingCart, Heart, Settings, LogOut } from 'lucide-react';
+import { Menu, X, ChevronDown, User, ShoppingCart, Heart, Settings, LogOut, Bell } from 'lucide-react';
 import { useWishlist } from '../context/WishlistContext';
 import { useCart } from '../context/CartContext';
 import './Navbar.css';
@@ -12,6 +12,8 @@ const Navbar = () => {
   const [mobileCollectionOpen, setMobileCollectionOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
+  const [notificationsOpen, setNotificationsOpen] = useState(false);
+  const [notifications, setNotifications] = useState([]);
   const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem('isLoggedIn') === 'true');
   const [user, setUser] = useState(null);
   const [isAdmin, setIsAdmin] = useState(false);
@@ -53,6 +55,36 @@ const Navbar = () => {
     window.addEventListener('loginStateChange', handleLoginChange);
     return () => window.removeEventListener('loginStateChange', handleLoginChange);
   }, []);
+
+  const fetchNotifications = async () => {
+    if (!isLoggedIn) return;
+    try {
+      const token = localStorage.getItem('token');
+      const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+      const res = await fetch(`${API_URL}/api/notifications`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      if (res.ok) {
+        setNotifications(await res.json());
+      }
+    } catch (e) {}
+  };
+
+  useEffect(() => {
+    fetchNotifications();
+  }, [isLoggedIn, location]);
+
+  const handleMarkAsRead = async (id) => {
+    try {
+      const token = localStorage.getItem('token');
+      const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+      await fetch(`${API_URL}/api/notifications/${id}/read`, {
+        method: 'PUT',
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      fetchNotifications();
+    } catch (e) {}
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -197,6 +229,53 @@ const Navbar = () => {
                 <ShoppingCart size={20} strokeWidth={1.5} />
                 {cartCount > 0 && <span className="nav-badge">{cartCount}</span>}
               </Link>
+              {isLoggedIn && (
+                <div 
+                  className="profile-dropdown-container desktop-only"
+                  onMouseEnter={() => setNotificationsOpen(true)}
+                  onMouseLeave={() => setNotificationsOpen(false)}
+                >
+                  <button className="icon-btn position-relative" aria-label="Notifications" title="Notifications">
+                    <Bell size={20} strokeWidth={1.5} />
+                    {notifications.filter(n => !n.isRead).length > 0 && (
+                      <span className="nav-badge">{notifications.filter(n => !n.isRead).length}</span>
+                    )}
+                  </button>
+                  <AnimatePresence>
+                    {notificationsOpen && (
+                      <motion.div
+                        className="profile-dropdown-menu"
+                        style={{ width: '300px', padding: '1rem', right: '-50px' }}
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: 10 }}
+                        transition={{ duration: 0.2 }}
+                      >
+                        <h4 style={{ margin: '0 0 1rem 0', fontFamily: 'var(--font-heading)', color: 'var(--primary-burgundy)' }}>Notifications</h4>
+                        {notifications.length === 0 ? (
+                          <p style={{ color: '#888', fontSize: '0.9rem', margin: 0 }}>No notifications yet.</p>
+                        ) : (
+                          <div style={{ maxHeight: '300px', overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: '0.8rem' }}>
+                            {notifications.map(n => (
+                              <div key={n.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', background: n.isRead ? 'transparent' : 'rgba(205, 163, 114, 0.1)', padding: '0.5rem', borderRadius: '4px' }}>
+                                <div>
+                                  <p style={{ margin: '0 0 0.2rem 0', fontWeight: n.isRead ? 'normal' : '600', fontSize: '0.9rem' }}>{n.title}</p>
+                                  <p style={{ margin: 0, fontSize: '0.8rem', color: '#666' }}>{n.message}</p>
+                                </div>
+                                {!n.isRead && (
+                                  <button onClick={() => handleMarkAsRead(n.id)} style={{ background: 'none', border: 'none', color: 'var(--primary-gold)', cursor: 'pointer', fontSize: '0.8rem', textDecoration: 'underline' }}>
+                                    Read
+                                  </button>
+                                )}
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+              )}
               {isLoggedIn ? (
                 <div 
                   className="profile-dropdown-container"
