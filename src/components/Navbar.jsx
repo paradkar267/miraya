@@ -303,7 +303,7 @@ const Navbar = () => {
                           <User size={16} className="profile-dropdown-icon" />
                           <span>View Profile</span>
                         </Link>
-                        <Link to="/account?tab=settings" className="profile-dropdown-item" onClick={() => setProfileDropdownOpen(false)}>
+                        <Link to="/account" state={{ tab: 'settings' }} className="profile-dropdown-item" onClick={() => setProfileDropdownOpen(false)}>
                           <Settings size={16} className="profile-dropdown-icon" />
                           <span>Settings</span>
                         </Link>
