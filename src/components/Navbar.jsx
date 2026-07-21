@@ -296,7 +296,7 @@ const Navbar = () => {
                       />
                     ) : (
                       <div className="profile-initials">
-                        {getInitials(user?.name || 'User')}
+                        {getInitials(user?.firstName || user?.name || 'User')}
                       </div>
                     )}
                   </button>
