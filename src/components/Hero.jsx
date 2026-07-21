@@ -31,7 +31,16 @@ const Hero = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.5, ease: "easeOut" }}
           >
-            <span className="subtitle">Miraya by Garima</span>
+            <span className="subtitle">MIRAYA BY GARIMA</span>
+            <div className="hero-divider">
+              <svg width="250" height="15" viewBox="0 0 250 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <line x1="0" y1="7.5" x2="90" y2="7.5" stroke="#cda372" strokeWidth="1"/>
+                <circle cx="100" cy="7.5" r="2" stroke="#cda372" fill="none" />
+                <path d="M125 0 L132.5 7.5 L125 15 L117.5 7.5 Z" stroke="#cda372" fill="none"/>
+                <circle cx="150" cy="7.5" r="2" stroke="#cda372" fill="none" />
+                <line x1="160" y1="7.5" x2="250" y2="7.5" stroke="#cda372" strokeWidth="1"/>
+              </svg>
+            </div>
           </motion.div>
           
           <motion.div

@@ -62,7 +62,15 @@
 
 .subtitle {
   color: var(--gold-accent);
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.25em;
+  font-size: 0.9rem;
+  display: block;
+}
+
+.hero-divider {
+  margin-bottom: 1.5rem;
 }
 
 .hero-title-wrapper {
@@ -90,7 +98,7 @@
   font-family: var(--font-script);
   font-style: normal;
   font-weight: 400;
-  font-size: clamp(2.5rem, 6vw, 5.5rem);
+  font-size: clamp(3rem, 7vw, 6rem);
   color: var(--gold-accent-light);
   line-height: 0.8;
   position: relative;
@@ -99,10 +107,10 @@
 
 .hero-title-bold {
   font-family: var(--font-heading);
-  font-weight: 500;
-  font-size: clamp(2.8rem, 8vw, 6.5rem);
+  font-weight: 400;
+  font-size: clamp(3.5rem, 9vw, 7.5rem);
   text-transform: uppercase;
-  letter-spacing: -0.02em;
+  letter-spacing: 0.05em;
   margin-top: -0.5rem;
 }
 
