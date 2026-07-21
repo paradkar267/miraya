@@ -105,6 +105,15 @@ const Navbar = () => {
   // Navbar is scrolled if we have scrolled down OR if there is no dark hero section
   const isNavbarScrolled = scrolled || !hasDarkHero;
 
+  const getInitials = (name) => {
+    if (!name) return 'U';
+    const parts = name.trim().split(' ');
+    if (parts.length >= 2) {
+      return (parts[0][0] + parts[1][0]).toUpperCase();
+    }
+    return name.substring(0, 2).toUpperCase();
+  };
+
   return (
     <>
       <motion.nav
@@ -283,12 +292,17 @@ const Navbar = () => {
                   onMouseLeave={() => setProfileDropdownOpen(false)}
                 >
                   <button className="icon-btn profile-photo-btn" aria-label="Profile">
-                    <img 
-                      src={user?.profilePicture || "/profile.jpg"} 
-                      alt="Profile" 
-                      className="profile-photo" 
-                      onError={(e) => { e.target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(user?.name || 'User')}&background=3d1c1a&color=fff&rounded=true&size=128`; }}
-                    />
+                    {user?.profilePicture ? (
+                      <img 
+                        src={user.profilePicture} 
+                        alt="Profile" 
+                        className="profile-photo" 
+                      />
+                    ) : (
+                      <div className="profile-initials">
+                        {getInitials(user?.name || 'User')}
+                      </div>
+                    )}
                   </button>
                   <AnimatePresence>
                     {profileDropdownOpen && (
