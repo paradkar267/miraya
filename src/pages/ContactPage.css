@@ -319,23 +319,19 @@
   border-color: var(--gold-accent);
 }
 
-.map-panel {
+.map-section-simple {
   max-width: 1100px;
   margin-left: auto;
   margin-right: auto;
-  margin-bottom: 3rem;
-  background-image: url('/contbg.png');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  padding: 3rem;
+  margin-bottom: 4rem;
+  padding: 0 1rem;
 }
 
-.map-container {
+.map-container-simple {
   border-radius: 8px;
   overflow: hidden;
-  border: 1px solid rgba(198, 164, 106, 0.4);
-  box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  border: 1px solid rgba(0,0,0,0.1);
 }
 
 @media (max-width: 992px) {
