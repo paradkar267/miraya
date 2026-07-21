@@ -416,12 +416,14 @@
 
 .navbar-actions {
   display: flex;
+  align-items: center;
   gap: 1.25rem;
 }
 
 .icon-btn {
   background: none;
   border: none;
+  padding: 0;
   color: #fff; /* White icons when transparent */
   cursor: pointer;
   display: flex;
