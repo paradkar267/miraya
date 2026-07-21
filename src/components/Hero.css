@@ -19,8 +19,7 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: right top; /* Aligns top of video to top of container, pushing it down */
-  transform: scale(1.2) translate(5%, 8%); /* Scales a bit more and pushes it further down manually */
+  object-position: center;
 }
 
 .video-overlay-gradient {
