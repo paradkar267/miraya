@@ -13,7 +13,7 @@ const Hero = () => {
         className="hero-video-wrapper"
       >
         <video 
-          src="/herobg2.mp4" 
+          src="/hero-video.mp4" 
           autoPlay 
           loop 
           muted 
