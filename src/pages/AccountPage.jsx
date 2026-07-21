@@ -254,7 +254,11 @@ const AccountPage = () => {
       if (!token) return;
 
       const payload = {
-        cartItems: cartItems,
+        cartItems: cartItems.map(item => ({
+          productId: item.id,
+          quantity: item.qty,
+          product: { price: item.price }
+        })),
         address: user?.address || 'No address provided'
       };
 
