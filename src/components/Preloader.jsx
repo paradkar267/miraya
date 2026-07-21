@@ -8,7 +8,7 @@ const Preloader = ({ onComplete }) => {
       className="preloader-container"
       initial={{ y: 0 }}
       animate={{ y: "-100%" }}
-      transition={{ duration: 1.2, ease: [0.76, 0, 0.24, 1], delay: 4 }}
+      transition={{ duration: 0.8, ease: [0.76, 0, 0.24, 1], delay: 1.8 }}
       onAnimationComplete={onComplete}
     >
       <div className="preloader-img-wrapper">
@@ -16,9 +16,9 @@ const Preloader = ({ onComplete }) => {
           src="/intro-image.jpg" 
           alt="Intro"
           className="preloader-img"
-          initial={{ scale: 1.2, filter: "brightness(0)" }}
-          animate={{ scale: 1, filter: "brightness(0.5)" }}
-          transition={{ duration: 2.5, ease: "easeOut" }}
+          initial={{ scale: 1.1, filter: "brightness(0.2)" }}
+          animate={{ scale: 1, filter: "brightness(0.7)" }}
+          transition={{ duration: 1.8, ease: "easeOut" }}
         />
       </div>
 
@@ -27,9 +27,9 @@ const Preloader = ({ onComplete }) => {
           className="preloader-brand"
         >
           <motion.div
-            initial={{ letterSpacing: "10px", opacity: 0, y: 20 }}
-            animate={{ letterSpacing: "20px", opacity: 1, y: 0 }}
-            transition={{ duration: 1.5, ease: "easeOut", delay: 0.5 }}
+            initial={{ letterSpacing: "10px", opacity: 0, y: 15 }}
+            animate={{ letterSpacing: "18px", opacity: 1, y: 0 }}
+            transition={{ duration: 1, ease: "easeOut", delay: 0.2 }}
             className="preloader-title"
           >
             MIRAYA
@@ -39,13 +39,13 @@ const Preloader = ({ onComplete }) => {
             className="preloader-line"
             initial={{ scaleX: 0 }}
             animate={{ scaleX: 1 }}
-            transition={{ duration: 1.5, ease: "easeInOut", delay: 1 }}
+            transition={{ duration: 0.8, ease: "easeInOut", delay: 0.5 }}
           />
 
           <motion.div
-            initial={{ opacity: 0, y: -20 }}
+            initial={{ opacity: 0, y: -15 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1.5, ease: "easeOut", delay: 1.5 }}
+            transition={{ duration: 0.8, ease: "easeOut", delay: 0.8 }}
             className="preloader-subtitle"
           >
             by Garima

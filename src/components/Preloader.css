@@ -45,21 +45,21 @@
 .preloader-title {
   font-family: var(--font-heading);
   font-size: 4rem;
-  font-weight: 300;
-  color: var(--white);
+  font-weight: 400;
+  color: var(--gold-accent-light); /* Fixed color */
   text-transform: uppercase;
   margin: 0;
-  padding-left: 20px; /* Offset for letter spacing */
-  text-shadow: 0 4px 20px rgba(0,0,0,0.3);
+  padding-left: 18px; /* Offset for letter spacing */
+  text-shadow: 0 4px 15px rgba(0,0,0,0.5); /* Stronger shadow for readability */
 }
 
 .preloader-line {
   width: 150px;
   height: 1px;
   background-color: var(--gold-accent);
-  margin: 1.5rem 0;
+  margin: 1.2rem 0;
   transform-origin: center;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+  box-shadow: 0 2px 10px rgba(0,0,0,0.3);
 }
 
 .preloader-subtitle {
@@ -68,7 +68,7 @@
   font-style: italic;
   color: var(--gold-accent);
   margin: 0;
-  text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+  text-shadow: 0 2px 10px rgba(0,0,0,0.5);
 }
 
 @media (max-width: 768px) {
