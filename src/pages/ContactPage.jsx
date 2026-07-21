@@ -149,7 +149,33 @@ const ContactPage = () => {
             </motion.div>
           </div>
 
-
+          {/* Map Section */}
+          <motion.div 
+            className="contact-panel map-panel"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, delay: 0.6 }}
+          >
+            <div className="panel-header text-center">
+              <h2 className="panel-title" style={{ fontSize: '2rem' }}>
+                <span className="script-text">Find Us</span>
+                On Map
+              </h2>
+              <Ornament />
+            </div>
+            <div className="map-container">
+              <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3721.213941421272!2d79.03496331498305!3d21.143890285935938!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bd4c062828b9bd7%3A0xcda6c4989ab2b5a5!2sLaw%20College%20Square%2C%20Gokulpeth%2C%20Nagpur%2C%20Maharashtra%20440010!5e0!3m2!1sen!2sin!4v1689255018698!5m2!1sen!2sin"
+                width="100%"
+                height="400"
+                style={{ border: 0, borderRadius: '8px' }}
+                allowFullScreen=""
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                title="Miraya Store Location"
+              ></iframe>
+            </div>
+          </motion.div>
         </div>
     </div>
   );
