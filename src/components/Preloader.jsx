@@ -34,7 +34,7 @@ const Preloader = ({ onComplete }) => {
         transition={{ duration: 1.5, ease: [0.76, 0, 0.24, 1], delay: 0.2 }}
       >
         <motion.img 
-          src="/intro-image.png" 
+          src="/premium-intro.png" 
           alt="Intro"
           className="preloader-img"
           initial={{ scale: 1.2, filter: "brightness(0.3)" }}
