@@ -6,33 +6,58 @@ const Preloader = ({ onComplete }) => {
   return (
     <motion.div
       className="preloader-container"
-      initial={{ y: 0 }}
-      animate={{ y: "-100%" }}
-      transition={{ duration: 1, ease: [0.76, 0, 0.24, 1], delay: 2 }}
-      onAnimationComplete={onComplete}
+      initial={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0 }}
     >
+      {/* Background panels that split apart */}
+      <motion.div 
+        className="preloader-panel left-panel"
+        initial={{ x: 0 }}
+        animate={{ x: "-100%" }}
+        transition={{ duration: 1.2, ease: [0.76, 0, 0.24, 1], delay: 3 }}
+      />
+      <motion.div 
+        className="preloader-panel right-panel"
+        initial={{ x: 0 }}
+        animate={{ x: "100%" }}
+        transition={{ duration: 1.2, ease: [0.76, 0, 0.24, 1], delay: 3 }}
+        onAnimationComplete={onComplete}
+      />
+
       <div className="preloader-content">
-        <div style={{ overflow: "hidden" }}>
-          <motion.h1
-            initial={{ y: "100%" }}
-            animate={{ y: 0 }}
-            transition={{ duration: 0.8, ease: [0.76, 0, 0.24, 1], delay: 0.2 }}
-            exit={{ y: "-100%" }}
+        <motion.div 
+          className="preloader-brand"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1, ease: "easeInOut", delay: 0.5 }}
+          exit={{ opacity: 0 }}
+        >
+          <motion.div
+            initial={{ letterSpacing: "10px", opacity: 0, y: 10 }}
+            animate={{ letterSpacing: "20px", opacity: 1, y: 0 }}
+            transition={{ duration: 1.5, ease: "easeOut", delay: 0.8 }}
             className="preloader-title"
           >
-            Miraya
-          </motion.h1>
-        </div>
-        <div style={{ overflow: "hidden" }}>
-          <motion.p
-            initial={{ y: "100%" }}
-            animate={{ y: 0 }}
-            transition={{ duration: 0.8, ease: [0.76, 0, 0.24, 1], delay: 0.4 }}
+            MIRAYA
+          </motion.div>
+          
+          <motion.div 
+            className="preloader-line"
+            initial={{ scaleX: 0 }}
+            animate={{ scaleX: 1 }}
+            transition={{ duration: 1.5, ease: "easeInOut", delay: 1 }}
+          />
+
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1.5, ease: "easeOut", delay: 1.8 }}
             className="preloader-subtitle"
           >
             by Garima
-          </motion.p>
-        </div>
+          </motion.div>
+        </motion.div>
       </div>
     </motion.div>
   );
