@@ -25,7 +25,7 @@ const LookbookPage = () => {
     },
     {
       id: 3,
-      image: "/lookbook_hero.png",
+      image: "/saree_mega.png",
       category: "HERITAGE WEAVES",
       title: <>Woven<br/>Tales</>,
       desc: "Authentic handloom pieces that carry the legacy of Indian craftsmanship.",
