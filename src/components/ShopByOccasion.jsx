@@ -107,9 +107,9 @@ const ShopByOccasion = () => {
                   </div>
                   <h3 className="occasion-card-title">{occasion.title}</h3>
                   <p className="occasion-card-subtitle">{occasion.subtitle}</p>
-                  <button className="occasion-explore-btn">
+                  <span className="occasion-explore-btn">
                     EXPLORE <span className="arrow">→</span>
-                  </button>
+                  </span>
                 </div>
               </div>
             </Link>
