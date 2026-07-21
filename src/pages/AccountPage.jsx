@@ -785,7 +785,7 @@ const AccountPage = () => {
                 <p className="tracker-note">Your custom order is {orders[0]?.status ? orders[0]?.status.toLowerCase() : 'pending'}.</p>
               </>
             ) : (
-              <p style={{ textAlign: 'center', color: '#888' }}>No recent orders. <button onClick={() => navigate('/')} style={{ background: 'none', border: 'none', color: '#cda372', cursor: 'pointer', textDecoration: 'underline' }}>Start Shopping</button></p>
+              <p style={{ textAlign: 'center', color: '#888' }}>No recent orders. <button onClick={() => navigate('/collection/all')} style={{ background: 'none', border: 'none', color: '#cda372', cursor: 'pointer', textDecoration: 'underline' }}>Start Shopping</button></p>
             )}
           </div>
 
